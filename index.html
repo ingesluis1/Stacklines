@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Stacklines — Automatisering voor MKB en ZZP | Apeldoorn</title>
+  <meta name="description" content="Stacklines automatiseert repetitief werk voor MKB en ZZP'ers in Apeldoorn en omgeving. Koppelingen, AI-integraties en slimme workflows met Make, Zapier en n8n." />
+  <meta name="author" content="Stacklines" />
+  <meta name="theme-color" content="#0f2a44" />
+
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Stacklines — Automatisering voor MKB en ZZP" />
+  <meta property="og:description" content="Werkprocessen automatiseren, systemen koppelen en AI inzetten. Voor ondernemers die willen groeien zonder extra personeel." />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:site_name" content="Stacklines" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stijl -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ STICKY FLOW-RAIL (links) ============ -->
+  <!-- Loopt mee met scrollen. Toont waar je bent in de pagina. -->
+  <aside class="flow-rail" aria-label="Pagina-overzicht">
+    <div class="rail-track" aria-hidden="true">
+      <div class="rail-track-fill"></div>
+    </div>
+    <ol class="rail-list">
+      <li><a href="#diensten"  data-section="diensten"><span class="rail-dot"></span><span class="rail-label">Wat ik doe</span></a></li>
+      <li><a href="#voor-wie"  data-section="voor-wie"><span class="rail-dot"></span><span class="rail-label">Voor wie</span></a></li>
+      <li><a href="#proces"    data-section="proces"><span class="rail-dot"></span><span class="rail-label">Aanpak</span></a></li>
+      <li><a href="#over"      data-section="over"><span class="rail-dot"></span><span class="rail-label">Over mij</span></a></li>
+      <li><a href="#contact"   data-section="contact"><span class="rail-dot"></span><span class="rail-label">Contact</span></a></li>
+    </ol>
+  </aside>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="logo" aria-label="Stacklines homepage">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <line x1="5" y1="12" x2="15" y2="12"/>
+            <line x1="5" y1="17" x2="17" y2="17"/>
+          </svg>
+        </span>
+        <span class="logo-text">Stacklines</span>
+      </a>
+
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <ul>
+          <li><a href="#diensten">Wat ik doe</a></li>
+          <li><a href="#voor-wie">Voor wie</a></li>
+          <li><a href="#proces">Aanpak</a></li>
+          <li><a href="#over">Over mij</a></li>
+          <li><a href="#contact" class="nav-cta">Contact</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" aria-label="Menu openen" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobiel menu -->
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobiele navigatie" hidden>
+      <ul>
+        <li><a href="#diensten">Wat ik doe</a></li>
+        <li><a href="#voor-wie">Voor wie</a></li>
+        <li><a href="#proces">Aanpak</a></li>
+        <li><a href="#over">Over mij</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <!-- Decoratieve slingerlijn op de achtergrond -->
+      <svg class="hero-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="100" d="M-50,500 C200,300 380,650 620,450 C870,240 1080,580 1300,380 C1420,270 1500,420 1550,360"
+              fill="none" stroke="rgba(249,115,22,0.28)" stroke-width="2" stroke-linecap="round"/>
+        <path pathLength="100" d="M-50,580 C220,400 420,720 680,540 C940,360 1140,660 1380,480 C1450,430 1500,470 1550,450"
+              fill="none" stroke="rgba(253,186,116,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+        <path pathLength="100" d="M-50,640 C260,500 480,780 760,620 C1020,470 1220,720 1480,560"
+              fill="none" stroke="rgba(28,28,46,0.10)" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      <div class="container hero-inner">
+        <div class="hero-content reveal">
+          <p class="eyebrow">Automatisering · Apeldoorn</p>
+          <h1>Stop met klikken. Begin met ondernemen.</h1>
+          <p class="lead">
+            Ik bouw stille machines achter jouw bedrijf — koppelingen, workflows
+            en AI-integraties die het saaie werk overnemen, zodat jij tijd
+            overhoudt voor klanten, groei en jezelf.
+          </p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">Plan een kennismaking</a>
+            <a href="#diensten" class="btn btn-ghost">Bekijk wat ik doe →</a>
+          </div>
+
+          <ul class="hero-points" aria-label="Kerneigenschappen">
+            <li>Vaste prijs vooraf</li>
+            <li>Werkende oplossing binnen 2–4 weken</li>
+            <li>Geen vendor lock-in</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual reveal" aria-hidden="true">
+          <!-- Decoratief: gestapelde "stack" kaartjes -->
+          <div class="stack-card stack-1">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="bar"></div><div class="bar short"></div>
+          </div>
+          <div class="stack-card stack-2">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar short"></div>
+          </div>
+          <div class="stack-card stack-3">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="bar short"></div><div class="bar"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DIENSTEN ============ -->
+    <section id="diensten" class="section">
+      <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="100" stroke-width="2"
+              d="M-50,350 C250,150 500,520 800,420 C1100,320 1300,560 1500,460"/>
+        <path pathLength="100" stroke-width="1.5"
+              d="M-50,440 C260,240 510,610 810,510 C1110,410 1310,650 1500,550"/>
+      </svg>
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Wat ik doe</p>
+          <h2>Vier manieren om tijd terug te winnen</h2>
+          <p class="section-intro">
+            Geen technologie om de technologie. Elke oplossing begint bij een
+            concreet knelpunt in jouw werkdag — en eindigt met een proces dat
+            vanzelf loopt.
+          </p>
+        </header>
+
+        <div class="cards">
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 1 1-3-6.7"/>
+                <polyline points="21 4 21 10 15 10"/>
+              </svg>
+            </div>
+            <h3>Workflows automatiseren</h3>
+            <p>
+              Repetitieve handelingen — offertes versturen, facturen verwerken,
+              leads opvolgen — laat ik draaien op de achtergrond. Jij houdt het
+              overzicht, het systeem doet het werk.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+            </div>
+            <h3>Systemen koppelen</h3>
+            <p>
+              Je CRM, boekhouding, mailbox en webshop praten eindelijk met
+              elkaar. Geen dubbel invoeren meer, geen exports en imports — data
+              stroomt waar het nodig is.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="6" width="12" height="12" rx="1.5"/>
+                <rect x="9.5" y="9.5" width="5" height="5"/>
+                <line x1="9" y1="3" x2="9" y2="6"/><line x1="15" y1="3" x2="15" y2="6"/>
+                <line x1="9" y1="18" x2="9" y2="21"/><line x1="15" y1="18" x2="15" y2="21"/>
+                <line x1="3" y1="9" x2="6" y2="9"/><line x1="3" y1="15" x2="6" y2="15"/>
+                <line x1="18" y1="9" x2="21" y2="9"/><line x1="18" y1="15" x2="21" y2="15"/>
+              </svg>
+            </div>
+            <h3>AI-integraties</h3>
+            <p>
+              Slimme assistenten die mails samenvatten, klantvragen
+              voorbereiden of documenten lezen. Praktisch toegepast, niet als
+              hype — gewoon iets dat werkt.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="8 6 2 12 8 18"/>
+                <polyline points="16 6 22 12 16 18"/>
+                <line x1="13.5" y1="4" x2="10.5" y2="20"/>
+              </svg>
+            </div>
+            <h3>Maatwerk & no-code</h3>
+            <p>
+              Make, Zapier, n8n of een eigen script: ik kies de tool die bij
+              jouw situatie past. Snel waar het kan, op maat waar het moet.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VOOR WIE ============ -->
+    <section id="voor-wie" class="section section-alt">
+      <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="100" stroke-width="2"
+              d="M-50,540 C250,720 500,400 800,500 C1100,600 1300,340 1500,440"/>
+        <path pathLength="100" stroke-width="1.5"
+              d="M-50,620 C260,800 510,480 810,580 C1110,680 1310,420 1500,520"/>
+      </svg>
+      <div class="container two-col">
+        <div class="reveal">
+          <p class="eyebrow">Voor wie</p>
+          <h2>Voor ondernemers die groeien — zonder vast te lopen in admin</h2>
+          <p>
+            Je bedrijf draait, klanten komen binnen, omzet stijgt. Tegelijk
+            verdrink je in mails, exports, dubbele invoer en kleine taken die
+            elke week terugkomen. Personeel aannemen voelt te vroeg. Maar zo
+            doorgaan ook niet.
+          </p>
+          <p>
+            Ik werk vooral met:
+          </p>
+          <ul class="check-list">
+            <li>MKB-bedrijven (5–50 medewerkers) die een groeispurt maken</li>
+            <li>ZZP'ers en eenmanszaken met een vol orderboek</li>
+            <li>Teams die meerdere tools gebruiken die niet samenwerken</li>
+            <li>Ondernemers die liever investeren in systemen dan in overuren</li>
+          </ul>
+        </div>
+
+        <aside class="quote-block reveal" aria-label="Klantsituatie">
+          <blockquote>
+            “Elke week was ik een halve dag bezig met dezelfde administratie.
+            Nu loopt het vanzelf — en kan ik weer aan mijn klanten denken.”
+          </blockquote>
+          <p class="quote-meta">— Een typische situatie waar Stacklines binnenkomt</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ PROCES ============ -->
+    <section id="proces" class="section">
+      <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="100" stroke-width="2"
+              d="M-50,300 C400,300 350,560 800,500 C1250,440 1100,200 1500,220"/>
+        <path pathLength="100" stroke-width="1.5"
+              d="M-50,390 C410,390 360,650 810,590 C1260,530 1110,290 1500,310"/>
+      </svg>
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Aanpak</p>
+          <h2>Van eerste gesprek tot werkende oplossing</h2>
+          <p class="section-intro">
+            Transparant proces, vaste prijs vooraf. Je weet altijd waar we
+            staan en wat de volgende stap is.
+          </p>
+        </header>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step-number">01</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a8.5 8.5 0 0 1-9.4 8.5 8.38 8.38 0 0 1-3.8-.9L3 21l1.4-4.8a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5h.5A8.48 8.48 0 0 1 21 11.5z"/>
+              </svg>
+            </div>
+            <h3>Kennismaking</h3>
+            <p>
+              Een vrijblijvend gesprek van 30 minuten waarin we kijken of er
+              een match is. Geen verkooppraat, wel scherpe vragen.
+            </p>
+          </li>
+          <li class="step reveal">
+            <span class="step-number">02</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="21" y1="21" x2="16.5" y2="16.5"/>
+              </svg>
+            </div>
+            <h3>Analyse</h3>
+            <p>
+              Ik duik in je proces, breng knelpunten in kaart en lever een
+              concreet voorstel met aanpak, planning en vaste prijs.
+            </p>
+          </li>
+          <li class="step reveal">
+            <span class="step-number">03</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+            </div>
+            <h3>Bouw</h3>
+            <p>
+              Korte sprints met regelmatige check-ins. Je ziet de oplossing
+              groeien en kunt onderweg bijsturen — geen verrassingen op het eind.
+            </p>
+          </li>
+          <li class="step reveal">
+            <span class="step-number">04</span>
+            <div class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+            <h3>Oplevering & nazorg</h3>
+            <p>
+              Inwerken van jou en je team, heldere documentatie en
+              ondersteuning na livegang. Daarna kun je op eigen benen verder
+              — of je houdt me als sparringpartner.
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ OVER MIJ ============ -->
+    <section id="over" class="section section-alt">
+      <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="100" stroke-width="2"
+              d="M-50,250 C300,500 600,620 900,400 C1200,200 1400,360 1500,520"/>
+        <path pathLength="100" stroke-width="1.5"
+              d="M-50,340 C310,590 610,710 910,490 C1210,290 1410,450 1500,610"/>
+      </svg>
+      <div class="container two-col">
+        <div class="reveal">
+          <p class="eyebrow">Over mij</p>
+          <h2>Hallo, ik ben [Jouw naam]</h2>
+          <p>
+            [Plaatsruimte voor jouw verhaal — bijvoorbeeld: na jaren bij
+            verschillende bedrijven zag ik telkens hetzelfde: slimme mensen
+            die de helft van hun tijd kwijt waren aan werk dat een computer
+            ook had kunnen doen. Daarom richtte ik Stacklines op.]
+          </p>
+          <p>
+            [Vertel hier wat over je achtergrond, waar je woont, wat je drijft.
+            Een paar zinnen waarin een potentiële klant jou leert kennen — geen
+            CV nodig.]
+          </p>
+          <ul class="check-list">
+            <li>Gevestigd in Apeldoorn, werk door heel Nederland</li>
+            <li>[X] jaar ervaring met procesautomatisering</li>
+            <li>Werkt graag op locatie én volledig remote</li>
+          </ul>
+        </div>
+
+        <div class="about-visual reveal" aria-hidden="true">
+          <!-- Vervang dit door een echte foto: <img src="foto.jpg" alt="..." /> -->
+          <div class="photo-placeholder">
+            <span>Foto<br />komt hier</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section section-dark">
+      <!-- Slinger langs de randen i.p.v. door het midden — anders valt de
+           tekst van de contact-info erin weg. -->
+      <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path pathLength="100" stroke-width="2"
+              d="M-50,90 C220,200 460,40 720,160 C980,40 1220,200 1500,100"/>
+        <path pathLength="100" stroke-width="1.5"
+              d="M-50,720 C220,600 460,760 720,640 C980,760 1220,600 1500,720"/>
+      </svg>
+      <div class="container contact-inner">
+        <div class="reveal">
+          <p class="eyebrow light">Contact</p>
+          <h2>Laten we een keer praten</h2>
+          <p class="lead light">
+            Heb je een proces dat sneller, slimmer of automatischer kan? Stuur
+            een berichtje of bel direct. Een eerste gesprek kost niets en
+            levert in elk geval nieuwe inzichten op.
+          </p>
+
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">E-mail</span>
+              <a href="mailto:hallo@stacklines.nl">hallo@stacklines.nl</a>
+            </li>
+            <li>
+              <span class="contact-label">Telefoon</span>
+              <a href="tel:+31600000000">06 – 00 00 00 00</a>
+            </li>
+            <li>
+              <span class="contact-label">Locatie</span>
+              <span>Apeldoorn, Nederland</span>
+            </li>
+          </ul>
+
+          <div class="socials" aria-label="Social media">
+            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+            <a href="#" aria-label="GitHub">GitHub</a>
+            <a href="#" aria-label="X (Twitter)">X</a>
+          </div>
+        </div>
+
+        <!-- Eenvoudig formulier dat een mailto opent -->
+        <form class="contact-form reveal" id="contact-form" novalidate>
+          <label>
+            <span>Naam</span>
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label>
+            <span>E-mail</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label>
+            <span>Waar kan ik je mee helpen?</span>
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">Verstuur</button>
+          <p class="form-note">
+            Het formulier opent je mailprogramma met het bericht erin.
+          </p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Stacklines · Apeldoorn · KvK [nummer]</p>
+      <p><a href="#top">Terug naar boven ↑</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

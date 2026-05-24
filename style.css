@@ -1,0 +1,892 @@
+/* =========================================================
+   Stacklines — style.css
+   Pas hier de kleuren en lettergroottes aan via de :root variabelen.
+   ========================================================= */
+
+:root {
+  /* Kleuren — pas hier aan voor een andere look */
+  --color-primary:      #2a1612;   /* warm espresso (header-logo, knoppen, donkere sectie) */
+  --color-primary-dark: #1a0d0a;   /* nog donkerder voor hover */
+  --color-accent:       #f97316;   /* warm oranje (CTAs, highlights) */
+  --color-accent-light: #fdba74;   /* lichte peach voor accents op donker */
+  --color-bg:           #ffffff;
+  --color-bg-alt:       #fff4e6;   /* warme peach-wash voor afwisselende secties */
+  --color-bg-dark:      #2a1612;   /* warm espresso (contact-sectie) */
+  --color-text:         #1a1f2c;
+  --color-text-soft:    #4b5563;
+  --color-text-light:   #f5e6d3;   /* warm cream (i.p.v. lichtblauw-grijs) */
+  --color-border:       #e5e7eb;
+
+  /* Typografie */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Layout */
+  --container-max: 1180px;
+  --radius:        14px;
+  --radius-sm:     8px;
+
+  /* Schaduw */
+  --shadow-sm: 0 2px 8px rgba(15, 42, 68, 0.06);
+  --shadow-md: 0 8px 30px rgba(15, 42, 68, 0.10);
+}
+
+/* ---------- Reset / basis ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;   /* elke scroll-zet snap-t naar volgende sectie */
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
+img { max-width: 100%; display: block; }
+a { color: var(--color-primary); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--color-accent); }
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 .6em;
+  color: var(--color-text);
+}
+h1 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+h3 { font-size: 1.2rem; }
+p  { margin: 0 0 1em; color: var(--color-text-soft); }
+
+ul { padding-left: 1.2em; }
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* "Eyebrow" — klein label boven titels */
+.eyebrow {
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 .8em;
+}
+.eyebrow.light { color: var(--color-accent-light); }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
+}
+/* Bij scrollen: frosted glass — de kleur van de sectie eronder komt
+   wazig doorheen, in plaats van een harde witte balk. */
+.site-header.scrolled {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom-color: rgba(28, 28, 46, 0.06);
+  box-shadow: 0 4px 20px rgba(28, 28, 46, 0.04);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+.logo:hover { color: var(--color-primary); }
+.logo-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 32px; height: 32px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 8px;
+}
+.logo-mark svg { width: 18px; height: 18px; }
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+.nav a {
+  font-weight: 500;
+  font-size: .95rem;
+  color: var(--color-text);
+}
+.nav a:hover { color: var(--color-accent); }
+.nav-cta {
+  background: var(--color-primary);
+  color: #fff !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+}
+.nav-cta:hover { background: var(--color-primary-dark); color: #fff !important; }
+
+/* Hamburger (mobiel) */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  width: 40px; height: 40px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+
+.mobile-nav {
+  display: none;
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+}
+.mobile-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-nav a {
+  display: block;
+  padding: 12px 0;
+  font-weight: 500;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+.mobile-nav li:last-child a { border-bottom: 0; }
+
+/* ---------- Knoppen ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 0;
+  transition: transform .15s, background .2s, color .2s;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+}
+.btn-ghost:hover { color: var(--color-accent); }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 100px 0 80px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background:
+    radial-gradient(900px 600px at 0% -10%,   rgba(249, 115, 22, 0.22), transparent 60%),
+    radial-gradient(800px 600px at 100% 10%,  rgba(253, 186, 116, 0.28), transparent 60%),
+    radial-gradient(700px 500px at 50% 110%,  rgba(249, 115, 22, 0.10), transparent 60%),
+    radial-gradient(600px 400px at 90% 95%,   rgba(28, 28, 46, 0.06),  transparent 60%),
+    var(--color-bg);
+}
+
+/* Decoratieve slinger-lijn die door de hero loopt */
+.hero-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner { position: relative; z-index: 1; }
+
+/* Slinger-paden tekenen zich bij load (stroke-dashoffset trick) */
+.hero-wave path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) forwards;
+}
+.hero-wave path:nth-child(1) { animation-delay: .2s; }
+.hero-wave path:nth-child(2) { animation-delay: .45s; }
+.hero-wave path:nth-child(3) { animation-delay: .70s; }
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero-content h1 { margin-top: 0; }
+.hero .lead {
+  font-size: 1.15rem;
+  color: var(--color-text-soft);
+  max-width: 560px;
+}
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 28px 0 24px;
+}
+.hero-points {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  font-size: .92rem;
+  color: var(--color-text-soft);
+}
+.hero-points li {
+  position: relative;
+  padding-left: 24px;
+}
+.hero-points li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 16px; height: 16px;
+  margin-top: -8px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
+}
+
+/* Hero visual — decoratieve gestapelde kaartjes */
+.hero-visual {
+  position: relative;
+  height: 360px;
+}
+.stack-card {
+  position: absolute;
+  width: 220px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stack-card .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  display: inline-block;
+  background: #cbd5e1;
+}
+.stack-card .dot                { background: rgba(249, 115, 22, 0.25); }
+.stack-card .dot:nth-child(1)   { background: var(--color-accent); }
+.stack-card .dot:nth-child(2)   { background: var(--color-accent-light); }
+.stack-card .bar {
+  height: 10px;
+  background: linear-gradient(90deg, #e2e8f0, #f1f5f9);
+  border-radius: 4px;
+}
+.stack-card .bar.short { width: 60%; }
+.stack-1 {
+  top: 0; right: 30%;
+  animation: float1 6s ease-in-out infinite;
+}
+.stack-2 {
+  top: 80px; right: 0;
+  z-index: 2; background: #fff;
+  animation: float2 6s ease-in-out infinite -2s;
+}
+.stack-3 {
+  top: 200px; right: 25%;
+  animation: float3 6s ease-in-out infinite -4s;
+}
+/* Stack-cards bewegen subtiel op en neer (rotate blijft static via keyframe) */
+@keyframes float1 {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  50%      { transform: rotate(-6deg) translateY(-12px); }
+}
+@keyframes float2 {
+  0%, 100% { transform: rotate(3deg)  translateY(0); }
+  50%      { transform: rotate(3deg)  translateY(-12px); }
+}
+@keyframes float3 {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50%      { transform: rotate(-2deg) translateY(-12px); }
+}
+
+/* ---------- Generieke sectie (scroll-snap, reels-stijl) ----------
+   Elke sectie pakt 1 viewport-hoogte. Scrollen snap-t naar de volgende
+   sectie — zoals reels op Instagram. */
+.section {
+  position: relative;
+  overflow: hidden;            /* knipt de slinger-svg netjes af */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 110px 0 80px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.section > .container { position: relative; z-index: 1; }
+
+/* ---------- Slinger per sectie (zelfde stijl als hero) ----------
+   Tekent zich op het moment dat de sectie in beeld snapt. */
+.section-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.section-wave path {
+  fill: none;
+  stroke: rgba(249, 115, 22, 0.25);
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 2.4s cubic-bezier(.45,.05,.55,.95);
+}
+.section-wave path:nth-child(2) {
+  stroke: rgba(253, 186, 116, 0.35);
+}
+.section-wave.drawn path { stroke-dashoffset: 0; }
+.section-wave.drawn path:nth-child(2) { transition-delay: .25s; }
+/* Donkere sectie krijgt lichte slinger zodat hij zichtbaar blijft */
+.section-dark .section-wave path { stroke: rgba(255, 220, 180, 0.40); }
+.section-dark .section-wave path:nth-child(2) { stroke: rgba(253, 186, 116, 0.55); }
+
+/* Slang komt om-en-om van links/rechts binnen */
+#voor-wie .section-wave,
+#over .section-wave {
+  transform: scaleX(-1);
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-wave path { transition: none; stroke-dashoffset: 0; }
+}
+.section-alt { /* geen eigen kleur meer, per-id overschreven hieronder */ }
+.section-dark {
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+/* Per-sectie achtergrondkleuren — oplopend van licht peach naar espresso */
+#diensten { background: #fff8ef; }   /* heel licht cream */
+#voor-wie { background: #ffe8cc; }   /* peach */
+#proces   { background: #ffd9a8; }   /* warm sand */
+#over     { background: #f9c79a; }   /* light terracotta */
+/* #contact heeft .section-dark → espresso */
+.section-dark h2,
+.section-dark h3 { color: #fff; }
+.section-dark p,
+.section-dark a { color: var(--color-text-light); }
+.section-dark a:hover { color: var(--color-accent); }
+
+.section-head {
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+.section-intro {
+  font-size: 1.1rem;
+  color: var(--color-text-soft);
+}
+
+/* ---------- Dienst-kaarten ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+.card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1),
+              box-shadow .35s ease,
+              border-color .35s ease;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(249, 115, 22, 0.15);
+  border-color: var(--color-accent);
+}
+.card:hover .card-icon {
+  background: rgba(249, 115, 22, 0.22);
+  transform: scale(1.1) rotate(-8deg);
+}
+.card-icon {
+  margin-bottom: 18px;
+  display: inline-grid;
+  place-items: center;
+  width: 52px; height: 52px;
+  background: rgba(249, 115, 22, 0.10);
+  border-radius: 12px;
+  color: var(--color-accent);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s ease;
+}
+.card-icon svg { width: 26px; height: 26px; }
+
+/* Cards komen één voor één in beeld (staggered fade) */
+.cards .card.reveal:nth-child(1) { transition-delay: 0s; }
+.cards .card.reveal:nth-child(2) { transition-delay: .10s; }
+.cards .card.reveal:nth-child(3) { transition-delay: .20s; }
+.cards .card.reveal:nth-child(4) { transition-delay: .30s; }
+.card h3 { margin-bottom: 10px; }
+.card p { margin: 0; font-size: .98rem; }
+
+/* ---------- Twee-koloms blok (Voor wie / Over) ---------- */
+.two-col {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+.check-list li {
+  padding: 8px 0 8px 30px;
+  position: relative;
+  color: var(--color-text-soft);
+}
+.check-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px;
+  width: 16px; height: 16px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
+}
+
+/* Quote-blok */
+.quote-block {
+  background: #fff;
+  border-left: 4px solid var(--color-accent);
+  padding: 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.quote-block blockquote {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+.quote-meta {
+  margin: 0;
+  font-size: .88rem;
+  color: var(--color-text-soft);
+}
+
+/* Foto-placeholder */
+.about-visual {
+  display: flex;
+  justify-content: center;
+}
+.photo-placeholder {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  color: #64748b;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- Proces stappen ---------- */
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+.step {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  position: relative;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1),
+              box-shadow .35s ease,
+              border-color .35s ease;
+}
+.step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(249, 115, 22, 0.15);
+  border-color: var(--color-accent);
+}
+.step:hover .step-icon {
+  background: rgba(249, 115, 22, 0.22);
+  transform: scale(1.1) rotate(-8deg);
+}
+.step-number {
+  display: inline-block;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--color-accent);
+  margin-bottom: 14px;
+}
+.step-icon {
+  width: 44px; height: 44px;
+  display: grid;
+  place-items: center;
+  background: rgba(249, 115, 22, 0.10);
+  border-radius: 10px;
+  color: var(--color-accent);
+  margin-bottom: 14px;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s ease;
+}
+.step-icon svg {
+  width: 22px; height: 22px;
+}
+
+/* Steps komen ook één voor één in beeld */
+.steps .step.reveal:nth-child(1) { transition-delay: 0s; }
+.steps .step.reveal:nth-child(2) { transition-delay: .10s; }
+.steps .step.reveal:nth-child(3) { transition-delay: .20s; }
+.steps .step.reveal:nth-child(4) { transition-delay: .30s; }
+.step h3 { margin-bottom: 8px; }
+.step p  { margin: 0; font-size: .95rem; }
+
+/* ---------- Sticky flow-rail (links) ---------- */
+/* Verticale rail die meeloopt tijdens scrollen.
+   Toont waar je bent in de pagina; klikken scrollt naar sectie. */
+.flow-rail {
+  position: fixed;
+  left: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: none;             /* verborgen op kleine schermen */
+  --rail-progress: 0;        /* 0..1, ingesteld via JS */
+}
+@media (min-width: 1100px) {
+  .flow-rail { display: block; }
+}
+
+.flow-rail .rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Grijze achtergrond-track tussen de dots */
+.flow-rail .rail-track {
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: rgba(15, 42, 68, 0.14);
+  border-radius: 2px;
+  z-index: 0;
+  overflow: hidden;
+}
+.flow-rail .rail-track-fill {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(var(--rail-progress, 0) * 100%);
+  background: linear-gradient(180deg, var(--color-accent), var(--color-accent-light));
+  border-radius: 2px;
+  transition: height .25s ease;
+}
+
+/* Een rail-item = anchor met dot + label */
+.flow-rail a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+.rail-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid rgba(15, 42, 68, 0.25);
+  flex: 0 0 auto;
+  transition: all .3s ease;
+}
+.rail-label {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--color-text-soft);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity .25s ease, transform .25s ease, color .25s ease;
+  pointer-events: none;
+}
+.flow-rail a:hover .rail-label,
+.flow-rail a.active .rail-label {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--color-text);
+  pointer-events: auto;
+}
+.flow-rail a:hover .rail-dot {
+  border-color: var(--color-accent);
+}
+/* Dots boven de actieve sectie: blijven oranje (= "gepasseerd") */
+.flow-rail a.passed .rail-dot {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.flow-rail a.active .rail-dot {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
+  transform: scale(1.15);
+}
+
+/* Donkere modus: wanneer de actieve sectie een donkere achtergrond heeft,
+   draait de rail mee (lichte dots/labels). JS schakelt .on-dark. */
+.flow-rail.on-dark .rail-dot           { background: var(--color-bg-dark); }
+.flow-rail.on-dark a:not(.active):not(.passed) .rail-dot { border-color: rgba(255, 255, 255, 0.35); }
+.flow-rail.on-dark a.passed .rail-dot  { background: var(--color-accent); border-color: var(--color-accent); }
+.flow-rail.on-dark .rail-label         { color: rgba(255, 255, 255, 0.65); }
+.flow-rail.on-dark a:hover .rail-label,
+.flow-rail.on-dark a.active .rail-label { color: #fff; }
+.flow-rail.on-dark .rail-track         { background: rgba(255, 255, 255, 0.18); }
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-rail a, .rail-dot, .rail-label, .rail-track-fill { transition: none; }
+}
+
+/* ---------- Contact ---------- */
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+/* Tekst-blok centered in linker helft (zwaartepunt ~ 1/4 pagina),
+   formulier centered in rechter helft (zwaartepunt ~ 3/4 pagina). */
+.contact-inner > * {
+  max-width: 380px;
+  width: 100%;
+  justify-self: center;
+}
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+}
+.contact-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.contact-list li:last-child { border-bottom: 0; }
+.contact-label {
+  min-width: 90px;
+  font-weight: 600;
+  color: var(--color-accent-light);
+}
+.contact-list a { color: #fff; }
+.contact-list a:hover { color: var(--color-accent); }
+
+.socials {
+  margin-top: 20px;
+  display: flex;
+  gap: 18px;
+}
+.socials a {
+  font-size: .9rem;
+  font-weight: 500;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 999px;
+  color: #fff;
+}
+.socials a:hover { background: rgba(255,255,255,0.10); color: #fff; }
+
+/* Formulier */
+.contact-form {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-md);
+  color: var(--color-text);
+}
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.contact-form input,
+.contact-form textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--color-text);
+  transition: border-color .2s, box-shadow .2s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.20);
+}
+.contact-form .btn { align-self: flex-start; }
+
+/* Dwingt alle tekst in het witte formulier op donker, los van de
+   cream-kleur die het formulier erft van de donkere contact-sectie. */
+.contact-form,
+.contact-form label,
+.contact-form span,
+.contact-form input,
+.contact-form textarea {
+  color: var(--color-text);
+}
+.contact-form .form-note {
+  margin: 0;
+  font-size: .82rem;
+  color: var(--color-text-soft);
+}
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--color-text-soft);
+  opacity: 0.7;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--color-bg-alt);
+  border-top: 1px solid var(--color-border);
+  padding: 24px 0;
+  font-size: .9rem;
+  color: var(--color-text-soft);
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-inner p { margin: 0; }
+
+/* ---------- Scroll-animaties ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respecteer "ik wil minder beweging" */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-wave path { animation: none; stroke-dashoffset: 0; }
+  .stack-1, .stack-2, .stack-3 { animation: none; }
+  .card, .step, .card-icon, .step-icon { transition: none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .hero-inner,
+  .two-col,
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero-visual { height: 320px; }
+  .section { padding: 70px 0; }
+}
+
+@media (max-width: 720px) {
+  .nav { display: none; }
+  .nav-toggle { display: flex; }
+  .mobile-nav.open { display: block; }
+
+  .hero { padding: 60px 0 50px; }
+  .hero-visual { display: none; } /* niet essentieel — weg op klein scherm */
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; }
+
+  .section-head { margin-bottom: 40px; }
+  .cards { grid-template-columns: 1fr; }
+  .quote-block { padding: 24px; }
+  .contact-form { padding: 24px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}
