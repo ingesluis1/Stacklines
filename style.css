@@ -909,14 +909,24 @@ ul { padding-left: 1.2em; }
   opacity: 0.7;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Mini-footer binnen contact-sectie ----------
+   De footer zit nu binnen #contact (espresso). Absoluut onderaan
+   geplaatst zodat 'ie geen eigen snap-target hoeft te zijn en de
+   witte strook verdwijnt. Transparante achtergrond = espresso loopt door. */
 .site-footer {
-  background: var(--color-bg-alt);
-  border-top: 1px solid var(--color-border);
-  padding: 24px 0;
-  font-size: .9rem;
-  color: var(--color-text-soft);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 0;
+  font-size: .82rem;
+  color: rgba(245, 230, 211, 0.55);
+  z-index: 2;
 }
+.site-footer a { color: rgba(245, 230, 211, 0.75); }
+.site-footer a:hover { color: var(--color-accent); }
 .footer-inner {
   display: flex;
   justify-content: space-between;

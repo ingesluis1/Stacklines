@@ -145,6 +145,17 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---- 5b. "Terug naar boven"-link ---------------------------
+     De link wijst naar #top (de sticky header). Browsers
+     scrollen daar niet naartoe omdat een sticky element vanuit
+     hun perspectief "al in beeld" is. Daarom expliciet via JS. */
+  document.querySelectorAll('a[href="#top"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
   /* ---- 6. Contactformulier → opent mailto: ------------------ */
   const form = document.getElementById('contact-form');
   if (form) {
