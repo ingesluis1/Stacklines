@@ -30,16 +30,15 @@
     reveals.forEach((el) => el.classList.add('visible'));
   }
 
-  /* ---- 1b. Slinger per sectie tekent zich bij in beeld ----- */
+  /* ---- 1b. Slinger per sectie tekent zich bij in beeld -----
+     Toggle i.p.v. eenmalig: scroll je weg → ont-tekent zich,
+     scroll je terug → tekent opnieuw. Geeft een "leeft mee"-gevoel. */
   const sectionWaves = document.querySelectorAll('.section-wave');
   if (sectionWaves.length && 'IntersectionObserver' in window) {
     const waveObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('drawn');
-            waveObserver.unobserve(entry.target);
-          }
+          entry.target.classList.toggle('drawn', entry.isIntersecting);
         });
       },
       { threshold: 0.3 }

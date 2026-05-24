@@ -251,17 +251,41 @@ ul { padding-left: 1.2em; }
 }
 .hero-inner { position: relative; z-index: 1; }
 
-/* Slinger-paden tekenen zich bij load (stroke-dashoffset trick) */
+/* Slinger-paden: eerst tekenen ze zich (drawPath), daarna gaat een
+   pulserende kleur-loop aan. Twee animaties per pad, komma-gescheiden.
+   De pulse-delays (-3s, -1s, -5s op een loop van 6s) plaatsen de pieken
+   op t=0/2/4s zodat de golf van boven naar beneden door de drie lijnen
+   loopt: pad 1 → pad 2 → pad 3 → pad 1 → ... */
 .hero-wave path {
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) forwards;
 }
-.hero-wave path:nth-child(1) { animation-delay: .2s; }
-.hero-wave path:nth-child(2) { animation-delay: .45s; }
-.hero-wave path:nth-child(3) { animation-delay: .70s; }
+.hero-wave path:nth-child(1) {
+  animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) .2s forwards,
+             heroBreathe1 6s ease-in-out -3s infinite;
+}
+.hero-wave path:nth-child(2) {
+  animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) .45s forwards,
+             heroBreathe2 6s ease-in-out -1s infinite;
+}
+.hero-wave path:nth-child(3) {
+  animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) .70s forwards,
+             heroBreathe3 6s ease-in-out -5s infinite;
+}
 @keyframes drawPath {
   to { stroke-dashoffset: 0; }
+}
+@keyframes heroBreathe1 {
+  0%, 100% { stroke: rgba(249, 115, 22, 0.18); }
+  50%      { stroke: rgba(249, 115, 22, 0.50); }
+}
+@keyframes heroBreathe2 {
+  0%, 100% { stroke: rgba(253, 186, 116, 0.25); }
+  50%      { stroke: rgba(253, 186, 116, 0.60); }
+}
+@keyframes heroBreathe3 {
+  0%, 100% { stroke: rgba(28, 28, 46, 0.06); }
+  50%      { stroke: rgba(28, 28, 46, 0.20); }
 }
 .hero-inner {
   display: grid;
@@ -388,20 +412,53 @@ ul { padding-left: 1.2em; }
 }
 .section-wave path {
   fill: none;
-  stroke: rgba(249, 115, 22, 0.25);
+  stroke: rgba(249, 115, 22, 0.18);
   stroke-linecap: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  transition: stroke-dashoffset 2.4s cubic-bezier(.45,.05,.55,.95);
+  transition: stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1);
 }
 .section-wave path:nth-child(2) {
-  stroke: rgba(253, 186, 116, 0.35);
+  stroke: rgba(253, 186, 116, 0.26);
 }
 .section-wave.drawn path { stroke-dashoffset: 0; }
-.section-wave.drawn path:nth-child(2) { transition-delay: .25s; }
+.section-wave.drawn path:nth-child(2) { transition-delay: .18s; }
 /* Donkere sectie krijgt lichte slinger zodat hij zichtbaar blijft */
 .section-dark .section-wave path { stroke: rgba(255, 220, 180, 0.40); }
 .section-dark .section-wave path:nth-child(2) { stroke: rgba(253, 186, 116, 0.55); }
+
+/* Pulserende kleur — golf loopt van iets donkerder naar lichter en terug.
+   De twee paden per slinger staan in tegenfase (negatieve delay van -3s op
+   een loop van 6s = halverwege beginnen), zodat de helderheid lijkt over
+   te springen van het ene pad op het andere. */
+@keyframes waveBreathe1 {
+  0%, 100% { stroke: rgba(249, 115, 22, 0.15); }
+  50%      { stroke: rgba(249, 115, 22, 0.48); }
+}
+@keyframes waveBreathe2 {
+  0%, 100% { stroke: rgba(253, 186, 116, 0.22); }
+  50%      { stroke: rgba(253, 186, 116, 0.55); }
+}
+@keyframes waveBreatheDark1 {
+  0%, 100% { stroke: rgba(255, 220, 180, 0.30); }
+  50%      { stroke: rgba(255, 220, 180, 0.65); }
+}
+@keyframes waveBreatheDark2 {
+  0%, 100% { stroke: rgba(253, 186, 116, 0.40); }
+  50%      { stroke: rgba(253, 186, 116, 0.75); }
+}
+.section-wave.drawn path:nth-child(1) {
+  animation: waveBreathe1 6s ease-in-out infinite;
+}
+.section-wave.drawn path:nth-child(2) {
+  animation: waveBreathe2 6s ease-in-out -3s infinite;
+}
+.section-dark .section-wave.drawn path:nth-child(1) {
+  animation-name: waveBreatheDark1;
+}
+.section-dark .section-wave.drawn path:nth-child(2) {
+  animation-name: waveBreatheDark2;
+}
 
 /* Slang komt om-en-om van links/rechts binnen */
 #voor-wie .section-wave,
@@ -410,7 +467,7 @@ ul { padding-left: 1.2em; }
   transform-origin: center;
 }
 @media (prefers-reduced-motion: reduce) {
-  .section-wave path { transition: none; stroke-dashoffset: 0; }
+  .section-wave path { transition: none; stroke-dashoffset: 0; animation: none; }
 }
 .section-alt { /* geen eigen kleur meer, per-id overschreven hieronder */ }
 .section-dark {
@@ -418,11 +475,38 @@ ul { padding-left: 1.2em; }
   color: var(--color-text-light);
 }
 
-/* Per-sectie achtergrondkleuren — oplopend van licht peach naar espresso */
-#diensten { background: #fff8ef; }   /* heel licht cream */
-#voor-wie { background: #ffe8cc; }   /* peach */
-#proces   { background: #ffd9a8; }   /* warm sand */
-#over     { background: #f9c79a; }   /* light terracotta */
+/* Per-sectie achtergrond: zelfde vignette-aanpak als de hero, met
+   per sectie net andere ankerpunten/sizes zodat het familie voelt
+   maar elke sectie tóch een eigen "ademing" heeft. Alleen #contact
+   wijkt af (espresso, via .section-dark). */
+#diensten {
+  background:
+    radial-gradient(900px 600px at 100% -10%, rgba(249, 115, 22, 0.20), transparent 60%),
+    radial-gradient(700px 500px at 0% 110%,   rgba(253, 186, 116, 0.22), transparent 60%),
+    radial-gradient(600px 400px at 90% 95%,   rgba(28, 28, 46, 0.04),   transparent 60%),
+    var(--color-bg);
+}
+#voor-wie {
+  background:
+    radial-gradient(900px 600px at -5% 30%,   rgba(249, 115, 22, 0.18), transparent 60%),
+    radial-gradient(800px 600px at 105% 80%,  rgba(253, 186, 116, 0.24), transparent 60%),
+    radial-gradient(500px 400px at 50% -10%,  rgba(249, 115, 22, 0.08), transparent 60%),
+    var(--color-bg);
+}
+#proces {
+  background:
+    radial-gradient(800px 600px at 0% -10%,   rgba(253, 186, 116, 0.24), transparent 60%),
+    radial-gradient(900px 600px at 100% 110%, rgba(249, 115, 22, 0.18), transparent 60%),
+    radial-gradient(500px 400px at 50% 50%,   rgba(28, 28, 46, 0.03),   transparent 60%),
+    var(--color-bg);
+}
+#over {
+  background:
+    radial-gradient(1000px 700px at 50% -10%, rgba(249, 115, 22, 0.16), transparent 60%),
+    radial-gradient(800px 600px at 10% 110%,  rgba(253, 186, 116, 0.22), transparent 60%),
+    radial-gradient(600px 400px at 95% 40%,   rgba(28, 28, 46, 0.05),   transparent 60%),
+    var(--color-bg);
+}
 /* #contact heeft .section-dark → espresso */
 .section-dark h2,
 .section-dark h3 { color: #fff; }
@@ -450,18 +534,18 @@ ul { padding-left: 1.2em; }
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 32px 28px;
-  transition: transform .35s cubic-bezier(.2,.8,.2,1),
-              box-shadow .35s ease,
-              border-color .35s ease;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1),
+              box-shadow .25s ease,
+              border-color .25s ease;
 }
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 24px 50px rgba(249, 115, 22, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(249, 115, 22, 0.14);
   border-color: var(--color-accent);
 }
 .card:hover .card-icon {
   background: rgba(249, 115, 22, 0.22);
-  transform: scale(1.1) rotate(-8deg);
+  transform: scale(1.08) rotate(-6deg);
 }
 .card-icon {
   margin-bottom: 18px;
@@ -471,7 +555,7 @@ ul { padding-left: 1.2em; }
   background: rgba(249, 115, 22, 0.10);
   border-radius: 12px;
   color: var(--color-accent);
-  transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s ease;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), background .25s ease;
 }
 .card-icon svg { width: 26px; height: 26px; }
 
@@ -562,18 +646,18 @@ ul { padding-left: 1.2em; }
   border-radius: var(--radius);
   padding: 28px;
   position: relative;
-  transition: transform .35s cubic-bezier(.2,.8,.2,1),
-              box-shadow .35s ease,
-              border-color .35s ease;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1),
+              box-shadow .25s ease,
+              border-color .25s ease;
 }
 .step:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 24px 50px rgba(249, 115, 22, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(249, 115, 22, 0.14);
   border-color: var(--color-accent);
 }
 .step:hover .step-icon {
   background: rgba(249, 115, 22, 0.22);
-  transform: scale(1.1) rotate(-8deg);
+  transform: scale(1.08) rotate(-6deg);
 }
 .step-number {
   display: inline-block;
@@ -592,7 +676,7 @@ ul { padding-left: 1.2em; }
   border-radius: 10px;
   color: var(--color-accent);
   margin-bottom: 14px;
-  transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s ease;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), background .25s ease;
 }
 .step-icon svg {
   width: 22px; height: 22px;
@@ -842,11 +926,16 @@ ul { padding-left: 1.2em; }
 }
 .footer-inner p { margin: 0; }
 
-/* ---------- Scroll-animaties ---------- */
+/* ---------- Scroll-animaties ----------
+   Snappier dan voorheen: kortere duration en een crispere easing-
+   curve (start zacht, eindigt strak). Kleinere translate voelt
+   minder "wiebelig", meer gepolijst. */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .8s ease, transform .8s ease;
+  transform: translateY(14px);
+  transition: opacity .55s cubic-bezier(.2,.7,.2,1),
+              transform .55s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
 }
 .reveal.visible {
   opacity: 1;
