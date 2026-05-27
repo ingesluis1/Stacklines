@@ -23,7 +23,16 @@ Geen build-tools, drie losse bestanden:
 - **Slinger-paden** (SVG `.section-wave` en `.hero-wave`):
   - Tekenen zich bij in-view, **ont-tekenen** bij wegscrollen (script.js toggle, niet `unobserve`)
   - Pulseren in tegenfase (`6s` loop, negatieve `animation-delay` voor phase shift). Hero heeft 3 lijnen die om de 2s opvolgend pieken
+  - Deinen daarnaast heel subtiel op en neer (`floatY`, ±5px, 8s, per lijn een andere fase). Tunebaar bij `@keyframes floatY`
+- **Hero-visual is bewust minimaal**: alleen tekst links plus de achtergrond-slingers, geen apart grafisch object rechts. Een uitgebreide workflow/n8n-tekening is geprobeerd en weer verwijderd (voelde te druk naast de zachte rest). Niet opnieuw toevoegen zonder overleg
 - **Hover op cards/steps**: `0.25s`, lift `6px`, icon-rotate `6°`. Geen "wiebelige" 8px+ meer
+
+## Copy / toon
+
+- **Stem:** persoonlijk en zelfverzekerd, ik-vorm vanuit de oprichter. Hero-kop: "Jij onderneemt. De rest regel ik."
+- **Geen em-dash (—)** in de teksten. Gebruik een komma, dubbele punt of een nieuwe zin
+- **Energiemissie en klanten mogen niet herleidbaar zijn.** Diensten-voorbeelden generiek houden (geen energiesector-termen, geen klantnamen). Stacklines is een persoonlijk side-project, los van Energiemissie
+- **Kerneigenschappen** kloppen met de werkwijze: uurbasis (geen vaste prijs), realistische aanpak (geen harde deadline-belofte), self-hosted in eigen omgeving
 
 ## Quirks / bewuste workarounds
 
@@ -41,7 +50,8 @@ In `index.html`:
 - Telefoonnummer `06 – 00 00 00 00` (regel ~410)
 - E-mail `hallo@stacklines.nl` (regel ~406 én in `script.js` regel ~165)
 - Social links wijzen naar `#` (regels ~419-421)
-- Foto-placeholder div in over-sectie (regel ~376) — vervang door `<img>`
+
+(Foto in "Over mij" is ingevuld: `inge.jpg`, via `.about-photo`. Regelnummers hierboven zijn bij benadering en kunnen na edits verschoven zijn.)
 
 Nog te doen:
 - Favicon ontbreekt (geen `<link rel="icon">`)
