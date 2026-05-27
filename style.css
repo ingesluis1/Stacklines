@@ -262,15 +262,18 @@ ul { padding-left: 1.2em; }
 }
 .hero-wave path:nth-child(1) {
   animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) .2s forwards,
-             heroBreathe1 6s ease-in-out -3s infinite;
+             heroBreathe1 6s ease-in-out -3s infinite,
+             floatY 8s ease-in-out 0s infinite;
 }
 .hero-wave path:nth-child(2) {
   animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) .45s forwards,
-             heroBreathe2 6s ease-in-out -1s infinite;
+             heroBreathe2 6s ease-in-out -1s infinite,
+             floatY 8s ease-in-out -2.7s infinite;
 }
 .hero-wave path:nth-child(3) {
   animation: drawPath 2.6s cubic-bezier(.45,.05,.55,.95) .70s forwards,
-             heroBreathe3 6s ease-in-out -5s infinite;
+             heroBreathe3 6s ease-in-out -5s infinite,
+             floatY 8s ease-in-out -5.3s infinite;
 }
 @keyframes drawPath {
   to { stroke-dashoffset: 0; }
@@ -287,12 +290,21 @@ ul { padding-left: 1.2em; }
   0%, 100% { stroke: rgba(28, 28, 46, 0.06); }
   50%      { stroke: rgba(28, 28, 46, 0.20); }
 }
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 60px;
-  align-items: center;
+/* Heel rustige verticale drift voor alle slinger-lijnen (hero + secties).
+   Subtiel (±5px) en traag (8s, langzamer dan de 6s kleurpuls), zodat het
+   organisch deint i.p.v. mechanisch met de pulse meebeweegt. Per lijn een
+   andere negatieve delay → ze staan net uit fase. Amplitude/snelheid hier
+   tunen. Zit in de animation-shorthand, dus reduced-motion zet 'm ook uit. */
+@keyframes floatY {
+  0%, 100% { transform: translateY(-5px); }
+  50%      { transform: translateY(5px); }
 }
+/* Minimale hero: tekst links met een comfortabele max-breedte; de rechterkant
+   blijft open zodat de zachte achtergrond-slingers de ruimte vullen. */
+.hero-inner {
+  display: block;
+}
+.hero-content { max-width: 640px; }
 .hero-content h1 { margin-top: 0; }
 .hero .lead {
   font-size: 1.15rem;
@@ -310,8 +322,9 @@ ul { padding-left: 1.2em; }
   padding: 0;
   margin: 20px 0 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 18px 28px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   font-size: .92rem;
   color: var(--color-text-soft);
 }
@@ -326,64 +339,6 @@ ul { padding-left: 1.2em; }
   width: 16px; height: 16px;
   margin-top: -8px;
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
-}
-
-/* Hero visual — decoratieve gestapelde kaartjes */
-.hero-visual {
-  position: relative;
-  height: 360px;
-}
-.stack-card {
-  position: absolute;
-  width: 220px;
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 18px;
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.stack-card .dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  display: inline-block;
-  background: #cbd5e1;
-}
-.stack-card .dot                { background: rgba(249, 115, 22, 0.25); }
-.stack-card .dot:nth-child(1)   { background: var(--color-accent); }
-.stack-card .dot:nth-child(2)   { background: var(--color-accent-light); }
-.stack-card .bar {
-  height: 10px;
-  background: linear-gradient(90deg, #e2e8f0, #f1f5f9);
-  border-radius: 4px;
-}
-.stack-card .bar.short { width: 60%; }
-.stack-1 {
-  top: 0; right: 30%;
-  animation: float1 6s ease-in-out infinite;
-}
-.stack-2 {
-  top: 80px; right: 0;
-  z-index: 2; background: #fff;
-  animation: float2 6s ease-in-out infinite -2s;
-}
-.stack-3 {
-  top: 200px; right: 25%;
-  animation: float3 6s ease-in-out infinite -4s;
-}
-/* Stack-cards bewegen subtiel op en neer (rotate blijft static via keyframe) */
-@keyframes float1 {
-  0%, 100% { transform: rotate(-6deg) translateY(0); }
-  50%      { transform: rotate(-6deg) translateY(-12px); }
-}
-@keyframes float2 {
-  0%, 100% { transform: rotate(3deg)  translateY(0); }
-  50%      { transform: rotate(3deg)  translateY(-12px); }
-}
-@keyframes float3 {
-  0%, 100% { transform: rotate(-2deg) translateY(0); }
-  50%      { transform: rotate(-2deg) translateY(-12px); }
 }
 
 /* ---------- Generieke sectie (scroll-snap, reels-stijl) ----------
@@ -448,16 +403,20 @@ ul { padding-left: 1.2em; }
   50%      { stroke: rgba(253, 186, 116, 0.75); }
 }
 .section-wave.drawn path:nth-child(1) {
-  animation: waveBreathe1 6s ease-in-out infinite;
+  animation: waveBreathe1 6s ease-in-out infinite,
+             floatY 8s ease-in-out 0s infinite;
 }
 .section-wave.drawn path:nth-child(2) {
-  animation: waveBreathe2 6s ease-in-out -3s infinite;
+  animation: waveBreathe2 6s ease-in-out -3s infinite,
+             floatY 8s ease-in-out -4s infinite;
 }
+/* Dark-variant overschrijft alleen de naam van de kleurpuls; floatY moet
+   in de lijst blijven staan, anders valt de drift weg op donkere secties. */
 .section-dark .section-wave.drawn path:nth-child(1) {
-  animation-name: waveBreatheDark1;
+  animation-name: waveBreatheDark1, floatY;
 }
 .section-dark .section-wave.drawn path:nth-child(2) {
-  animation-name: waveBreatheDark2;
+  animation-name: waveBreatheDark2, floatY;
 }
 
 /* Slang komt om-en-om van links/rechts binnen */
@@ -618,17 +577,27 @@ ul { padding-left: 1.2em; }
   display: flex;
   justify-content: center;
 }
-.photo-placeholder {
+.about-photo {
   width: 100%;
   max-width: 360px;
   aspect-ratio: 4 / 5;
-  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  object-fit: cover;
+  object-position: center 20%;   /* gezicht zit hoog in de foto → kader iets naar boven */
   border-radius: var(--radius);
-  display: grid;
-  place-items: center;
-  color: #64748b;
-  font-weight: 600;
-  text-align: center;
+  /* Dun, warm randje zodat de lichte bovenkant van de foto niet wegvalt
+     tegen de lichte sectie-achtergrond. */
+  border: 1px solid rgba(28, 22, 18, 0.18);
+  /* Eigen, iets diepere én warme schaduw: de gedeelde --shadow-md (10%, blauw)
+     viel weg op de lichte sectie-achtergrond. Hier wél zichtbaar maar zacht. */
+  box-shadow: 0 16px 36px rgba(28, 22, 18, 0.22);
+  display: block;
+  transition: box-shadow .25s ease,
+              border-color .25s ease;
+}
+/* Hover: oranje omlijning + oranje schaduw (geen lift) — als de proces-stappen */
+.about-photo:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 20px 40px rgba(249, 115, 22, 0.14);
 }
 
 /* ---------- Proces stappen ---------- */
@@ -957,19 +926,16 @@ ul { padding-left: 1.2em; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-wave path { animation: none; stroke-dashoffset: 0; }
-  .stack-1, .stack-2, .stack-3 { animation: none; }
   .card, .step, .card-icon, .step-icon { transition: none; }
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  .hero-inner,
   .two-col,
   .contact-inner {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  .hero-visual { height: 320px; }
   .section { padding: 70px 0; }
 }
 
@@ -979,7 +945,6 @@ ul { padding-left: 1.2em; }
   .mobile-nav.open { display: block; }
 
   .hero { padding: 60px 0 50px; }
-  .hero-visual { display: none; } /* niet essentieel — weg op klein scherm */
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; }
 
