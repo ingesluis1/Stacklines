@@ -4,31 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO -->
   <title>Stacklines — Automatisering voor MKB en ZZP | Apeldoorn</title>
   <meta name="description" content="Stacklines automatiseert repetitief werk voor MKB en ZZP'ers in Apeldoorn en omgeving. Koppelingen, AI-integraties en slimme workflows met Make, Zapier en n8n." />
   <meta name="author" content="Stacklines" />
   <meta name="theme-color" content="#0f2a44" />
+  <link rel="canonical" href="https://stacklines.nl/" />
 
-  <!-- Open Graph / social sharing -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://stacklines.nl/" />
   <meta property="og:title" content="Stacklines — Automatisering voor MKB en ZZP" />
   <meta property="og:description" content="Werkprocessen automatiseren, systemen koppelen en AI inzetten. Voor ondernemers die willen groeien zonder extra personeel." />
   <meta property="og:locale" content="nl_NL" />
   <meta property="og:site_name" content="Stacklines" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Stijl -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ============ STICKY FLOW-RAIL (links) ============ -->
-  <!-- Loopt mee met scrollen. Toont waar je bent in de pagina. -->
+  <svg class="bg-snake" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true">
+    <g class="snake-move">
+      <path class="snake-line s1" d="M50,-100 C75,-75 75,-50 50,-50 C25,-25 25,0 50,0 C75,25 75,50 50,50 C25,75 25,100 50,100 C75,125 75,150 50,150 C25,175 25,200 50,200 C75,225 75,250 50,250 C25,275 25,300 50,300"/>
+    </g>
+  </svg>
+
   <aside class="flow-rail" aria-label="Pagina-overzicht">
     <div class="rail-track" aria-hidden="true">
       <div class="rail-track-fill"></div>
@@ -42,7 +44,6 @@
     </ol>
   </aside>
 
-  <!-- ============ HEADER ============ -->
   <header class="site-header" id="top">
     <div class="container header-inner">
       <a href="#top" class="logo" aria-label="Stacklines homepage">
@@ -71,8 +72,7 @@
       </button>
     </div>
 
-    <!-- Mobiel menu -->
-    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobiele navigatie" hidden>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobiele navigatie">
       <ul>
         <li><a href="#diensten">Wat ik doe</a></li>
         <li><a href="#voor-wie">Voor wie</a></li>
@@ -85,9 +85,7 @@
 
   <main>
 
-    <!-- ============ HERO ============ -->
     <section class="hero">
-      <!-- Decoratieve slingerlijn op de achtergrond -->
       <svg class="hero-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength="100" d="M-50,500 C200,300 380,650 620,450 C870,240 1080,580 1300,380 C1420,270 1500,420 1550,360"
               fill="none" stroke="rgba(249,115,22,0.28)" stroke-width="2" stroke-linecap="round"/>
@@ -117,10 +115,28 @@
           </ul>
         </div>
 
+        <div class="hero-visual reveal">
+          <div class="sl-assistant" data-sl-assistant aria-hidden="true">
+            <div class="sl-assistant__bar">
+              <span class="sl-dot sl-dot--r"></span>
+              <span class="sl-dot sl-dot--y"></span>
+              <span class="sl-dot sl-dot--g"></span>
+              <span class="sl-assistant__title">Postvak-assistent</span>
+              <span class="sl-assistant__status"><i></i>verbonden</span>
+            </div>
+            <div class="sl-assistant__body">
+              <div class="sl-msg sl-msg--user">
+                <div class="sl-bubble"><span data-sl-typed></span><span class="sl-caret" data-sl-caret></span></div>
+                <div class="sl-avatar sl-avatar--you">JIJ</div>
+              </div>
+              <div data-sl-response></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- ============ DIENSTEN ============ -->
     <section id="diensten" class="section">
       <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength="100" stroke-width="2"
@@ -208,7 +224,6 @@
       </div>
     </section>
 
-    <!-- ============ VOOR WIE ============ -->
     <section id="voor-wie" class="section section-alt">
       <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength="100" stroke-width="2"
@@ -247,7 +262,6 @@
       </div>
     </section>
 
-    <!-- ============ PROCES ============ -->
     <section id="proces" class="section">
       <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength="100" stroke-width="2"
@@ -327,7 +341,6 @@
       </div>
     </section>
 
-    <!-- ============ OVER MIJ ============ -->
     <section id="over" class="section section-alt">
       <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength="100" stroke-width="2"
@@ -364,10 +377,7 @@
       </div>
     </section>
 
-    <!-- ============ CONTACT ============ -->
     <section id="contact" class="section section-dark">
-      <!-- Slinger langs de randen i.p.v. door het midden — anders valt de
-           tekst van de contact-info erin weg. -->
       <svg class="section-wave" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
         <path pathLength="100" stroke-width="2"
               d="M-50,90 C220,200 460,40 720,160 C980,40 1220,200 1500,100"/>
@@ -406,7 +416,6 @@
           </div>
         </div>
 
-        <!-- Eenvoudig formulier dat een mailto opent -->
         <form class="contact-form reveal" id="contact-form" novalidate>
           <label>
             <span>Naam</span>
@@ -427,7 +436,6 @@
         </form>
       </div>
 
-      <!-- Mini-footer: zit binnen contact, onderaan, op de espresso -->
       <footer class="site-footer">
         <div class="container footer-inner">
           <p>© <span id="year"></span> Stacklines · Apeldoorn · KvK [nummer]</p>

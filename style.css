@@ -46,6 +46,21 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+/* Eén doorlopende, zachte gloed achter de hele pagina (vaste laag), zodat er
+   geen harde naden tussen secties ontstaan. De lichte secties zijn transparant;
+   alleen #contact (espresso) dekt deze laag af. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(900px 650px at 8% 6%,    rgba(249, 115, 22, 0.16), transparent 60%),
+    radial-gradient(850px 650px at 96% 16%,  rgba(253, 186, 116, 0.20), transparent 60%),
+    radial-gradient(800px 600px at 50% 52%,  rgba(249, 115, 22, 0.07), transparent 60%),
+    radial-gradient(900px 700px at 100% 86%, rgba(253, 186, 116, 0.16), transparent 60%),
+    radial-gradient(800px 600px at 0% 96%,   rgba(28, 28, 46, 0.04),   transparent 60%);
+}
 
 
 img { max-width: 100%; display: block; }
@@ -170,6 +185,11 @@ ul { padding-left: 1.2em; }
   border-radius: 2px;
   transition: transform .3s, opacity .3s;
 }
+/* Hamburger wordt een kruisje als het menu open is (en weer terug). De bars
+   staan 7px uit elkaar (2px hoog + 5px gap), dus 7px naar het midden schuiven. */
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 .mobile-nav {
   display: none;
@@ -233,12 +253,7 @@ ul { padding-left: 1.2em; }
   padding: 100px 0 80px;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  background:
-    radial-gradient(900px 600px at 0% -10%,   rgba(249, 115, 22, 0.22), transparent 60%),
-    radial-gradient(800px 600px at 100% 10%,  rgba(253, 186, 116, 0.28), transparent 60%),
-    radial-gradient(700px 500px at 50% 110%,  rgba(249, 115, 22, 0.10), transparent 60%),
-    radial-gradient(600px 400px at 90% 95%,   rgba(28, 28, 46, 0.06),  transparent 60%),
-    var(--color-bg);
+  background: transparent;
 }
 
 /* Decoratieve slinger-lijn die door de hero loopt */
@@ -299,12 +314,52 @@ ul { padding-left: 1.2em; }
   0%, 100% { transform: translateY(-5px); }
   50%      { transform: translateY(5px); }
 }
-/* Minimale hero: tekst links met een comfortabele max-breedte; de rechterkant
-   blijft open zodat de zachte achtergrond-slingers de ruimte vullen. */
+/* Mobiele "slang": golvende lijn die als vaste laag in beeld blijft en met de
+   gebruiker mee-kruipt. De slither + deining worden door het scrollen aangestuurd
+   (zie script.js), dus 'ie kruipt mee en pauzeert als je stopt. De kleur ademt
+   continu zoals op desktop. Alleen op mobiel zichtbaar. */
+.bg-snake {
+  position: fixed;            /* schermvullende laag; de lijn zelf zakt 1:1 mee */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;                /* boven de gloed-laag (body::before), achter content */
+  display: none;
+  /* zachte vervaging boven/onder zodat de slang rond het midden "eindigt" */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 48%, transparent 70%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 48%, transparent 70%);
+}
+.snake-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;   /* gelijke lijndikte ondanks het uitrekken */
+}
+.snake-line.s1 { animation: snakeBreathe1 6s ease-in-out infinite; }
+@keyframes snakeBreathe1 {
+  0%, 100% { stroke: rgba(249, 115, 22, 0.18); }
+  50%      { stroke: rgba(249, 115, 22, 0.48); }
+}
+/* Hero in twee kolommen: tekst links, postvak-assistent-demo rechts.
+   Op smal scherm stapelt het (de demo zakt onder de tekst). De zachte
+   achtergrond-slingers lopen er gewoon doorheen. */
 .hero-inner {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  align-items: center;
+}
+/* Breekpunt op 901px = precies waar scroll-snap aangaat (>900px). Zo is er
+   geen tussenzone waar de hero gestapeld binnen 100vh wordt afgesneden. */
+@media (min-width: 901px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+    gap: 56px;
+  }
 }
 .hero-content { max-width: 640px; }
+.hero-visual { min-width: 0; }
 .hero-content h1 { margin-top: 0; }
 .hero .lead {
   font-size: 1.15rem;
@@ -339,6 +394,80 @@ ul { padding-left: 1.2em; }
   width: 16px; height: 16px;
   margin-top: -8px;
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") no-repeat center / contain;
+}
+
+/* ---------- Postvak-assistent (hero-demo, vanilla) ----------
+   Zelfstandige chat-mockup die een mailvraag typt, "denkt" en de gevonden
+   mail toont (gedrag in script.js, sectie 8). Eigen --sl-* tokens, gescoped
+   op .sl-assistant zodat ze de globale :root niet raken. Palet matcht de site. */
+.sl-assistant {
+  --sl-espresso:#241712;
+  --sl-line:#efe3d2;
+  --sl-line-2:#ecddc9;
+  --sl-orange:#f0560f;
+  --sl-orange-300:#ff9a4d;
+  --sl-orange-tint:#fff2e9;
+  --sl-orange-border:#ffd9bf;
+  --sl-muted:#7a6b5c;
+  --sl-muted-2:#8a7563;
+
+  width:100%; max-width:560px;
+  border-radius:20px; background:#fff;
+  border:1px solid var(--sl-line-2);
+  box-shadow:0 30px 70px rgba(36,23,18,.16);
+  overflow:hidden;
+  animation:sl-float 7s ease-in-out infinite;
+}
+.sl-assistant__bar{ display:flex; align-items:center; gap:8px; padding:14px 18px; background:#f6efe3; border-bottom:1px solid var(--sl-line); }
+.sl-dot{ width:11px; height:11px; border-radius:50%; }
+.sl-dot--r{ background:#ff6159; } .sl-dot--y{ background:#ffbd2e; } .sl-dot--g{ background:#28c840; }
+.sl-assistant__title{ margin-left:10px; font-size:12.5px; font-weight:600; color:var(--sl-muted-2); }
+.sl-assistant__status{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:#1f9c55; font-weight:600; }
+.sl-assistant__status i{ width:7px; height:7px; border-radius:50%; background:#28c840; animation:sl-blink 1.8s ease-in-out infinite; }
+.sl-assistant__body{ padding:24px 22px; min-height:360px; display:flex; flex-direction:column; gap:16px; background:linear-gradient(180deg,#fffdf9,#fdf8f1); }
+
+.sl-msg{ display:flex; gap:10px; }
+.sl-msg--user{ justify-content:flex-end; }
+.sl-bubble{ max-width:80%; padding:13px 16px; border-radius:16px 16px 4px 16px; background:var(--sl-orange-tint); border:1px solid var(--sl-orange-border); color:#3a2c20; font-size:15px; line-height:1.5; min-height:24px; }
+.sl-caret{ display:inline-block; width:2px; height:17px; background:var(--sl-orange); margin-left:1px; vertical-align:-3px; animation:sl-caret .9s step-end infinite; }
+.sl-avatar{ width:30px; height:30px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; }
+.sl-avatar--you{ background:#e9dcc9; color:var(--sl-muted-2); }
+
+.sl-reply{ display:flex; gap:10px; animation:sl-rise .4s ease both; }
+.sl-reply__mark{ width:30px; height:30px; flex:none; border-radius:9px; background:var(--sl-espresso); display:flex; align-items:center; justify-content:center; }
+
+.sl-thinking{ padding:14px 18px; border-radius:4px 16px 16px 16px; background:#fff; border:1px solid var(--sl-line); display:flex; align-items:center; gap:10px; font-size:14px; color:var(--sl-muted-2); }
+.sl-thinking__dots{ display:flex; gap:4px; }
+.sl-thinking__dots i{ width:6px; height:6px; border-radius:50%; background:var(--sl-orange); animation:sl-dot 1.2s ease-in-out infinite; }
+.sl-thinking__dots i:nth-child(2){ animation-delay:.18s; }
+.sl-thinking__dots i:nth-child(3){ animation-delay:.36s; }
+
+.sl-email{ flex:1; }
+.sl-email__lead{ font-size:14px; color:#5b4c3f; margin-bottom:10px; }
+.sl-email__card{ border:1px solid var(--sl-line); border-radius:13px; background:#fff; overflow:hidden; box-shadow:0 8px 22px rgba(36,23,18,.06); }
+.sl-email__inner{ padding:14px 16px; }
+.sl-email__top{ display:flex; align-items:center; gap:10px; }
+.sl-email__avatar{ width:34px; height:34px; flex:none; border-radius:50%; background:#fbe3d2; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#c2592a; }
+.sl-email__from{ flex:1; }
+.sl-email__name{ font-size:14px; font-weight:700; color:var(--sl-espresso); }
+.sl-email__meta{ font-size:12px; color:#9a8b7c; }
+.sl-email__date{ font-size:12px; color:#9a8b7c; font-weight:500; }
+.sl-email__subject{ font-size:14.5px; font-weight:700; color:var(--sl-espresso); margin-top:12px; }
+.sl-email__snippet{ font-size:13.5px; color:var(--sl-muted); line-height:1.5; margin-top:4px; }
+.sl-email__attach{ display:inline-flex; align-items:center; gap:7px; margin-top:12px; padding:6px 11px; border-radius:8px; background:#f6efe3; font-size:12.5px; font-weight:600; color:#5b4c3f; }
+.sl-email__actions{ display:flex; border-top:1px solid var(--sl-line); }
+.sl-email__action{ flex:1; text-align:center; padding:11px; font-size:13px; font-weight:600; color:#5b4c3f; }
+.sl-email__action--primary{ font-weight:700; color:var(--sl-orange); border-right:1px solid var(--sl-line); }
+
+@keyframes sl-blink{ 0%,100%{opacity:1} 50%{opacity:.15} }
+@keyframes sl-caret{ 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes sl-dot{ 0%,80%,100%{transform:translateY(0); opacity:.4} 40%{transform:translateY(-5px); opacity:1} }
+@keyframes sl-rise{ 0%{opacity:0; transform:translateY(12px)} 100%{opacity:1; transform:none} }
+@keyframes sl-float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+
+@media (prefers-reduced-motion: reduce){
+  .sl-assistant{ animation:none; }
+  .sl-caret,.sl-thinking__dots i,.sl-assistant__status i{ animation:none; }
 }
 
 /* ---------- Generieke sectie (scroll-snap, reels-stijl) ----------
@@ -434,38 +563,9 @@ ul { padding-left: 1.2em; }
   color: var(--color-text-light);
 }
 
-/* Per-sectie achtergrond: zelfde vignette-aanpak als de hero, met
-   per sectie net andere ankerpunten/sizes zodat het familie voelt
-   maar elke sectie tóch een eigen "ademing" heeft. Alleen #contact
-   wijkt af (espresso, via .section-dark). */
-#diensten {
-  background:
-    radial-gradient(900px 600px at 100% -10%, rgba(249, 115, 22, 0.20), transparent 60%),
-    radial-gradient(700px 500px at 0% 110%,   rgba(253, 186, 116, 0.22), transparent 60%),
-    radial-gradient(600px 400px at 90% 95%,   rgba(28, 28, 46, 0.04),   transparent 60%),
-    var(--color-bg);
-}
-#voor-wie {
-  background:
-    radial-gradient(900px 600px at -5% 30%,   rgba(249, 115, 22, 0.18), transparent 60%),
-    radial-gradient(800px 600px at 105% 80%,  rgba(253, 186, 116, 0.24), transparent 60%),
-    radial-gradient(500px 400px at 50% -10%,  rgba(249, 115, 22, 0.08), transparent 60%),
-    var(--color-bg);
-}
-#proces {
-  background:
-    radial-gradient(800px 600px at 0% -10%,   rgba(253, 186, 116, 0.24), transparent 60%),
-    radial-gradient(900px 600px at 100% 110%, rgba(249, 115, 22, 0.18), transparent 60%),
-    radial-gradient(500px 400px at 50% 50%,   rgba(28, 28, 46, 0.03),   transparent 60%),
-    var(--color-bg);
-}
-#over {
-  background:
-    radial-gradient(1000px 700px at 50% -10%, rgba(249, 115, 22, 0.16), transparent 60%),
-    radial-gradient(800px 600px at 10% 110%,  rgba(253, 186, 116, 0.22), transparent 60%),
-    radial-gradient(600px 400px at 95% 40%,   rgba(28, 28, 46, 0.05),   transparent 60%),
-    var(--color-bg);
-}
+/* Lichte secties zijn transparant; de doorlopende gloed van body::before loopt
+   er naadloos achter door. #contact dekt af via .section-dark (espresso). */
+#diensten, #voor-wie, #proces, #over { background: transparent; }
 /* #contact heeft .section-dark → espresso */
 .section-dark h2,
 .section-dark h3 { color: #fff; }
@@ -927,10 +1027,34 @@ ul { padding-left: 1.2em; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-wave path { animation: none; stroke-dashoffset: 0; }
   .card, .step, .card-icon, .step-icon { transition: none; }
+  .nav-toggle span, .mobile-nav { transition: none; }
+  .snake-line { animation: none; }
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
+  /* Geen full-height scroll-snap op mobiel: secties die hoger zijn dan het
+     scherm (kaarten, stappen, formulier) worden met `mandatory` snap anders
+     onbereikbaar en schokkerig. Hier gewoon natuurlijk scrollen. */
+  html { scroll-snap-type: none; }
+  .hero, .section {
+    min-height: auto;
+    display: block;
+  }
+  /* Footer terug in de flow (stond absoluut onderaan een 100vh-sectie). */
+  .site-footer {
+    position: static;
+    margin-top: 48px;
+  }
+
+  /* Slingers worden lelijk samengedrukt op smalle schermen, dus verbergen.
+     De secties houden hun zachte vignette-gradient als achtergrond. */
+  .hero-wave, .section-wave { display: none; }
+  .bg-snake { display: block; }
+
+  /* Postvak-demo stapelt onder de hero-tekst, gecentreerd en niet te breed. */
+  .hero-visual { margin: 4px auto 0; max-width: 460px; width: 100%; }
+
   .two-col,
   .contact-inner {
     grid-template-columns: 1fr;
@@ -942,7 +1066,31 @@ ul { padding-left: 1.2em; }
 @media (max-width: 720px) {
   .nav { display: none; }
   .nav-toggle { display: flex; }
-  .mobile-nav.open { display: block; }
+  /* Zodra het mobiele menu open is: solide balk, anders schijnt de inhoud
+     door de doorzichtige/frosted header heen. */
+  .site-header:has(.mobile-nav.open) {
+    background: var(--color-bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: var(--color-border);
+  }
+  /* Menu schuift soepel open/dicht i.p.v. hard aan/uit */
+  .mobile-nav {
+    display: block;
+    position: absolute;          /* overlayt de pagina i.p.v. die omlaag te duwen */
+    top: 100%; left: 0; right: 0;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    box-shadow: 0 14px 30px rgba(28, 22, 18, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s;
+  }
+  .mobile-nav.open {
+    opacity: 1;
+    visibility: visible;
+  }
 
   .hero { padding: 60px 0 50px; }
   .hero-cta { flex-direction: column; align-items: stretch; }
@@ -950,6 +1098,8 @@ ul { padding-left: 1.2em; }
 
   .section-head { margin-bottom: 40px; }
   .cards { grid-template-columns: 1fr; }
+  .card { padding: 24px 22px; }
+  .step { padding: 24px 20px; }
   .quote-block { padding: 24px; }
   .contact-form { padding: 24px; }
   .footer-inner { flex-direction: column; text-align: center; }
