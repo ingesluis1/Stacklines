@@ -207,10 +207,13 @@
   }
 
   /* ---- 8. Postvak-assistent (hero-demo) ---------------------
-     Typt een vraag, "denkt" even en toont dan een antwoordkaart. Loopt door
-     meerdere scenario's (zie SCENARIOS): mail zoeken, samenvatten, concept
-     schrijven, openstaande facturen, afspraak inplannen. Markup-skelet staat
-     in de hero, de antwoordkaarten worden hier opgebouwd, styling in style.css. */
+     Een doorlopende chat-thread: per scenario wordt een vraag getypt, "gedacht"
+     en een antwoordkaart getoond. De berichten blijven staan en het venster
+     scrollt mee omlaag (zoals een echte chat); na het laatste scenario (zie
+     SCENARIOS) begint de thread schoon opnieuw. Scenario's: mail zoeken,
+     samenvatten, concept schrijven, openstaande facturen, afspraak inplannen.
+     Skelet staat in de hero (.sl-thread), kaarten worden hier opgebouwd,
+     styling in style.css. */
   const SPEED = { type: 34, start: 650, afterType: 550, think: 1500, hold: 4200 };
 
   const MARK = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="3" rx="1.5" fill="#f0560f"/><rect x="3" y="10.5" width="10" height="3" rx="1.5" fill="#ff9a4d"/><rect x="3" y="16" width="14" height="3" rx="1.5" fill="#f7efe2"/></svg>';
@@ -318,12 +321,33 @@
 
   const assistant = document.querySelector('[data-sl-assistant]');
   if (assistant) {
-    const typedEl = assistant.querySelector('[data-sl-typed]');
-    const caretEl = assistant.querySelector('[data-sl-caret]');
-    const responseEl = assistant.querySelector('[data-sl-response]');
+    const body = assistant.querySelector('.sl-assistant__body');
+    const thread = assistant.querySelector('[data-sl-thread]');
 
-    if (typedEl && responseEl) {
+    if (body && thread) {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      // Houd de laatste berichten in beeld terwijl de thread groeit.
+      const scrollDown = () => body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
+
+      // Lege gebruikersbubbel met knipperende caret; geeft de bubbel terug.
+      const addUserMsg = () => {
+        const el = document.createElement('div');
+        el.className = 'sl-msg sl-msg--user';
+        el.innerHTML =
+          '<div class="sl-bubble"><span class="sl-typed"></span><span class="sl-caret"></span></div>' +
+          '<div class="sl-avatar sl-avatar--you">JIJ</div>';
+        thread.appendChild(el);
+        return el;
+      };
+
+      // AI-antwoord uit een HTML-string toevoegen; geeft het element terug.
+      const addReply = (html) => {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const el = tmp.firstElementChild;
+        thread.appendChild(el);
+        return el;
+      };
 
       let idx = 0;
       (async function loop() {
@@ -331,20 +355,34 @@
         while (true) {
           const scene = SCENARIOS[idx];
           const q = scene.query;
-          typedEl.textContent = '';
-          if (caretEl) caretEl.style.display = '';
-          responseEl.innerHTML = '';
+
+          // Nieuwe ronde: thread schoonvegen en opnieuw beginnen.
+          if (idx === 0) thread.innerHTML = '';
           await wait(SPEED.start);
+
+          // 1. Vraag typen in een nieuwe gebruikersbubbel.
+          const userEl = addUserMsg();
+          const typedEl = userEl.querySelector('.sl-typed');
+          const caretEl = userEl.querySelector('.sl-caret');
+          scrollDown();
           for (let c = 1; c <= q.length; c++) {
             typedEl.textContent = q.slice(0, c);
+            if (c % 4 === 0) scrollDown();
             await wait(SPEED.type);
           }
+          if (caretEl) caretEl.remove();
           await wait(SPEED.afterType);
-          if (caretEl) caretEl.style.display = 'none';
-          responseEl.innerHTML = thinking(scene.think || 'Even zoeken in je mailbox');
+
+          // 2. "Denkt" even.
+          const thinkEl = addReply(thinking(scene.think || 'Even zoeken in je mailbox'));
+          scrollDown();
           await wait(SPEED.think);
-          responseEl.innerHTML = scene.result;
+
+          // 3. Antwoordkaart vervangt het denk-balkje.
+          thinkEl.outerHTML = scene.result;
+          scrollDown();
           await wait(SPEED.hold);
+
           idx = (idx + 1) % SCENARIOS.length;
         }
       })();
