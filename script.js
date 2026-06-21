@@ -388,4 +388,131 @@
       })();
     }
   }
+
+  /* ---- 9. Factuurverwerking-demo (workflow-pijplijn) --------
+     Een document komt binnen en doorloopt de stappen, die één voor één
+     oplichten (ring -> spinner -> groen vinkje). Daarna het volgende. */
+  const flow = document.querySelector('[data-sl-flow]');
+  if (flow) {
+    const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+    const DOC_ICON =
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2592a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+    const DOCS = ['Factuur-2451.pdf', 'Bon-0312.jpg', 'Offerte-889.pdf', 'Factuur-2477.pdf'];
+    const STEPS = ['Ontvangen uit mailbox', 'Gegevens uitgelezen', 'Bedrag gecontroleerd', 'Geboekt in administratie', 'Bevestiging verstuurd'];
+
+    let dn = 0;
+    (async function loop() {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const doc = DOCS[dn % DOCS.length];
+        flow.innerHTML =
+          '<div class="sl-flow__file">' +
+            '<span class="sl-flow__doc">' + DOC_ICON + '</span>' +
+            '<span class="sl-flow__name">' + doc + '</span>' +
+            '<span class="sl-flow__tag">nieuw</span>' +
+          '</div>' +
+          '<div class="sl-flow__steps">' +
+            STEPS.map((s) =>
+              '<div class="sl-step2"><span class="sl-check"></span>' +
+              '<span class="sl-step2__label">' + s + '</span></div>'
+            ).join('') +
+          '</div>';
+        const rows = flow.querySelectorAll('.sl-step2');
+        await wait(700);
+        for (let i = 0; i < rows.length; i++) {
+          const check = rows[i].querySelector('.sl-check');
+          rows[i].classList.add('is-active');
+          check.classList.add('is-active');
+          await wait(640);
+          check.classList.remove('is-active');
+          rows[i].classList.remove('is-active');
+          rows[i].classList.add('is-done');
+          check.classList.add('is-done');
+          await wait(280);
+        }
+        const tag = flow.querySelector('.sl-flow__tag');
+        if (tag) tag.textContent = 'klaar';
+        await wait(2400);
+        dn++;
+      }
+    })();
+  }
+
+  /* ---- 10. Live activiteiten-log ---------------------------
+     Regels tikken vanzelf binnen (bezig -> vinkje) en scrollen mee. */
+  const logEl = document.querySelector('[data-sl-log]');
+  if (logEl) {
+    const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+    const logBody = logEl.closest('.sl-assistant__body');
+    const ACTIONS = [
+      'Factuur ontvangen en geboekt',
+      'Ticket geclassificeerd',
+      'Antwoord voorgesteld',
+      'Overzicht naar klant gemaild',
+      'Betaalbestand klaargezet',
+      'Meterstand doorgestuurd',
+      'Bonnetje uitgelezen',
+      'Melding gecontroleerd',
+    ];
+    const pad = (n) => String(n).padStart(2, '0');
+    const fmt = (m) => pad(Math.floor(m / 60) % 24) + ':' + pad(m % 60);
+    const scroll = () => { if (logBody) logBody.scrollTo({ top: logBody.scrollHeight, behavior: 'smooth' }); };
+
+    let mins = 9 * 60 + 14;
+    let ai = 0;
+    (async function loop() {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (logEl.children.length >= 14) logEl.removeChild(logEl.firstElementChild);
+        const row = document.createElement('div');
+        row.className = 'sl-logrow';
+        row.innerHTML =
+          '<span class="sl-logrow__t">' + fmt(mins) + '</span>' +
+          '<span class="sl-logrow__a">' + ACTIONS[ai % ACTIONS.length] + '</span>' +
+          '<span class="sl-check is-active"></span>';
+        logEl.appendChild(row);
+        scroll();
+        await wait(620);
+        const check = row.querySelector('.sl-check');
+        check.classList.remove('is-active');
+        check.classList.add('is-done');
+        scroll();
+        ai++;
+        mins += 1 + (ai % 3);
+        await wait(1500);
+      }
+    })();
+  }
+
+  /* ---- 11. Demo-carrousel (pijltjes + dots) ----------------
+     Wisselt tussen de demo's; alleen de actieve slide is zichtbaar. */
+  const demos = document.querySelector('[data-sl-demos]');
+  if (demos) {
+    const slides = Array.from(demos.querySelectorAll('.sl-slide'));
+    const dotsWrap = demos.querySelector('[data-sl-dots]');
+    const prevBtn = demos.querySelector('[data-sl-prev]');
+    const nextBtn = demos.querySelector('[data-sl-next]');
+    let cur = 0;
+
+    const dots = slides.map((_, i) => {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.className = 'sl-dot-nav';
+      d.setAttribute('aria-label', 'Demo ' + (i + 1));
+      d.addEventListener('click', () => go(i));
+      if (dotsWrap) dotsWrap.appendChild(d);
+      return d;
+    });
+
+    function go(i) {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach((s, j) => s.classList.toggle('is-active', j === cur));
+      dots.forEach((d, j) => d.classList.toggle('is-active', j === cur));
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => go(cur - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => go(cur + 1));
+    go(0);
+  }
 })();

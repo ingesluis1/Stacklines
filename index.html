@@ -116,16 +116,116 @@
         </div>
 
         <div class="hero-visual reveal">
-          <div class="sl-assistant" data-sl-assistant aria-hidden="true">
-            <div class="sl-assistant__bar">
-              <span class="sl-dot sl-dot--r"></span>
-              <span class="sl-dot sl-dot--y"></span>
-              <span class="sl-dot sl-dot--g"></span>
-              <span class="sl-assistant__title">Postvak-assistent</span>
-              <span class="sl-assistant__status"><i></i>verbonden</span>
+          <div class="sl-demos" data-sl-demos>
+            <div class="sl-stage" data-sl-stage>
+
+              <!-- Demo 1: Postvak-assistent (chat) -->
+              <div class="sl-slide is-active">
+                <div class="sl-assistant" data-sl-assistant aria-hidden="true">
+                  <div class="sl-assistant__bar">
+                    <span class="sl-dot sl-dot--r"></span>
+                    <span class="sl-dot sl-dot--y"></span>
+                    <span class="sl-dot sl-dot--g"></span>
+                    <span class="sl-assistant__title">Postvak-assistent</span>
+                    <span class="sl-assistant__status"><i></i>verbonden</span>
+                  </div>
+                  <div class="sl-assistant__body">
+                    <div class="sl-thread" data-sl-thread></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Demo 2: Factuurverwerking (workflow-pijplijn) -->
+              <div class="sl-slide">
+                <div class="sl-assistant" aria-hidden="true">
+                  <div class="sl-assistant__bar">
+                    <span class="sl-dot sl-dot--r"></span>
+                    <span class="sl-dot sl-dot--y"></span>
+                    <span class="sl-dot sl-dot--g"></span>
+                    <span class="sl-assistant__title">Factuurverwerking</span>
+                    <span class="sl-assistant__status"><i></i>actief</span>
+                  </div>
+                  <div class="sl-assistant__body">
+                    <div class="sl-flow" data-sl-flow></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Demo 3: Automatisering (live activiteiten-log) -->
+              <div class="sl-slide">
+                <div class="sl-assistant" aria-hidden="true">
+                  <div class="sl-assistant__bar">
+                    <span class="sl-dot sl-dot--r"></span>
+                    <span class="sl-dot sl-dot--y"></span>
+                    <span class="sl-dot sl-dot--g"></span>
+                    <span class="sl-assistant__title">Automatisering</span>
+                    <span class="sl-assistant__status"><i></i>24/7</span>
+                  </div>
+                  <div class="sl-assistant__body">
+                    <div class="sl-log" data-sl-log></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Demo 4: Koppelingen (systemen) -->
+              <div class="sl-slide">
+                <div class="sl-assistant" aria-hidden="true">
+                  <div class="sl-assistant__bar">
+                    <span class="sl-dot sl-dot--r"></span>
+                    <span class="sl-dot sl-dot--y"></span>
+                    <span class="sl-dot sl-dot--g"></span>
+                    <span class="sl-assistant__title">Koppelingen</span>
+                    <span class="sl-assistant__status"><i></i>live</span>
+                  </div>
+                  <div class="sl-assistant__body sl-assistant__body--net">
+                    <svg class="sl-net" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                      <!-- verbindingslijnen -->
+                      <g stroke="#e7d8c4" stroke-width="2" fill="none">
+                        <line x1="160" y1="150" x2="58" y2="56"/>
+                        <line x1="160" y1="150" x2="262" y2="56"/>
+                        <line x1="160" y1="150" x2="58" y2="244"/>
+                        <line x1="160" y1="150" x2="262" y2="244"/>
+                      </g>
+                      <!-- datapulsen -->
+                      <circle r="3.5" fill="#f0560f"><animateMotion dur="2.4s" repeatCount="indefinite" path="M160,150 L58,56"/></circle>
+                      <circle r="3" fill="#1f9c55"><animateMotion dur="2.5s" begin="1.2s" repeatCount="indefinite" path="M262,56 L160,150"/></circle>
+                      <circle r="3.5" fill="#f0560f"><animateMotion dur="2.7s" begin="0.6s" repeatCount="indefinite" path="M160,150 L262,244"/></circle>
+                      <circle r="3" fill="#1f9c55"><animateMotion dur="2.6s" begin="1.8s" repeatCount="indefinite" path="M58,244 L160,150"/></circle>
+                      <circle r="3.5" fill="#f0560f"><animateMotion dur="2.8s" begin="0.3s" repeatCount="indefinite" path="M160,150 L58,244"/></circle>
+                      <circle r="3" fill="#1f9c55"><animateMotion dur="2.5s" begin="1.0s" repeatCount="indefinite" path="M160,150 L262,56"/></circle>
+                      <!-- systeem-knooppunten -->
+                      <g>
+                        <rect x="6" y="36" width="104" height="40" rx="11" fill="#fff" stroke="#ecddc9" stroke-width="1.5"/>
+                        <text x="58" y="61" text-anchor="middle" font-size="12.5" font-weight="700" fill="#241712">Mailbox</text>
+                      </g>
+                      <g>
+                        <rect x="210" y="36" width="104" height="40" rx="11" fill="#fff" stroke="#ecddc9" stroke-width="1.5"/>
+                        <text x="262" y="61" text-anchor="middle" font-size="12.5" font-weight="700" fill="#241712">CRM</text>
+                      </g>
+                      <g>
+                        <rect x="6" y="224" width="104" height="40" rx="11" fill="#fff" stroke="#ecddc9" stroke-width="1.5"/>
+                        <text x="58" y="249" text-anchor="middle" font-size="12.5" font-weight="700" fill="#241712">Boekhouding</text>
+                      </g>
+                      <g>
+                        <rect x="210" y="224" width="104" height="40" rx="11" fill="#fff" stroke="#ecddc9" stroke-width="1.5"/>
+                        <text x="262" y="249" text-anchor="middle" font-size="12.5" font-weight="700" fill="#241712">Database</text>
+                      </g>
+                      <!-- centrale hub (Stacklines) -->
+                      <rect x="136" y="126" width="48" height="48" rx="13" fill="#241712"/>
+                      <rect x="148" y="141" width="24" height="3.5" rx="1.75" fill="#f0560f"/>
+                      <rect x="148" y="148.5" width="14" height="3.5" rx="1.75" fill="#ff9a4d"/>
+                      <rect x="148" y="156" width="19" height="3.5" rx="1.75" fill="#f7efe2"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div class="sl-assistant__body">
-              <div class="sl-thread" data-sl-thread></div>
+
+            <div class="sl-demos__ctrl">
+              <button class="sl-nav" type="button" data-sl-prev aria-label="Vorige demo">&lsaquo;</button>
+              <div class="sl-dots" data-sl-dots></div>
+              <button class="sl-nav" type="button" data-sl-next aria-label="Volgende demo">&rsaquo;</button>
             </div>
           </div>
         </div>
