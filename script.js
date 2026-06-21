@@ -207,10 +207,11 @@
   }
 
   /* ---- 8. Postvak-assistent (hero-demo) ---------------------
-     Typt een mailvraag, "denkt" even en toont dan de gevonden mail.
-     Loopt daarna door. Markup staat in de hero, styling in style.css. */
-  const QUERY = 'Zoek de mail van Van der Berg over de offerte';
-  const SPEED = { type: 38, start: 800, afterType: 600, think: 1900, hold: 5400 };
+     Typt een vraag, "denkt" even en toont dan een antwoordkaart. Loopt door
+     meerdere scenario's (zie SCENARIOS): mail zoeken, samenvatten, concept
+     schrijven, openstaande facturen, afspraak inplannen. Markup-skelet staat
+     in de hero, de antwoordkaarten worden hier opgebouwd, styling in style.css. */
+  const SPEED = { type: 34, start: 650, afterType: 550, think: 1500, hold: 4200 };
 
   const MARK = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="3" rx="1.5" fill="#f0560f"/><rect x="3" y="10.5" width="10" height="3" rx="1.5" fill="#ff9a4d"/><rect x="3" y="16" width="14" height="3" rx="1.5" fill="#f7efe2"/></svg>';
 
@@ -222,32 +223,98 @@
       '</div>' +
     '</div>';
 
-  const RESULT =
-    '<div class="sl-reply">' +
-      '<div class="sl-reply__mark">' + MARK + '</div>' +
-      '<div class="sl-email">' +
-        '<div class="sl-email__lead">Gevonden, dit lijkt de mail die je zoekt:</div>' +
-        '<div class="sl-email__card">' +
-          '<div class="sl-email__inner">' +
-            '<div class="sl-email__top">' +
-              '<div class="sl-email__avatar">V</div>' +
-              '<div class="sl-email__from"><div class="sl-email__name">Van der Berg Installatie</div><div class="sl-email__meta">aan jou · offerte</div></div>' +
-              '<div class="sl-email__date">12-06-2026</div>' +
-            '</div>' +
-            '<div class="sl-email__subject">Offerte verbouwing, definitieve versie</div>' +
-            '<div class="sl-email__snippet">Hoi, bijgaand de definitieve offerte. De prijs is iets aangepast na ons gesprek, de rest staat in de bijlage…</div>' +
-            '<div class="sl-email__attach">' +
-              '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c2592a" stroke-width="2"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>' +
-              'Offerte-2451.pdf' +
-            '</div>' +
+  // Wrapper rond elk antwoord: AI-merkje links, inhoud rechts.
+  const reply = (inner) =>
+    '<div class="sl-reply"><div class="sl-reply__mark">' + MARK + '</div>' +
+    '<div class="sl-answer">' + inner + '</div></div>';
+
+  // De demo loopt door deze scenario's heen (vraag wordt getypt, dan dit antwoord).
+  // Het venster heeft een vaste hoogte (style.css, .sl-assistant__body min-height);
+  // de mailkaart hieronder is de hoogste staat. Houd nieuwe kaarten daaronder.
+  const SCENARIOS = [
+    // 1. Mail zoeken
+    { query: 'Zoek de mail van Van der Berg over de offerte', result: reply(
+      '<div class="sl-email__lead">Gevonden, dit lijkt de mail die je zoekt:</div>' +
+      '<div class="sl-email__card">' +
+        '<div class="sl-email__inner">' +
+          '<div class="sl-email__top">' +
+            '<div class="sl-email__avatar">V</div>' +
+            '<div class="sl-email__from"><div class="sl-email__name">Van der Berg Installatie</div><div class="sl-email__meta">aan jou · offerte</div></div>' +
+            '<div class="sl-email__date">12-06-2026</div>' +
           '</div>' +
-          '<div class="sl-email__actions">' +
-            '<div class="sl-email__action sl-email__action--primary">Openen</div>' +
-            '<div class="sl-email__action">Samenvatten</div>' +
+          '<div class="sl-email__subject">Offerte verbouwing, definitieve versie</div>' +
+          '<div class="sl-email__snippet">Hoi, bijgaand de definitieve offerte. De prijs is iets aangepast na ons gesprek, de rest staat in de bijlage…</div>' +
+          '<div class="sl-email__attach">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c2592a" stroke-width="2"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>' +
+            'Offerte-2451.pdf' +
           '</div>' +
         '</div>' +
-      '</div>' +
-    '</div>';
+        '<div class="sl-email__actions">' +
+          '<div class="sl-email__action sl-email__action--primary">Openen</div>' +
+          '<div class="sl-email__action">Samenvatten</div>' +
+        '</div>' +
+      '</div>'
+    ) },
+
+    // 2. Mails samenvatten
+    { query: 'Vat de mailwisseling met Van der Berg samen', result: reply(
+      '<div class="sl-email__lead">Samenvatting van 6 mails:</div>' +
+      '<div class="sl-email__card"><div class="sl-email__inner">' +
+        '<ul class="sl-sum">' +
+          '<li>De offerte is na het gesprek met 4% verlaagd.</li>' +
+          '<li>De oplevering staat gepland in week 28.</li>' +
+          '<li>Ze wachten nog op jouw akkoord op de planning.</li>' +
+        '</ul>' +
+        '<div class="sl-flag"><strong>Actiepunt</strong>Bevestig de planning vóór vrijdag.</div>' +
+      '</div></div>'
+    ) },
+
+    // 3. Concept-antwoord schrijven
+    { query: 'Schrijf een nette reactie op de offerte', result: reply(
+      '<div class="sl-email__lead">Concept klaar om te versturen:</div>' +
+      '<div class="sl-email__card">' +
+        '<div class="sl-email__inner">' +
+          '<div class="sl-draft__row"><span>Aan</span>Van der Berg Installatie</div>' +
+          '<div class="sl-draft__row"><span>Onderwerp</span>Re: Offerte verbouwing</div>' +
+          '<div class="sl-draft__body">Beste, dank voor de aangepaste offerte. Het voorstel ziet er goed uit en ik ga akkoord met de planning in week 28. Laten we volgende week de laatste details doornemen.</div>' +
+        '</div>' +
+        '<div class="sl-email__actions">' +
+          '<div class="sl-email__action sl-email__action--primary">Verzenden</div>' +
+          '<div class="sl-email__action">Aanpassen</div>' +
+        '</div>' +
+      '</div>'
+    ) },
+
+    // 4. Openstaande facturen
+    { query: 'Welke facturen staan nog open?', result: reply(
+      '<div class="sl-email__lead">3 openstaande facturen:</div>' +
+      '<div class="sl-email__card"><div class="sl-email__inner">' +
+        '<div class="sl-rows">' +
+          '<div class="sl-row"><div class="sl-row__main"><div class="sl-row__name">Van der Berg Installatie</div><div class="sl-row__sub">F-2451 · 8 dagen over tijd</div></div><div class="sl-row__amt">€ 1.840</div></div>' +
+          '<div class="sl-row"><div class="sl-row__main"><div class="sl-row__name">Jansen Advies</div><div class="sl-row__sub">F-2462 · vervalt morgen</div></div><div class="sl-row__amt">€ 620</div></div>' +
+          '<div class="sl-row"><div class="sl-row__main"><div class="sl-row__name">De Wit Bouw</div><div class="sl-row__sub">F-2470 · loopt nog</div></div><div class="sl-row__amt">€ 2.310</div></div>' +
+        '</div>' +
+        '<div class="sl-total"><span>Totaal openstaand</span><strong>€ 4.770</strong></div>' +
+      '</div></div>'
+    ) },
+
+    // 5. Afspraak inplannen
+    { query: 'Plan een belafspraak volgende week', result: reply(
+      '<div class="sl-email__lead">Voorgesteld moment, vrij voor jullie allebei:</div>' +
+      '<div class="sl-email__card">' +
+        '<div class="sl-email__inner">' +
+          '<div class="sl-slot">' +
+            '<div class="sl-slot__date"><div class="sl-slot__day">DI</div><div class="sl-slot__num">23</div></div>' +
+            '<div class="sl-slot__info"><div class="sl-slot__title">Belafspraak Van der Berg</div><div class="sl-slot__time">dinsdag 23 juni · 10:00 tot 10:30</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="sl-email__actions">' +
+          '<div class="sl-email__action sl-email__action--primary">Inplannen</div>' +
+          '<div class="sl-email__action">Ander moment</div>' +
+        '</div>' +
+      '</div>'
+    ) },
+  ];
 
   const assistant = document.querySelector('[data-sl-assistant]');
   if (assistant) {
@@ -258,23 +325,27 @@
     if (typedEl && responseEl) {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
 
+      let idx = 0;
       (async function loop() {
         // eslint-disable-next-line no-constant-condition
         while (true) {
+          const scene = SCENARIOS[idx];
+          const q = scene.query;
           typedEl.textContent = '';
           if (caretEl) caretEl.style.display = '';
           responseEl.innerHTML = '';
           await wait(SPEED.start);
-          for (let i = 1; i <= QUERY.length; i++) {
-            typedEl.textContent = QUERY.slice(0, i);
+          for (let c = 1; c <= q.length; c++) {
+            typedEl.textContent = q.slice(0, c);
             await wait(SPEED.type);
           }
           await wait(SPEED.afterType);
           if (caretEl) caretEl.style.display = 'none';
           responseEl.innerHTML = THINKING;
           await wait(SPEED.think);
-          responseEl.innerHTML = RESULT;
+          responseEl.innerHTML = scene.result;
           await wait(SPEED.hold);
+          idx = (idx + 1) % SCENARIOS.length;
         }
       })();
     }

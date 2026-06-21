@@ -445,7 +445,7 @@ ul { padding-left: 1.2em; }
 .sl-thinking__dots i:nth-child(2){ animation-delay:.18s; }
 .sl-thinking__dots i:nth-child(3){ animation-delay:.36s; }
 
-.sl-email{ flex:1; }
+.sl-answer{ flex:1; min-width:0; }
 .sl-email__lead{ font-size:14px; color:#5b4c3f; margin-bottom:10px; }
 .sl-email__card{ border:1px solid var(--sl-line); border-radius:13px; background:#fff; overflow:hidden; box-shadow:0 8px 22px rgba(36,23,18,.06); }
 .sl-email__inner{ padding:14px 16px; }
@@ -461,6 +461,38 @@ ul { padding-left: 1.2em; }
 .sl-email__actions{ display:flex; border-top:1px solid var(--sl-line); }
 .sl-email__action{ flex:1; text-align:center; padding:11px; font-size:13px; font-weight:600; color:#5b4c3f; }
 .sl-email__action--primary{ font-weight:700; color:var(--sl-orange); border-right:1px solid var(--sl-line); }
+
+/* Samenvatting-kaart */
+.sl-sum{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:7px; }
+.sl-sum li{ font-size:13.5px; color:#5b4c3f; line-height:1.45; }
+.sl-flag{ margin-top:13px; padding:9px 12px; border-radius:9px; background:var(--sl-orange-tint); border:1px solid var(--sl-orange-border); font-size:13px; color:#5b4c3f; }
+.sl-flag strong{ color:var(--sl-orange); margin-right:6px; }
+
+/* Concept-antwoord-kaart */
+.sl-draft__row{ font-size:13px; color:#5b4c3f; padding:6px 0; border-bottom:1px solid var(--sl-line); }
+.sl-draft__row span{ display:inline-block; width:74px; color:#9a8b7c; }
+.sl-draft__body{ font-size:13.5px; color:#5b4c3f; line-height:1.55; margin-top:11px; }
+
+/* Facturen-lijst */
+.sl-rows{ display:flex; flex-direction:column; }
+.sl-row{ display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--sl-line); }
+.sl-row:first-child{ padding-top:0; }
+.sl-row:last-child{ border-bottom:0; }
+.sl-row__main{ flex:1; min-width:0; }
+.sl-row__name{ font-size:13.5px; font-weight:700; color:var(--sl-espresso); }
+.sl-row__sub{ font-size:12px; color:#9a8b7c; margin-top:2px; }
+.sl-row__amt{ font-size:14px; font-weight:700; color:var(--sl-espresso); white-space:nowrap; }
+.sl-total{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:12px; border-top:1px solid var(--sl-line); font-size:13px; color:var(--sl-muted-2); }
+.sl-total strong{ font-size:15px; color:var(--sl-orange); }
+
+/* Afspraak-kaart */
+.sl-slot{ display:flex; align-items:center; gap:14px; }
+.sl-slot__date{ width:50px; height:54px; flex:none; border-radius:11px; background:var(--sl-orange-tint); border:1px solid var(--sl-orange-border); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.sl-slot__day{ font-size:11px; font-weight:700; color:var(--sl-orange); letter-spacing:.5px; }
+.sl-slot__num{ font-size:20px; font-weight:800; color:var(--sl-espresso); line-height:1; }
+.sl-slot__info{ flex:1; min-width:0; }
+.sl-slot__title{ font-size:14px; font-weight:700; color:var(--sl-espresso); }
+.sl-slot__time{ font-size:13px; color:var(--sl-muted); margin-top:3px; }
 
 @keyframes sl-blink{ 0%,100%{opacity:1} 50%{opacity:.15} }
 @keyframes sl-caret{ 0%,100%{opacity:1} 50%{opacity:0} }
