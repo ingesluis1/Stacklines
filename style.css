@@ -416,7 +416,6 @@ ul { padding-left: 1.2em; }
   border:1px solid var(--sl-line-2);
   box-shadow:0 30px 70px rgba(36,23,18,.16);
   overflow:hidden;
-  animation:sl-float 7s ease-in-out infinite;
 }
 .sl-assistant__bar{ display:flex; align-items:center; gap:8px; padding:14px 18px; background:#f6efe3; border-bottom:1px solid var(--sl-line); }
 .sl-dot{ width:11px; height:11px; border-radius:50%; }
