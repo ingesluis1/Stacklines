@@ -389,54 +389,40 @@
     }
   }
 
-  /* ---- 9. Factuurverwerking-demo (workflow-pijplijn) --------
-     Een document komt binnen en doorloopt de stappen, die één voor één
-     oplichten (ring -> spinner -> groen vinkje). Daarna het volgende. */
-  const flow = document.querySelector('[data-sl-flow]');
-  if (flow) {
-    const wait = (ms) => new Promise((res) => setTimeout(res, ms));
-    const DOC_ICON =
-      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2592a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-      '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
-    const DOCS = ['Factuur-2451.pdf', 'Bon-0312.jpg', 'Offerte-889.pdf', 'Factuur-2477.pdf'];
-    const STEPS = ['Ontvangen uit mailbox', 'Gegevens uitgelezen', 'Bedrag gecontroleerd', 'Geboekt in administratie', 'Bevestiging verstuurd'];
+  /* ---- 9. Ticket-dashboard-demo (statistieken) -------------
+     Cijfers tellen op en de balken groeien aan zodra de slide in beeld komt
+     (de carrousel stuurt hiervoor een 'sl:show'-event, zie sectie 11). */
+  const dash = document.querySelector('[data-sl-dash]');
+  if (dash) {
+    const countUp = (el) => {
+      const target = parseInt(el.dataset.count, 10) || 0;
+      const suffix = el.dataset.suffix || '';
+      const dur = 1000;
+      let started = null;
+      el.textContent = '0' + suffix;
+      const tick = (now) => {
+        if (started === null) started = now;
+        const p = Math.min(1, (now - started) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
 
-    let dn = 0;
-    (async function loop() {
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const doc = DOCS[dn % DOCS.length];
-        flow.innerHTML =
-          '<div class="sl-flow__file">' +
-            '<span class="sl-flow__doc">' + DOC_ICON + '</span>' +
-            '<span class="sl-flow__name">' + doc + '</span>' +
-            '<span class="sl-flow__tag">nieuw</span>' +
-          '</div>' +
-          '<div class="sl-flow__steps">' +
-            STEPS.map((s) =>
-              '<div class="sl-step2"><span class="sl-check"></span>' +
-              '<span class="sl-step2__label">' + s + '</span></div>'
-            ).join('') +
-          '</div>';
-        const rows = flow.querySelectorAll('.sl-step2');
-        await wait(700);
-        for (let i = 0; i < rows.length; i++) {
-          const check = rows[i].querySelector('.sl-check');
-          rows[i].classList.add('is-active');
-          check.classList.add('is-active');
-          await wait(640);
-          check.classList.remove('is-active');
-          rows[i].classList.remove('is-active');
-          rows[i].classList.add('is-done');
-          check.classList.add('is-done');
-          await wait(280);
-        }
-        const tag = flow.querySelector('.sl-flow__tag');
-        if (tag) tag.textContent = 'klaar';
-        await wait(2400);
-        dn++;
-      }
-    })();
+    const animate = () => {
+      dash.querySelectorAll('.sl-kpi__num').forEach(countUp);
+      dash.querySelectorAll('.sl-bar__fill').forEach((f, i) => {
+        f.style.width = '0';
+        // korte stagger zodat de balken na elkaar aangroeien
+        setTimeout(() => { f.style.width = f.dataset.w; }, 180 + i * 110);
+      });
+    };
+
+    const slide = dash.closest('.sl-slide');
+    if (slide) slide.addEventListener('sl:show', animate);
+    // Als deze slide al actief is bij laden, meteen animeren.
+    if (slide && slide.classList.contains('is-active')) animate();
   }
 
   /* ---- 10. Live activiteiten-log ---------------------------
@@ -509,6 +495,8 @@
       cur = (i + slides.length) % slides.length;
       slides.forEach((s, j) => s.classList.toggle('is-active', j === cur));
       dots.forEach((d, j) => d.classList.toggle('is-active', j === cur));
+      // Laat de actieve slide weten dat 'ie in beeld komt (bv. dashboard animeert dan).
+      slides[cur].dispatchEvent(new CustomEvent('sl:show'));
     }
 
     if (prevBtn) prevBtn.addEventListener('click', () => go(cur - 1));

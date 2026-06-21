@@ -135,18 +135,33 @@
                 </div>
               </div>
 
-              <!-- Demo 2: Factuurverwerking (workflow-pijplijn) -->
+              <!-- Demo 2: Ticket-dashboard (statistieken) -->
               <div class="sl-slide">
                 <div class="sl-assistant" aria-hidden="true">
                   <div class="sl-assistant__bar">
                     <span class="sl-dot sl-dot--r"></span>
                     <span class="sl-dot sl-dot--y"></span>
                     <span class="sl-dot sl-dot--g"></span>
-                    <span class="sl-assistant__title">Factuurverwerking</span>
-                    <span class="sl-assistant__status"><i></i>actief</span>
+                    <span class="sl-assistant__title">Ticket-dashboard</span>
+                    <span class="sl-assistant__status"><i></i>deze week</span>
                   </div>
                   <div class="sl-assistant__body">
-                    <div class="sl-flow" data-sl-flow></div>
+                    <div class="sl-dash" data-sl-dash>
+                      <div class="sl-dash__kpis">
+                        <div class="sl-kpi"><div class="sl-kpi__num" data-count="248">0</div><div class="sl-kpi__lbl">Tickets binnen</div></div>
+                        <div class="sl-kpi"><div class="sl-kpi__num" data-count="72" data-suffix="%">0</div><div class="sl-kpi__lbl">Automatisch afgehandeld</div></div>
+                        <div class="sl-kpi"><div class="sl-kpi__num" data-count="4" data-suffix=" min">0</div><div class="sl-kpi__lbl">Gem. reactietijd</div></div>
+                      </div>
+                      <div class="sl-dash__head">Soort tickets</div>
+                      <div class="sl-bars">
+                        <div class="sl-bar"><span class="sl-bar__lbl">Facturen</span><span class="sl-bar__track"><span class="sl-bar__fill" data-w="100%"></span></span><span class="sl-bar__val">96</span></div>
+                        <div class="sl-bar"><span class="sl-bar__lbl">Meterstanden</span><span class="sl-bar__track"><span class="sl-bar__fill" data-w="64%"></span></span><span class="sl-bar__val">61</span></div>
+                        <div class="sl-bar"><span class="sl-bar__lbl">Betaalregeling</span><span class="sl-bar__track"><span class="sl-bar__fill" data-w="40%"></span></span><span class="sl-bar__val">38</span></div>
+                        <div class="sl-bar"><span class="sl-bar__lbl">Adreswijziging</span><span class="sl-bar__track"><span class="sl-bar__fill" data-w="30%"></span></span><span class="sl-bar__val">29</span></div>
+                        <div class="sl-bar"><span class="sl-bar__lbl">Overig</span><span class="sl-bar__track"><span class="sl-bar__fill" data-w="25%"></span></span><span class="sl-bar__val">24</span></div>
+                      </div>
+                      <div class="sl-dash__note"><span class="sl-dash__dot"></span>Vaakst gevraagd: status van een factuur</div>
+                    </div>
                   </div>
                 </div>
               </div>
