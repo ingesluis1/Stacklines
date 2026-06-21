@@ -516,7 +516,9 @@ ul { padding-left: 1.2em; }
 .sl-check.is-done::after{ content:''; position:absolute; left:6px; top:3px; width:4px; height:8px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
 
 /* Ticket-dashboard-demo */
-.sl-dash{ display:flex; flex-direction:column; gap:14px; }
+/* Iets minder ruimte bovenaan zodat het hele dashboard binnen de 440px past. */
+.sl-assistant__body:has(.sl-dash){ padding-top:12px; }
+.sl-dash{ display:flex; flex-direction:column; gap:12px; }
 .sl-dash__kpis{ display:flex; gap:10px; }
 .sl-kpi{ flex:1; min-width:0; background:#fff; border:1px solid var(--sl-line); border-radius:12px; padding:12px 8px; text-align:center; }
 .sl-kpi__num{ font-size:24px; font-weight:800; color:var(--sl-orange); line-height:1; font-variant-numeric:tabular-nums; }
