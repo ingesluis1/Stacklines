@@ -172,9 +172,9 @@
 
       // Pas hier het ontvangst-adres aan
       const to = 'hallo@stacklines.nl';
-      const subject = encodeURIComponent(`Bericht via stacklines.nl — ${name}`);
+      const subject = encodeURIComponent(`Bericht via stacklines.nl van ${name}`);
       const body = encodeURIComponent(
-        `${message}\n\n— ${name}\n${email}`
+        `${message}\n\n${name}\n${email}`
       );
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     });
