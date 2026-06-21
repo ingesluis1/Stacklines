@@ -65,6 +65,8 @@
   if (toggle && mobileNav) {
     const setMenuOpen = (isOpen) => {
       mobileNav.classList.toggle('open', isOpen);
+      // Class-fallback voor de solide balk in browsers zonder :has()-ondersteuning.
+      if (header) header.classList.toggle('nav-open', isOpen);
       toggle.setAttribute('aria-expanded', String(isOpen));
       toggle.setAttribute('aria-label', isOpen ? 'Menu sluiten' : 'Menu openen');
     };
@@ -75,6 +77,17 @@
     // Sluit menu bij klik op een link
     mobileNav.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => setMenuOpen(false));
+    });
+
+    // Sluit met Escape of bij klik buiten het menu.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileNav.classList.contains('open')) setMenuOpen(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (mobileNav.classList.contains('open') &&
+          !mobileNav.contains(e.target) && !toggle.contains(e.target)) {
+        setMenuOpen(false);
+      }
     });
   }
 
@@ -410,7 +423,16 @@
       requestAnimationFrame(tick);
     };
 
+    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const animate = () => {
+      if (prefersReduce) {
+        // Geen beweging: meteen de eindwaarden tonen.
+        dash.querySelectorAll('.sl-kpi__num').forEach((el) => {
+          el.textContent = (parseInt(el.dataset.count, 10) || 0) + (el.dataset.suffix || '');
+        });
+        dash.querySelectorAll('[data-w]').forEach((f) => { f.style.width = f.dataset.w; });
+        return;
+      }
       dash.querySelectorAll('.sl-kpi__num').forEach(countUp);
       // balken + de afhandeling-splitsing groeien aan (alles met data-w)
       dash.querySelectorAll('[data-w]').forEach((f, i) => {
@@ -503,5 +525,12 @@
     if (prevBtn) prevBtn.addEventListener('click', () => go(cur - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => go(cur + 1));
     go(0);
+  }
+
+  /* ---- 12. Reduced-motion: SVG-datapulsen stoppen ----------
+     CSS `animation:none` raakt SMIL (<animateMotion>) niet, dus hier de
+     bewegende stipjes in de koppelingen-demo verbergen. */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.sl-net circle').forEach((c) => { c.style.display = 'none'; });
   }
 })();
