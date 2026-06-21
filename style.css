@@ -424,7 +424,10 @@ ul { padding-left: 1.2em; }
 .sl-assistant__title{ margin-left:10px; font-size:12.5px; font-weight:600; color:var(--sl-muted-2); }
 .sl-assistant__status{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:#1f9c55; font-weight:600; }
 .sl-assistant__status i{ width:7px; height:7px; border-radius:50%; background:#28c840; animation:sl-blink 1.8s ease-in-out infinite; }
-.sl-assistant__body{ padding:24px 22px; min-height:360px; display:flex; flex-direction:column; gap:16px; background:linear-gradient(180deg,#fffdf9,#fdf8f1); }
+/* min-height = de hoogte van de grootste staat (de gevonden-mail-kaart),
+   zodat het venster meteen op die hoogte staat en niet groeit/krimpt terwijl
+   de demo loopt. Tunebaar als de kaart-inhoud verandert. */
+.sl-assistant__body{ padding:24px 22px; min-height:440px; display:flex; flex-direction:column; gap:16px; background:linear-gradient(180deg,#fffdf9,#fdf8f1); }
 
 .sl-msg{ display:flex; gap:10px; }
 .sl-msg--user{ justify-content:flex-end; }
