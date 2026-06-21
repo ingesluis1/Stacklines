@@ -206,10 +206,12 @@
       snakeTicking = false;
       if (reduceMq.matches || !mobileMq.matches) return;
       const vh = window.innerHeight || 1;
-      // viewBox-hoogte 200 = vh, dus translateY in units = scrollY * 200/vh; dat
-      // zakt 1:1 met de scroll. Modulo de golf-periode (100) → naadloze lus.
+      // De laag is position:fixed, dus om de lijn te laten meebewegen MET de pagina
+      // (en niet schijnbaar 2x zo snel) schuift 'ie OMHOOG terwijl je omlaag scrolt,
+      // precies even snel als de content. viewBox-hoogte 200 = vh, dus 1 scroll-px =
+      // 200/vh units. Modulo de golf-periode (100) → naadloze, oneindige lus.
       const u = ((window.scrollY * 200) / vh) % 100;
-      snake.style.transform = `translateY(${u}px)`;
+      snake.style.transform = `translateY(${-u}px)`;
     };
     window.addEventListener('scroll', () => {
       if (snakeTicking) return;
