@@ -358,9 +358,15 @@ a:focus-visible,
   vector-effect: non-scaling-stroke;   /* gelijke lijndikte ondanks het uitrekken */
 }
 .snake-line.s1 { animation: snakeBreathe1 6s ease-in-out infinite; }
+.snake-line.s2 { stroke-width: 2; animation: snakeBreathe2 6s ease-in-out -3s infinite; }
 @keyframes snakeBreathe1 {
   0%, 100% { stroke: rgba(249, 115, 22, 0.18); }
   50%      { stroke: rgba(249, 115, 22, 0.48); }
+}
+/* Tweede lijn in peach en tegenfase (-3s op een 6s-loop), zoals de desktop-slingers. */
+@keyframes snakeBreathe2 {
+  0%, 100% { stroke: rgba(253, 186, 116, 0.22); }
+  50%      { stroke: rgba(253, 186, 116, 0.52); }
 }
 /* Hero in twee kolommen: tekst links, postvak-assistent-demo rechts.
    Op smal scherm stapelt het (de demo zakt onder de tekst). De zachte
