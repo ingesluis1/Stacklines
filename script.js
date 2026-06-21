@@ -215,10 +215,10 @@
 
   const MARK = '<svg width="16" height="16" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="3" rx="1.5" fill="#f0560f"/><rect x="3" y="10.5" width="10" height="3" rx="1.5" fill="#ff9a4d"/><rect x="3" y="16" width="14" height="3" rx="1.5" fill="#f7efe2"/></svg>';
 
-  const THINKING =
-    '<div class="sl-reply">' +
-      '<div class="sl-reply__mark">' + MARK + '</div>' +
-      '<div class="sl-thinking">Even zoeken in je mailbox' +
+  // "Denkt"-balkje; label verschilt per scenario (zie scene.think).
+  const thinking = (label) =>
+    '<div class="sl-reply"><div class="sl-reply__mark">' + MARK + '</div>' +
+      '<div class="sl-thinking">' + label +
         '<span class="sl-thinking__dots"><i></i><i></i><i></i></span>' +
       '</div>' +
     '</div>';
@@ -233,7 +233,7 @@
   // de mailkaart hieronder is de hoogste staat. Houd nieuwe kaarten daaronder.
   const SCENARIOS = [
     // 1. Mail zoeken
-    { query: 'Zoek de mail van Van der Berg over de offerte', result: reply(
+    { query: 'Zoek de mail van Van der Berg over de offerte', think: 'Even zoeken in je mailbox', result: reply(
       '<div class="sl-email__lead">Gevonden, dit lijkt de mail die je zoekt:</div>' +
       '<div class="sl-email__card">' +
         '<div class="sl-email__inner">' +
@@ -257,7 +257,7 @@
     ) },
 
     // 2. Mails samenvatten
-    { query: 'Vat de mailwisseling met Van der Berg samen', result: reply(
+    { query: 'Vat de mailwisseling met Van der Berg samen', think: 'Even je mailbox doorlezen', result: reply(
       '<div class="sl-email__lead">Samenvatting van 6 mails:</div>' +
       '<div class="sl-email__card"><div class="sl-email__inner">' +
         '<ul class="sl-sum">' +
@@ -270,7 +270,7 @@
     ) },
 
     // 3. Concept-antwoord schrijven
-    { query: 'Schrijf een nette reactie op de offerte', result: reply(
+    { query: 'Schrijf een nette reactie op de offerte', think: 'Even een concept opstellen', result: reply(
       '<div class="sl-email__lead">Concept klaar om te versturen:</div>' +
       '<div class="sl-email__card">' +
         '<div class="sl-email__inner">' +
@@ -286,7 +286,7 @@
     ) },
 
     // 4. Openstaande facturen
-    { query: 'Welke facturen staan nog open?', result: reply(
+    { query: 'Welke facturen staan nog open?', think: 'Even zoeken in je boekhoudsysteem', result: reply(
       '<div class="sl-email__lead">3 openstaande facturen:</div>' +
       '<div class="sl-email__card"><div class="sl-email__inner">' +
         '<div class="sl-rows">' +
@@ -299,7 +299,7 @@
     ) },
 
     // 5. Afspraak inplannen
-    { query: 'Plan een belafspraak volgende week', result: reply(
+    { query: 'Plan een belafspraak volgende week', think: 'Even de agenda checken', result: reply(
       '<div class="sl-email__lead">Voorgesteld moment, vrij voor jullie allebei:</div>' +
       '<div class="sl-email__card">' +
         '<div class="sl-email__inner">' +
@@ -341,7 +341,7 @@
           }
           await wait(SPEED.afterType);
           if (caretEl) caretEl.style.display = 'none';
-          responseEl.innerHTML = THINKING;
+          responseEl.innerHTML = thinking(scene.think || 'Even zoeken in je mailbox');
           await wait(SPEED.think);
           responseEl.innerHTML = scene.result;
           await wait(SPEED.hold);
