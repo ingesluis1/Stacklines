@@ -27,11 +27,12 @@
 
   <svg class="bg-snake" viewBox="0 0 100 200" preserveAspectRatio="none" aria-hidden="true">
     <g class="snake-move">
-      <!-- Twee gevlochten golven (tegenfase), net als de desktop-slingers. Gespiegelde
-           bezier-controlepunten = vloeiende raaklijnen, dus geen harde hoeken. Periode 100
-           in y zodat het naadloos rondloopt bij het meescrollen (zie script.js sectie 7). -->
+      <!-- Twee evenwijdige golven in dezelfde fase (s2 een paar eenheden naast s1), zodat ze
+           samen meegolven i.p.v. te kruisen. Gespiegelde bezier-controlepunten = vloeiende
+           raaklijnen, dus geen harde hoeken. Periode 100 in y zodat het naadloos rondloopt
+           bij het meescrollen (zie script.js sectie 7). -->
       <path class="snake-line s1" d="M50,-100 C70,-86 70,-64 50,-50 C30,-36 30,-14 50,0 C70,14 70,36 50,50 C30,64 30,86 50,100 C70,114 70,136 50,150 C30,164 30,186 50,200 C70,214 70,236 50,250 C30,264 30,286 50,300"/>
-      <path class="snake-line s2" d="M50,-100 C30,-86 30,-64 50,-50 C70,-36 70,-14 50,0 C30,14 30,36 50,50 C70,64 70,86 50,100 C30,114 30,136 50,150 C70,164 70,186 50,200 C30,214 30,236 50,250 C70,264 70,286 50,300"/>
+      <path class="snake-line s2" d="M56,-100 C76,-86 76,-64 56,-50 C36,-36 36,-14 56,0 C76,14 76,36 56,50 C36,64 36,86 56,100 C76,114 76,136 56,150 C36,164 36,186 56,200 C76,214 76,236 56,250 C36,264 36,286 56,300"/>
     </g>
   </svg>
 
