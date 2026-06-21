@@ -436,10 +436,10 @@
       'Ticket geclassificeerd',
       'Antwoord voorgesteld',
       'Overzicht naar klant gemaild',
-      'Betaalbestand klaargezet',
-      'Meterstand doorgestuurd',
+      'Bestelling verwerkt',
+      'Betaling afgeletterd',
       'Bonnetje uitgelezen',
-      'Melding gecontroleerd',
+      'Gegevens bijgewerkt',
     ];
     const pad = (n) => String(n).padStart(2, '0');
     const fmt = (m) => pad(Math.floor(m / 60) % 24) + ':' + pad(m % 60);
