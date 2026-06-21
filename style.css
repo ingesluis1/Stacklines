@@ -347,11 +347,9 @@ a:focus-visible,
   pointer-events: none;
   z-index: -1;                /* boven de gloed-laag (body::before), achter content */
   display: none;
-  /* Vervaging boven/onder zodat de slang in-/uitvloeit. Kortere (hardere)
-     overgangen zodat het in-flowen duidelijker zichtbaar is, met een steviger
-     volledig-zichtbaar middenstuk. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 14%, #000 26%, #000 58%, transparent 70%);
-  mask-image: linear-gradient(to bottom, transparent 14%, #000 26%, #000 58%, transparent 70%);
+  /* Bovenaan volledig zichtbaar (geen infade), alleen onderin uitvloeien. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
 }
 .snake-line {
   fill: none;
