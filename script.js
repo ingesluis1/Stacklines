@@ -412,10 +412,11 @@
 
     const animate = () => {
       dash.querySelectorAll('.sl-kpi__num').forEach(countUp);
-      dash.querySelectorAll('.sl-bar__fill').forEach((f, i) => {
+      // balken + de afhandeling-splitsing groeien aan (alles met data-w)
+      dash.querySelectorAll('[data-w]').forEach((f, i) => {
         f.style.width = '0';
-        // korte stagger zodat de balken na elkaar aangroeien
-        setTimeout(() => { f.style.width = f.dataset.w; }, 180 + i * 110);
+        // korte stagger zodat ze na elkaar aangroeien
+        setTimeout(() => { f.style.width = f.dataset.w; }, 180 + i * 100);
       });
     };
 

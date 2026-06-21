@@ -516,13 +516,13 @@ ul { padding-left: 1.2em; }
 .sl-check.is-done::after{ content:''; position:absolute; left:6px; top:3px; width:4px; height:8px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
 
 /* Ticket-dashboard-demo */
-.sl-dash{ display:flex; flex-direction:column; gap:18px; }
+.sl-dash{ display:flex; flex-direction:column; gap:14px; }
 .sl-dash__kpis{ display:flex; gap:10px; }
-.sl-kpi{ flex:1; min-width:0; background:#fff; border:1px solid var(--sl-line); border-radius:12px; padding:13px 8px; text-align:center; }
+.sl-kpi{ flex:1; min-width:0; background:#fff; border:1px solid var(--sl-line); border-radius:12px; padding:12px 8px; text-align:center; }
 .sl-kpi__num{ font-size:24px; font-weight:800; color:var(--sl-orange); line-height:1; font-variant-numeric:tabular-nums; }
 .sl-kpi__lbl{ font-size:11px; color:var(--sl-muted-2); margin-top:6px; line-height:1.3; }
 .sl-dash__head{ font-size:12px; font-weight:700; color:var(--sl-muted-2); text-transform:uppercase; letter-spacing:.4px; margin-bottom:-6px; }
-.sl-bars{ display:flex; flex-direction:column; gap:11px; }
+.sl-bars{ display:flex; flex-direction:column; gap:10px; }
 .sl-bar{ display:flex; align-items:center; gap:10px; }
 .sl-bar__lbl{ flex:none; width:104px; font-size:12.5px; color:#5b4c3f; }
 .sl-bar__track{ flex:1; height:9px; border-radius:6px; background:var(--sl-orange-tint); overflow:hidden; }
@@ -530,6 +530,17 @@ ul { padding-left: 1.2em; }
 .sl-bar__val{ flex:none; width:28px; text-align:right; font-size:13px; font-weight:700; color:var(--sl-espresso); font-variant-numeric:tabular-nums; }
 .sl-dash__note{ display:flex; align-items:center; gap:9px; font-size:12.5px; color:#5b4c3f; padding:11px 13px; border-radius:10px; background:var(--sl-orange-tint); border:1px solid var(--sl-orange-border); }
 .sl-dash__dot{ width:7px; height:7px; flex:none; border-radius:50%; background:var(--sl-orange); }
+.sl-afh{ display:flex; flex-direction:column; gap:9px; }
+.sl-split{ display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--sl-orange-tint); }
+.sl-split__seg{ display:block; height:100%; width:0; transition:width .9s cubic-bezier(.2,.7,.2,1); }
+.sl-split__seg--auto{ background:linear-gradient(90deg,#ff9a4d,#f0560f); }
+.sl-split__seg--manual{ background:#e7d8c4; }
+.sl-split__legend{ display:flex; flex-wrap:wrap; gap:8px 18px; }
+.sl-legend{ display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--sl-muted-2); }
+.sl-legend strong{ color:var(--sl-espresso); font-weight:700; margin-left:1px; }
+.sl-legend__dot{ width:9px; height:9px; flex:none; border-radius:3px; }
+.sl-legend__dot--auto{ background:#f0560f; }
+.sl-legend__dot--manual{ background:#e7d8c4; }
 
 /* Live activiteiten-log */
 .sl-log{ display:flex; flex-direction:column; gap:12px; }
@@ -553,7 +564,7 @@ ul { padding-left: 1.2em; }
   .sl-assistant{ animation:none; }
   .sl-caret,.sl-thinking__dots i,.sl-assistant__status i,.sl-check.is-active{ animation:none; }
   .sl-slide{ transition:opacity .2s ease; transform:none; }
-  .sl-bar__fill{ transition:none; }
+  .sl-bar__fill,.sl-split__seg{ transition:none; }
 }
 
 /* ---------- Generieke sectie (scroll-snap, reels-stijl) ----------
