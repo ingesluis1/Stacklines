@@ -1026,6 +1026,11 @@ a:focus-visible,
     left: auto;
     right: 14px;
   }
+  /* Rechter-gutter zodat de content niet onder de rail-dots valt. Houdt de rechterrand
+     van de content ~40px van de viewportrand (waar de dots zitten) zolang er geen
+     zijmarge naast de container is; zodra de marge ≥16px is, valt 'ie terug op de
+     basis-padding (24px). */
+  .container { padding-right: max(24px, calc(40px - max(0px, (100vw - 1180px) / 2))); }
   /* Alleen dots in de flow → smalle kolom tegen de rechterrand; de track blijft
      uitgelijnd met de dots. Labels gaan absoluut, dus ze duwen niks opzij. Iets meer
      ruimte tussen de dots zodat de tapzones elkaar niet overlappen. */
