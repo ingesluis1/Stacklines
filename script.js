@@ -156,7 +156,8 @@
     // (.holding). Sleep je vervolgens omhoog/omlaag langs de rail, dan "scrubt" 'ie:
     // het label van het bolletje onder je vinger verschijnt en de pagina scrollt live
     // mee naar die sectie. Loslaten/annuleren = label weg, pagina blijft bij de laatste.
-    const clearHold = () => railLinks.forEach((a) => a.classList.remove('holding'));
+    const allLinks = rail.querySelectorAll('a');   // incl. het huisje (geen data-section)
+    const clearHold = () => allLinks.forEach((a) => a.classList.remove('holding'));
     let scrubbing = false;
     let moved = false;
 
@@ -188,6 +189,13 @@
       // Na een sleep niet alsnog (via de click) naar het beginbolletje navigeren.
       a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
     });
+
+    // Huisje (geen data-section): toont z'n label bij vasthouden, klik scrolt naar boven
+    // (afgehandeld door de #top-handler in sectie 5b). Doet niet mee met het scrubben.
+    const homeLink = rail.querySelector('a.rail-home');
+    if (homeLink) {
+      homeLink.addEventListener('pointerdown', () => { clearHold(); homeLink.classList.add('holding'); });
+    }
 
     window.addEventListener('pointermove', (e) => {
       if (!scrubbing) return;

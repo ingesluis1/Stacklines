@@ -1007,6 +1007,21 @@ a:focus-visible,
   flex: 0 0 auto;
   transition: all .3s ease;
 }
+/* Huisje bovenaan de rail = "terug naar boven". Layout-box 12px breed (= een dot),
+   zodat de track en de dots netjes uitgelijnd blijven; het icoon zelf mag iets
+   overlopen. */
+.rail-home-icon {
+  width: 12px; height: 12px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: rgba(15, 42, 68, 0.5);
+  transition: color .25s ease;
+}
+.rail-home-icon svg { width: 15px; height: 15px; overflow: visible; }
+.flow-rail a.rail-home:hover .rail-home-icon { color: var(--color-accent); }
+.flow-rail.on-dark .rail-home-icon { color: rgba(255, 255, 255, 0.6); }
+.flow-rail.on-dark a.rail-home:hover .rail-home-icon { color: var(--color-accent); }
 .rail-label {
   font-size: .82rem;
   font-weight: 600;
