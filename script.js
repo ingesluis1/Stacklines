@@ -201,24 +201,53 @@
   if (snake) {
     const reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const mobileMq = window.matchMedia('(max-width: 900px)');
-    let snakeTicking = false;
-    const moveSnake = () => {
-      snakeTicking = false;
-      if (reduceMq.matches || !mobileMq.matches) return;
+    // De laag is position:fixed, dus om de lijn te laten meebewegen MET de pagina
+    // (en niet schijnbaar 2x zo snel) schuift 'ie OMHOOG terwijl je omlaag scrolt,
+    // precies even snel als de content. viewBox-hoogte 200 = vh, dus 1 scroll-px =
+    // 200/vh units. Modulo de golf-periode (100) → naadloze, oneindige lus.
+    //
+    // Niet hard op scrollY pinnen: op mobiel scrollt de content op de compositor,
+    // terwijl deze transform op de main-thread per (onregelmatig vurend) scroll-event
+    // zou verspringen → schokkerig. We laten 'currentY' daarom in een doorlopende
+    // rAF-loop soepel naar 'targetY' toe interpoleren (lerp). De loop stopt zodra
+    // 'ie tot rust is en herstart bij de volgende scroll. De modulo passen we pas
+    // bij het tekenen toe (op de rauwe waarde lerpen, anders springt 'ie terug bij
+    // de wrap 99→0).
+    let targetY = 0;        // rauw doel uit scrollpositie
+    let currentY = 0;       // gladde, geïnterpoleerde waarde
+    let rafId = null;
+
+    const computeTarget = () => {
       const vh = window.innerHeight || 1;
-      // De laag is position:fixed, dus om de lijn te laten meebewegen MET de pagina
-      // (en niet schijnbaar 2x zo snel) schuift 'ie OMHOOG terwijl je omlaag scrolt,
-      // precies even snel als de content. viewBox-hoogte 200 = vh, dus 1 scroll-px =
-      // 200/vh units. Modulo de golf-periode (100) → naadloze, oneindige lus.
-      const u = ((window.scrollY * 200) / vh) % 100;
-      snake.style.transform = `translateY(${-u}px)`;
+      targetY = (window.scrollY * 200) / vh;
     };
-    window.addEventListener('scroll', () => {
-      if (snakeTicking) return;
-      snakeTicking = true;
-      requestAnimationFrame(moveSnake);
-    }, { passive: true });
-    moveSnake();
+    const draw = () => {
+      const u = ((currentY % 100) + 100) % 100;
+      snake.style.transform = `translate3d(0, ${-u}px, 0)`;
+    };
+    const tick = () => {
+      const diff = targetY - currentY;
+      if (Math.abs(diff) < 0.1) {
+        currentY = targetY;   // settle: loop mag stoppen
+        draw();
+        rafId = null;
+        return;
+      }
+      currentY += diff * 0.18; // smoothing-factor: hoger = strakker gekoppeld
+      draw();
+      rafId = requestAnimationFrame(tick);
+    };
+    const kick = () => {
+      if (reduceMq.matches || !mobileMq.matches) return;
+      computeTarget();
+      if (rafId === null) rafId = requestAnimationFrame(tick);
+    };
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', kick, { passive: true });
+    // Initiële stand zonder animatie.
+    computeTarget();
+    currentY = targetY;
+    draw();
   }
 
   /* ---- 8. Postvak-assistent (hero-demo) ---------------------
