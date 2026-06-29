@@ -101,18 +101,30 @@
         homeLink.classList.toggle('passed', !atTop);
       }
 
-      // Progress fill: van eerste tot laatste sectie.
-      // Bij de bodem van de pagina forceren we 100%, anders zou de balk
-      // net niet vollopen omdat mid het einde nooit voorbij kan.
-      const first = sections[0];
-      const last = sections[sections.length - 1];
-      const start = first.offsetTop;
-      const end = last.offsetTop + last.offsetHeight;
+      // Progress fill langs de rail: één "stop" per bolletje. Het naar-boven-bolletje
+      // bovenaan = stop op de pagina-top (0), daarna elke sectie-top. De fill bereikt
+      // bolletje i (= i/(N-1) van de track) zodra die sectie actief wordt, zodat de
+      // oranje lijn precies met de dots meeloopt (i.p.v. één bolletje achter te lopen
+      // sinds we het naar-boven-bolletje toevoegden).
+      const stops = homeLink
+        ? [0].concat(sections.map((s) => s.offsetTop))
+        : sections.map((s) => s.offsetTop);
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      const atBottom = window.scrollY >= maxScroll - 4;
-      const progress = atBottom
-        ? 1
-        : Math.max(0, Math.min(1, (mid - start) / (end - start)));
+      let progress;
+      if (window.scrollY >= maxScroll - 4) {
+        progress = 1; // forceer vol bij de bodem (mid kan het einde nooit voorbij)
+      } else {
+        let seg = 0;
+        for (let i = 0; i < stops.length; i++) {
+          if (stops[i] <= mid) seg = i;
+        }
+        let frac = 0;
+        if (seg < stops.length - 1) {
+          const len = stops[seg + 1] - stops[seg];
+          frac = len > 0 ? Math.max(0, Math.min(1, (mid - stops[seg]) / len)) : 0;
+        }
+        progress = stops.length > 1 ? (seg + frac) / (stops.length - 1) : 0;
+      }
       rail.style.setProperty('--rail-progress', progress.toFixed(3));
 
       // Donker/licht: switch zodra contact-sectie het midden bereikt
