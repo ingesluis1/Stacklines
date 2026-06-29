@@ -841,6 +841,14 @@ a:focus-visible,
   display: flex;
   justify-content: center;
 }
+/* Foto is klikbaar → scrollt naar #contact. De link draagt de breedte zodat de
+   img (width:100%) netjes vult; centreren gebeurt door .about-visual (flex). */
+.about-photo-link {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  cursor: pointer;
+}
 .about-photo {
   width: 100%;
   max-width: 360px;
