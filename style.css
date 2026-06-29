@@ -903,7 +903,10 @@ a:focus-visible,
   display: none;             /* verborgen op kleine schermen */
   --rail-progress: 0;        /* 0..1, ingesteld via JS */
 }
-@media (min-width: 1100px) {
+/* Linker-rail (met labels) pas tonen als er genoeg zijmarge naast de container (max
+   1180px) is voor de dots én de uitklappende labels; anders vallen ze over de tekst.
+   Daaronder gebruiken we de compacte rechter-rail (zie media-query verderop). */
+@media (min-width: 1440px) {
   .flow-rail { display: block; }
 }
 
@@ -1017,7 +1020,7 @@ a:focus-visible,
    De rail staat hier rechts in beeld met alleen de dots. De labels staan standaard UIT
    (ook voor de sectie waar je bent) en verschijnen als tooltip links van het bolletje
    zolang je het ingedrukt houdt (.holding via JS, plus :active als fallback). */
-@media (max-width: 1099px) {
+@media (max-width: 1439px) {
   .flow-rail {
     display: block;
     left: auto;
@@ -1288,6 +1291,7 @@ a:focus-visible,
     grid-template-columns: none;
     gap: 14px;
     overflow-x: auto;
+    touch-action: pan-x;              /* alleen horizontale swipes; verticaal → pagina-scroll */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;            /* scrollbar verbergen (Firefox) */
@@ -1313,6 +1317,7 @@ a:focus-visible,
     grid-template-columns: none;
     gap: 14px;
     overflow-x: auto;
+    touch-action: pan-x;              /* alleen horizontale swipes; verticaal → pagina-scroll */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
