@@ -101,6 +101,7 @@
     const sections = Array.from(railLinks)
       .map((a) => document.getElementById(a.dataset.section))
       .filter(Boolean);
+    const homeLink = rail.querySelector('a.rail-home');   // "naar boven"-bolletje (geen sectie)
 
     const setActive = (id) => {
       const idx = Array.from(railLinks).findIndex((a) => a.dataset.section === id);
@@ -120,6 +121,14 @@
       }
       if (current) setActive(current.id);
       else railLinks.forEach((a) => a.classList.remove('active', 'passed'));
+
+      // Het "naar boven"-bolletje gedraagt zich als de sectie-dots: actief (gevuld)
+      // bovenaan de pagina, "passed" (oranje gevuld) zodra je naar beneden scrolt.
+      if (homeLink) {
+        const atTop = window.scrollY <= 30;
+        homeLink.classList.toggle('active', atTop);
+        homeLink.classList.toggle('passed', !atTop);
+      }
 
       // Progress fill: van eerste tot laatste sectie.
       // Bij de bodem van de pagina forceren we 100%, anders zou de balk
@@ -190,11 +199,14 @@
       a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
     });
 
-    // Huisje (geen data-section): toont z'n label bij vasthouden, klik scrolt naar boven
-    // (afgehandeld door de #top-handler in sectie 5b). Doet niet mee met het scrubben.
-    const homeLink = rail.querySelector('a.rail-home');
+    // "Naar boven"-bolletje (geen data-section): toont z'n label bij vasthouden en
+    // scrolt bij klik/tap naar boven. Doet niet mee met het scrubben.
     if (homeLink) {
       homeLink.addEventListener('pointerdown', () => { clearHold(); homeLink.classList.add('holding'); });
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
 
     window.addEventListener('pointermove', (e) => {
