@@ -755,8 +755,7 @@ a:focus-visible,
   #over .about-visual { order: 1; }                          /* foto links */
 }
 @media (max-width: 1099px) {
-  #over .two-col { grid-template-columns: 1fr; }   /* stapelen */
-  #over .about-visual { order: -1; }               /* foto boven de tekst */
+  #over .two-col { grid-template-columns: 1fr; }   /* stapelen: foto onder de tekst (DOM-volgorde) */
 }
 .check-list {
   list-style: none;
