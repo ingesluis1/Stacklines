@@ -169,6 +169,10 @@
     };
 
     allLinks.forEach((a) => {
+      // Native link-drag uit: anders start ingedrukt-houden + slepen een "sleep de
+      // snelkoppeling"-actie i.p.v. ons scrubben.
+      a.setAttribute('draggable', 'false');
+      a.addEventListener('dragstart', (e) => e.preventDefault());
       a.addEventListener('pointerdown', () => { scrubbing = true; moved = false; showDot(a); });
       a.addEventListener('click', (e) => {
         e.preventDefault();                 // wij sturen het scrollen zelf aan

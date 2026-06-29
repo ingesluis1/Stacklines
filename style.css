@@ -953,6 +953,9 @@ a:focus-visible,
   -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;   /* geen blauwe iOS-tap-overlay */
+  /* Geen native link-drag: anders sleep je bij vasthouden de snelkoppeling rond
+     i.p.v. te scrubben/scrollen. */
+  -webkit-user-drag: none;
 }
 .rail-dot {
   width: 12px; height: 12px;
