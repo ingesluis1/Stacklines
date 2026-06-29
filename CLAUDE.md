@@ -58,14 +58,10 @@ Geen build-tools, drie losse bestanden:
 ## Placeholders nog in te vullen
 
 In `index.html`:
-- `[Jouw naam]` (regel ~355)
-- `[X] jaar ervaring met procesautomatisering` (regel ~369)
-- `KvK [nummer]` in mini-footer (regel ~452)
-- Telefoonnummer `06 – 00 00 00 00` (regel ~410)
-- E-mail `hallo@stacklines.nl` (regel ~406 én in `script.js` regel ~165)
-- Social links wijzen naar `#` (regels ~419-421)
+- `KvK [nummer]` in mini-footer
+- Telefoonnummer `06 – 00 00 00 00` (Inge moet nog een nummer regelen; bewust placeholder gelaten)
 
-(Foto in "Over mij" is ingevuld: `inge.jpg`, via `.about-photo`. Regelnummers hierboven zijn bij benadering en kunnen na edits verschoven zijn.)
+Al ingevuld: naam ("Inge van der Sluis"), "Over mij"-verhaal (in ik-vorm o.b.v. Inge's eigen woorden), e-mail `ingevandersluis@stacklines.nl` (in contact én in `script.js` sectie 6), LinkedIn-social (GitHub/X verwijderd), foto (`inge.jpg`). De oude "[X] jaar ervaring"-regel is vervangen door "Korte lijnen: je werkt direct met mij" (Inge heeft pas ~1 jaar ervaring, dus niet vermelden).
 
 Nog te doen:
 - Favicon ontbreekt (geen `<link rel="icon">`)
