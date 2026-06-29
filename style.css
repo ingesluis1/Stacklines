@@ -736,6 +736,9 @@ a:focus-visible,
 .cards .card.reveal:nth-child(4) { transition-delay: .30s; }
 .card h3 { margin-bottom: 10px; }
 .card p { margin: 0; font-size: .98rem; }
+/* Carrousel-bediening voor de diensten: alleen op mobiel (zie media-query). Hergebruikt
+   de demo-stijl (.sl-nav / .sl-dots / .sl-dot-nav). */
+.cards-ctrl { display: none; }
 
 /* ---------- Twee-koloms blok (Voor wie / Over) ---------- */
 .two-col {
@@ -1293,6 +1296,14 @@ a:focus-visible,
     scroll-snap-align: start;
     flex: 0 0 88%;                    /* één kaart per keer, volgende piept ernaast */
     min-width: 0;
+  }
+  /* Pijltjes + dots eronder, zelfde stijl/lay-out als de hero-demo. */
+  .cards-ctrl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
   }
   .steps { gap: 14px; }
   .card { padding: 20px 20px; }

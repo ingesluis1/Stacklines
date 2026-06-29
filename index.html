@@ -278,7 +278,7 @@
           </p>
         </header>
 
-        <div class="cards">
+        <div class="cards" data-cards-track>
           <article class="card reveal">
             <div class="card-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -339,6 +339,14 @@
               Draait in je eigen omgeving, jij blijft eigenaar.
             </p>
           </article>
+        </div>
+
+        <!-- Carrousel-bediening, alleen zichtbaar op mobiel: zelfde stijl (pijltjes + dots)
+             als de hero-demo. Stuurt de horizontale scroll-snap rij hierboven aan. -->
+        <div class="cards-ctrl" aria-label="Bladeren door diensten">
+          <button class="sl-nav" type="button" data-cards-prev aria-label="Vorige dienst">&lsaquo;</button>
+          <div class="sl-dots" data-cards-dots></div>
+          <button class="sl-nav" type="button" data-cards-next aria-label="Volgende dienst">&rsaquo;</button>
         </div>
       </div>
     </section>

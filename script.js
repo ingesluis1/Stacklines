@@ -588,6 +588,53 @@
     go(0);
   }
 
+  /* ---- 11b. Diensten-carrousel op mobiel (pijltjes + dots) -----
+     Zelfde stijl als de hero-demo. De kaarten staan in een horizontale scroll-snap
+     rij (CSS, alleen op mobiel); hier koppelen we de pijltjes/dots en houden we de
+     actieve dot bij op basis van de scrollpositie. */
+  const cardsTrack = document.querySelector('[data-cards-track]');
+  const cardsDots = document.querySelector('[data-cards-dots]');
+  if (cardsTrack && cardsDots) {
+    const cards = Array.from(cardsTrack.querySelectorAll('.card'));
+    const cPrev = document.querySelector('[data-cards-prev]');
+    const cNext = document.querySelector('[data-cards-next]');
+
+    const dots = cards.map((_, i) => {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.className = 'sl-dot-nav';
+      d.setAttribute('aria-label', 'Dienst ' + (i + 1));
+      d.addEventListener('click', () => goTo(i));
+      cardsDots.appendChild(d);
+      return d;
+    });
+
+    // Stap = afstand tussen twee kaarten (kaartbreedte + gap).
+    const step = () => (cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1);
+    const curIndex = () =>
+      Math.max(0, Math.min(cards.length - 1, Math.round(cardsTrack.scrollLeft / step())));
+
+    function goTo(i) {
+      i = Math.max(0, Math.min(cards.length - 1, i));
+      cardsTrack.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+    }
+    const syncDots = () => {
+      const idx = curIndex();
+      dots.forEach((d, j) => d.classList.toggle('is-active', j === idx));
+    };
+
+    if (cPrev) cPrev.addEventListener('click', () => goTo(curIndex() - 1));
+    if (cNext) cNext.addEventListener('click', () => goTo(curIndex() + 1));
+
+    let cTick = false;
+    cardsTrack.addEventListener('scroll', () => {
+      if (cTick) return;
+      cTick = true;
+      requestAnimationFrame(() => { syncDots(); cTick = false; });
+    }, { passive: true });
+    syncDots();
+  }
+
   /* ---- 12. Reduced-motion: SVG-datapulsen stoppen ----------
      CSS `animation:none` raakt SMIL (<animateMotion>) niet, dus hier de
      bewegende stipjes in de koppelingen-demo verbergen. */
