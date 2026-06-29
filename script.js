@@ -161,11 +161,11 @@
     window.addEventListener('resize', updateRail);
     updateRail();
 
-    // Mobiel: het sectielabel verschijnt zolang je een bolletje ingedrukt houdt
-    // (.holding). Sleep je vervolgens omhoog/omlaag langs de rail, dan "scrubt" 'ie:
-    // het label van het bolletje onder je vinger verschijnt en de pagina scrollt live
-    // mee naar die sectie. Loslaten/annuleren = label weg, pagina blijft bij de laatste.
-    const allLinks = rail.querySelectorAll('a');   // incl. het huisje (geen data-section)
+    // Mobiel: alle bolletjes (incl. het "naar boven"-bolletje) gedragen zich gelijk.
+    // Vasthouden toont het label (.holding). Sleep je omhoog/omlaag langs de rail, dan
+    // "scrubt" 'ie: het label van het bolletje onder je vinger verschijnt en de pagina
+    // scrollt live mee naar dat doel. Een gewone tap scrolt soepel naar dat doel.
+    const allLinks = Array.from(rail.querySelectorAll('a'));  // sectie-dots + naar-boven
     const clearHold = () => allLinks.forEach((a) => a.classList.remove('holding'));
     let scrubbing = false;
     let moved = false;
@@ -181,42 +181,34 @@
     // blijven op hun plek tijdens het scrollen, dus clientY volstaat.)
     const dotAtY = (y) => {
       let best = null, bestDist = Infinity;
-      railLinks.forEach((a) => {
+      allLinks.forEach((a) => {
         const r = a.getBoundingClientRect();
         const dist = Math.abs((r.top + r.height / 2) - y);
         if (dist < bestDist) { bestDist = dist; best = a; }
       });
       return best;
     };
+    // Scroll naar het doel van een rail-link: de sectie, of (het naar-boven-bolletje,
+    // dat geen data-section heeft) helemaal naar boven.
+    const scrollToLink = (a, smooth) => {
+      const behavior = smooth ? 'smooth' : 'auto';
+      const sec = a.dataset.section ? document.getElementById(a.dataset.section) : null;
+      if (sec) sec.scrollIntoView({ behavior, block: 'start' });
+      else window.scrollTo({ top: 0, behavior });
+    };
 
-    railLinks.forEach((a) => {
-      a.addEventListener('pointerdown', () => {
-        scrubbing = true;
-        moved = false;
-        showDot(a);
+    allLinks.forEach((a) => {
+      a.addEventListener('pointerdown', () => { scrubbing = true; moved = false; showDot(a); });
+      a.addEventListener('click', (e) => {
+        e.preventDefault();                 // wij sturen het scrollen zelf aan
+        if (!moved) scrollToLink(a, true);  // na een sleep niet alsnog navigeren
       });
-      // Na een sleep niet alsnog (via de click) naar het beginbolletje navigeren.
-      a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
     });
-
-    // "Naar boven"-bolletje (geen data-section): toont z'n label bij vasthouden en
-    // scrolt bij klik/tap naar boven. Doet niet mee met het scrubben.
-    if (homeLink) {
-      homeLink.addEventListener('pointerdown', () => { clearHold(); homeLink.classList.add('holding'); });
-      homeLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
 
     window.addEventListener('pointermove', (e) => {
       if (!scrubbing) return;
       const a = dotAtY(e.clientY);
-      if (showDot(a)) {
-        moved = true;
-        const sec = document.getElementById(a.dataset.section);
-        if (sec) sec.scrollIntoView({ behavior: 'auto', block: 'start' }); // direct, volgt de vinger
-      }
+      if (showDot(a)) { moved = true; scrollToLink(a, false); }  // direct, volgt de vinger
     }, { passive: true });
 
     const endScrub = () => { scrubbing = false; clearHold(); };
@@ -232,7 +224,8 @@
      De link wijst naar #top (de sticky header). Browsers
      scrollen daar niet naartoe omdat een sticky element vanuit
      hun perspectief "al in beeld" is. Daarom expliciet via JS. */
-  document.querySelectorAll('a[href="#top"]').forEach((link) => {
+  // (.rail-home wordt al door de rail-logica in sectie 4 afgehandeld → hier uitsluiten.)
+  document.querySelectorAll('a[href="#top"]:not(.rail-home)').forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
