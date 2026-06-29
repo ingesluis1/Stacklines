@@ -1081,7 +1081,7 @@ a:focus-visible,
   }
   .rail-label {
     position: absolute;
-    right: calc(100% + 12px);   /* links van de dot */
+    right: calc(100% + 40px);   /* ruim links van de dot, zodat je duim het niet afdekt */
     top: 50%;
     transform: translateY(-50%) translateX(6px);
     opacity: 0;
