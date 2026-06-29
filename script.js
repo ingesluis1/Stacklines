@@ -152,18 +152,56 @@
     window.addEventListener('resize', updateRail);
     updateRail();
 
-    // Mobiel: het sectielabel verschijnt alleen zolang je een bolletje ingedrukt
-    // houdt (.holding). Loslaten, wegscrollen of de vinger annuleren = label weg.
+    // Mobiel: het sectielabel verschijnt zolang je een bolletje ingedrukt houdt
+    // (.holding). Sleep je vervolgens omhoog/omlaag langs de rail, dan "scrubt" 'ie:
+    // het label van het bolletje onder je vinger verschijnt en de pagina scrollt live
+    // mee naar die sectie. Loslaten/annuleren = label weg, pagina blijft bij de laatste.
     const clearHold = () => railLinks.forEach((a) => a.classList.remove('holding'));
+    let scrubbing = false;
+    let moved = false;
+
+    // Toon (alleen) het label van link a; geeft true als het een ander bolletje was.
+    const showDot = (a) => {
+      if (!a || a.classList.contains('holding')) return false;
+      clearHold();
+      a.classList.add('holding');
+      return true;
+    };
+    // Welk bolletje zit het dichtst bij verticale positie y? (rail is fixed → dots
+    // blijven op hun plek tijdens het scrollen, dus clientY volstaat.)
+    const dotAtY = (y) => {
+      let best = null, bestDist = Infinity;
+      railLinks.forEach((a) => {
+        const r = a.getBoundingClientRect();
+        const dist = Math.abs((r.top + r.height / 2) - y);
+        if (dist < bestDist) { bestDist = dist; best = a; }
+      });
+      return best;
+    };
+
     railLinks.forEach((a) => {
       a.addEventListener('pointerdown', () => {
-        clearHold();
-        a.classList.add('holding');
+        scrubbing = true;
+        moved = false;
+        showDot(a);
       });
+      // Na een sleep niet alsnog (via de click) naar het beginbolletje navigeren.
+      a.addEventListener('click', (e) => { if (moved) e.preventDefault(); });
     });
-    window.addEventListener('pointerup', clearHold);
-    window.addEventListener('pointercancel', clearHold);
-    window.addEventListener('scroll', clearHold, { passive: true });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!scrubbing) return;
+      const a = dotAtY(e.clientY);
+      if (showDot(a)) {
+        moved = true;
+        const sec = document.getElementById(a.dataset.section);
+        if (sec) sec.scrollIntoView({ behavior: 'auto', block: 'start' }); // direct, volgt de vinger
+      }
+    }, { passive: true });
+
+    const endScrub = () => { scrubbing = false; clearHold(); };
+    window.addEventListener('pointerup', endScrub);
+    window.addEventListener('pointercancel', endScrub);
   }
 
   /* ---- 5. Jaartal in footer --------------------------------- */

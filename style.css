@@ -1067,7 +1067,9 @@ a:focus-visible,
      uitgelijnd met de dots. Labels gaan absoluut, dus ze duwen niks opzij. Iets meer
      ruimte tussen de dots zodat de tapzones elkaar niet overlappen. */
   .flow-rail .rail-list { align-items: flex-end; gap: 30px; }
-  .flow-rail a { gap: 0; }
+  /* touch-action:none: een sleep die op een bolletje begint scrolt de pagina niet
+     native; de JS (sectie 4) stuurt het scrollen zelf aan terwijl je langs de dots sleept. */
+  .flow-rail a { gap: 0; touch-action: none; }
   /* Onzichtbare, ruime tapzone rond elk bolletje: makkelijker vast te houden, en je
      vinger belandt op de link (user-select:none) i.p.v. op selecteerbare paginatekst. */
   .flow-rail a::after {
