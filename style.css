@@ -340,23 +340,14 @@ a:focus-visible,
    (zie script.js), dus 'ie kruipt mee en pauzeert als je stopt. De kleur ademt
    continu zoals op desktop. Alleen op mobiel zichtbaar. */
 .bg-snake {
-  position: fixed;            /* schermvullende laag; de lijn zelf zakt 1:1 mee */
-  inset: 0;
+  position: absolute;         /* scrollt NATIEF mee over de volle documenthoogte */
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  /* height wordt door JS (sectie 7) op de volle documenthoogte gezet */
   pointer-events: none;
   z-index: -1;                /* boven de gloed-laag (body::before), achter content */
   display: none;
-  /* Bovenaan volledig zichtbaar (geen infade), alleen onderin uitvloeien. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
-}
-/* De golf zelf wordt door JS via translate3d verschoven; promoot 'm naar een
-   eigen GPU-laag zodat het scrollen vloeiend blijft (geen repaint per frame). */
-.snake-move {
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 .snake-line {
   fill: none;

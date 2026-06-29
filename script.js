@@ -193,61 +193,53 @@
     });
   }
 
-  /* ---- 7. Mobiele "slang": doorgetrokken golf die 1:1 met de scroll omlaag
-     zakt. De golf is periodiek (periode 100 in viewBox-eenheden = halve viewport),
-     dus verschuiven met de scrollafstand modulo die periode loopt naadloos rond.
-     Pauzeert vanzelf als je stopt met scrollen. Alleen actief op mobiel. */
-  const snake = document.querySelector('.snake-move');
-  if (snake) {
-    const reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const mobileMq = window.matchMedia('(max-width: 900px)');
-    // De laag is position:fixed, dus om de lijn te laten meebewegen MET de pagina
-    // (en niet schijnbaar 2x zo snel) schuift 'ie OMHOOG terwijl je omlaag scrolt,
-    // precies even snel als de content. viewBox-hoogte 200 = vh, dus 1 scroll-px =
-    // 200/vh units. Modulo de golf-periode (100) → naadloze, oneindige lus.
+  /* ---- 7. Mobiele "slang": doorgetrokken golf die NATIEF met de pagina mee
+     scrollt (position:absolute over de volle documenthoogte), dus exact 1:1 strak
+     en zonder lag. JS verschuift niks tijdens het scrollen; het bouwt alleen bij
+     load/resize/reflow de hoogte + viewBox + pad-data op. Alleen zichtbaar op
+     mobiel (CSS). */
+  const snakeSvg = document.querySelector('.bg-snake');
+  const sLine1 = document.querySelector('.snake-line.s1');
+  const sLine2 = document.querySelector('.snake-line.s2');
+  if (snakeSvg && sLine1 && sLine2) {
+    // De slang scrollt NATIEF met de pagina mee: de laag staat position:absolute
+    // over de volle documenthoogte, dus de browser verschuift 'm zelf, exact 1:1
+    // strak en zonder lag (geen scroll-gedreven transform op de main-thread meer,
+    // dat liep altijd íets achter en voelde "los"). JS doet tijdens scrollen NIKS;
+    // we berekenen alleen bij load/resize de hoogte, de viewBox en de pad-data.
     //
-    // Niet hard op scrollY pinnen: op mobiel scrollt de content op de compositor,
-    // terwijl deze transform op de main-thread per (onregelmatig vurend) scroll-event
-    // zou verspringen → schokkerig. We laten 'currentY' daarom in een doorlopende
-    // rAF-loop soepel naar 'targetY' toe interpoleren (lerp). De loop stopt zodra
-    // 'ie tot rust is en herstart bij de volgende scroll. De modulo passen we pas
-    // bij het tekenen toe (op de rauwe waarde lerpen, anders springt 'ie terug bij
-    // de wrap 99→0).
-    let targetY = 0;        // rauw doel uit scrollpositie
-    let currentY = 0;       // gladde, geïnterpoleerde waarde
-    let rafId = null;
-
-    const computeTarget = () => {
-      const vh = window.innerHeight || 1;
-      targetY = (window.scrollY * 200) / vh;
-    };
-    const draw = () => {
-      const u = ((currentY % 100) + 100) % 100;
-      snake.style.transform = `translate3d(0, ${-u}px, 0)`;
-    };
-    const tick = () => {
-      const diff = targetY - currentY;
-      if (Math.abs(diff) < 0.1) {
-        currentY = targetY;   // settle: loop mag stoppen
-        draw();
-        rafId = null;
-        return;
+    // De golf houdt z'n verticale periode (= halve viewport) en horizontale uitslag
+    // gelijk aan vroeger: viewBox-hoogte = 200*docH/vh, zodat 100 units = vh/2 px.
+    // De pad-helper spiegelt de bezier-handles rond elk anker (control-y ±14), dus
+    // vloeiende raaklijnen zonder harde hoeken. amp = horizontale uitslag (units).
+    const buildWave = (cx, vbh) => {
+      const amp = 40;
+      const cy = 14;
+      let d = `M${cx},-100`;
+      let bulgeRight = true;
+      for (let y = -100; y < vbh + 100; y += 50) {
+        const bx = bulgeRight ? cx + amp : cx - amp;
+        d += ` C${bx},${y + cy} ${bx},${y + 50 - cy} ${cx},${y + 50}`;
+        bulgeRight = !bulgeRight;
       }
-      currentY += diff * 0.45; // smoothing-factor: hoger = strakker gekoppeld
-      draw();
-      rafId = requestAnimationFrame(tick);
+      return d;
     };
-    const kick = () => {
-      if (reduceMq.matches || !mobileMq.matches) return;
-      computeTarget();
-      if (rafId === null) rafId = requestAnimationFrame(tick);
+    const layout = () => {
+      const vh = window.innerHeight || 1;
+      const docH = document.documentElement.scrollHeight || vh;
+      const vbh = (docH * 200) / vh;
+      snakeSvg.setAttribute('viewBox', `0 0 100 ${vbh}`);
+      snakeSvg.style.height = docH + 'px';
+      sLine1.setAttribute('d', buildWave(50, vbh)); // oranje, midden x=50
+      sLine2.setAttribute('d', buildWave(56, vbh)); // peach, 6 units ernaast
     };
-    window.addEventListener('scroll', kick, { passive: true });
-    window.addEventListener('resize', kick, { passive: true });
-    // Initiële stand zonder animatie.
-    computeTarget();
-    currentY = targetY;
-    draw();
+    layout();
+    window.addEventListener('resize', layout, { passive: true });
+    window.addEventListener('load', layout);
+    // Hoogte verandert ook bij reflow (lettertype/afbeeldingen laden, content-toggles).
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(layout).observe(document.body);
+    }
   }
 
   /* ---- 8. Postvak-assistent (hero-demo) ---------------------
