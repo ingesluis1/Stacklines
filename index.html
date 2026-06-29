@@ -406,7 +406,7 @@
           </p>
         </header>
 
-        <ol class="steps">
+        <ol class="steps" data-steps-track>
           <li class="step reveal">
             <span class="step-number">01</span>
             <div class="step-icon" aria-hidden="true">
@@ -466,6 +466,13 @@
             </p>
           </li>
         </ol>
+
+        <!-- Carrousel-bediening (alleen mobiel), zelfde stijl als de diensten/hero-demo. -->
+        <div class="cards-ctrl" aria-label="Bladeren door stappen">
+          <button class="sl-nav" type="button" data-steps-prev aria-label="Vorige stap">&lsaquo;</button>
+          <div class="sl-dots" data-steps-dots></div>
+          <button class="sl-nav" type="button" data-steps-next aria-label="Volgende stap">&rsaquo;</button>
+        </div>
       </div>
     </section>
 

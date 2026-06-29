@@ -588,52 +588,65 @@
     go(0);
   }
 
-  /* ---- 11b. Diensten-carrousel op mobiel (pijltjes + dots) -----
-     Zelfde stijl als de hero-demo. De kaarten staan in een horizontale scroll-snap
-     rij (CSS, alleen op mobiel); hier koppelen we de pijltjes/dots en houden we de
-     actieve dot bij op basis van de scrollpositie. */
-  const cardsTrack = document.querySelector('[data-cards-track]');
-  const cardsDots = document.querySelector('[data-cards-dots]');
-  if (cardsTrack && cardsDots) {
-    const cards = Array.from(cardsTrack.querySelectorAll('.card'));
-    const cPrev = document.querySelector('[data-cards-prev]');
-    const cNext = document.querySelector('[data-cards-next]');
+  /* ---- 11b. Horizontale carrousels op mobiel (pijltjes + dots) -
+     Zelfde stijl als de hero-demo. De diensten-kaarten én de processtappen staan op
+     mobiel in een horizontale scroll-snap rij (CSS); deze helper koppelt per rij de
+     pijltjes/dots en houdt de actieve dot bij op basis van de scrollpositie. */
+  const initTrackCarousel = (track, dotsWrap, prevBtn, nextBtn, label) => {
+    if (!track || !dotsWrap) return;
+    const items = Array.from(track.children).filter((el) => el.matches('.card, .step'));
+    if (!items.length) return;
 
-    const dots = cards.map((_, i) => {
+    const dots = items.map((_, i) => {
       const d = document.createElement('button');
       d.type = 'button';
       d.className = 'sl-dot-nav';
-      d.setAttribute('aria-label', 'Dienst ' + (i + 1));
+      d.setAttribute('aria-label', label + ' ' + (i + 1));
       d.addEventListener('click', () => goTo(i));
-      cardsDots.appendChild(d);
+      dotsWrap.appendChild(d);
       return d;
     });
 
-    // Stap = afstand tussen twee kaarten (kaartbreedte + gap).
-    const step = () => (cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1);
+    // Stap = afstand tussen twee items (itembreedte + gap).
+    const step = () => (items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 1);
     const curIndex = () =>
-      Math.max(0, Math.min(cards.length - 1, Math.round(cardsTrack.scrollLeft / step())));
+      Math.max(0, Math.min(items.length - 1, Math.round(track.scrollLeft / step())));
 
     function goTo(i) {
-      i = Math.max(0, Math.min(cards.length - 1, i));
-      cardsTrack.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+      i = Math.max(0, Math.min(items.length - 1, i));
+      track.scrollTo({ left: items[i].offsetLeft - items[0].offsetLeft, behavior: 'smooth' });
     }
     const syncDots = () => {
       const idx = curIndex();
       dots.forEach((d, j) => d.classList.toggle('is-active', j === idx));
     };
 
-    if (cPrev) cPrev.addEventListener('click', () => goTo(curIndex() - 1));
-    if (cNext) cNext.addEventListener('click', () => goTo(curIndex() + 1));
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(curIndex() - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(curIndex() + 1));
 
-    let cTick = false;
-    cardsTrack.addEventListener('scroll', () => {
-      if (cTick) return;
-      cTick = true;
-      requestAnimationFrame(() => { syncDots(); cTick = false; });
+    let tick = false;
+    track.addEventListener('scroll', () => {
+      if (tick) return;
+      tick = true;
+      requestAnimationFrame(() => { syncDots(); tick = false; });
     }, { passive: true });
     syncDots();
-  }
+  };
+
+  initTrackCarousel(
+    document.querySelector('[data-cards-track]'),
+    document.querySelector('[data-cards-dots]'),
+    document.querySelector('[data-cards-prev]'),
+    document.querySelector('[data-cards-next]'),
+    'Dienst'
+  );
+  initTrackCarousel(
+    document.querySelector('[data-steps-track]'),
+    document.querySelector('[data-steps-dots]'),
+    document.querySelector('[data-steps-prev]'),
+    document.querySelector('[data-steps-next]'),
+    'Stap'
+  );
 
   /* ---- 12. Reduced-motion: SVG-datapulsen stoppen ----------
      CSS `animation:none` raakt SMIL (<animateMotion>) niet, dus hier de
