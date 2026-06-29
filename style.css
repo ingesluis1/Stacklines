@@ -1260,6 +1260,8 @@ a:focus-visible,
     grid-template-columns: 1fr;
     gap: 28px;
   }
+  /* Quote-blok ("Voor wie") weglaten op mobiel om hoogte te besparen. */
+  .quote-block { display: none; }
   .section { padding: 48px 0; }
 
   /* De desktop-nav verdwijnt op mobiel; navigeren gaat via de flow-rail (rechts).
@@ -1274,11 +1276,27 @@ a:focus-visible,
 
   .section { padding: 40px 0; }
   .section-head { margin-bottom: 26px; }
-  .cards { grid-template-columns: 1fr; gap: 14px; }
+  /* Diensten als horizontale swipe-slideshow (bespaart hoogte): één kaart in beeld,
+     de volgende piept ernaast. Native scroll-snap, geen JS. */
+  .cards {
+    display: flex;
+    grid-template-columns: none;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;            /* scrollbar verbergen (Firefox) */
+    padding-bottom: 4px;
+  }
+  .cards::-webkit-scrollbar { display: none; }   /* scrollbar verbergen (WebKit) */
+  .card {
+    scroll-snap-align: start;
+    flex: 0 0 88%;                    /* één kaart per keer, volgende piept ernaast */
+    min-width: 0;
+  }
   .steps { gap: 14px; }
   .card { padding: 20px 20px; }
   .step { padding: 18px 18px; }
-  .quote-block { padding: 24px; }
   .contact-form { padding: 24px; }
   .contact-form .btn { align-self: stretch; }   /* vol-breedte knop = grotere tap-target */
   .socials { flex-wrap: wrap; }                  /* pills mogen wrappen op smal scherm */
