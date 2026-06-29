@@ -997,6 +997,7 @@ a:focus-visible,
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;   /* geen blauwe iOS-tap-overlay */
 }
 .rail-dot {
   width: 12px; height: 12px;
@@ -1078,20 +1079,25 @@ a:focus-visible,
     border-radius: 8px;
     box-shadow: 0 6px 18px rgba(28, 22, 18, 0.25);
   }
-  /* Standaard verbergen, óók op hover en voor de actieve sectie. */
+  /* Standaard verbergen, óók op hover en voor de actieve sectie. Kleur expliciet wit
+     houden: een basisregel (.flow-rail a.active .rail-label) zet 'm anders op de donkere
+     tekstkleur, die hier zou winnen → blauw/donker label. */
   .flow-rail a:hover .rail-label,
   .flow-rail a.active .rail-label {
     opacity: 0;
     transform: translateY(-50%) translateX(6px);
+    color: #fff;
   }
   /* Alleen tonen zolang ingedrukt. */
   .flow-rail a.holding .rail-label,
   .flow-rail a:active .rail-label {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
+    color: #fff;
   }
   /* Pill heeft eigen achtergrond, dus altijd witte tekst (ook boven donkere sectie). */
-  .flow-rail.on-dark .rail-label { color: #fff; }
+  .flow-rail.on-dark .rail-label,
+  .flow-rail.on-dark a.active .rail-label { color: #fff; }
 }
 
 /* ---------- Contact ---------- */
