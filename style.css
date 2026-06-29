@@ -1102,9 +1102,10 @@ a:focus-visible,
     transform: translateY(-50%) translateX(6px);
     color: #fff;
   }
-  /* Alleen tonen zolang ingedrukt. */
-  .flow-rail a.holding .rail-label,
-  .flow-rail a:active .rail-label {
+  /* Alleen tonen zolang ingedrukt (.holding via JS). GEEN :active hier: bij een veeg
+     blijft het eerste bolletje door de impliciete pointer-capture de hele tijd :active,
+     waardoor dát label bleef hangen terwijl je verder veegde. */
+  .flow-rail a.holding .rail-label {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
     color: #fff;
