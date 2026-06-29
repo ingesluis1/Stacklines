@@ -233,7 +233,7 @@
         rafId = null;
         return;
       }
-      currentY += diff * 0.18; // smoothing-factor: hoger = strakker gekoppeld
+      currentY += diff * 0.45; // smoothing-factor: hoger = strakker gekoppeld
       draw();
       rafId = requestAnimationFrame(tick);
     };
