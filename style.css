@@ -340,14 +340,28 @@ a:focus-visible,
    (zie script.js), dus 'ie kruipt mee en pauzeert als je stopt. De kleur ademt
    continu zoals op desktop. Alleen op mobiel zichtbaar. */
 .bg-snake {
-  position: absolute;         /* scrollt NATIEF mee over de volle documenthoogte */
-  top: 0;
-  left: 0;
+  position: fixed;            /* schermvullende laag; de golf kruipt er continu doorheen */
+  inset: 0;
   width: 100%;
-  /* height wordt door JS (sectie 7) op de volle documenthoogte gezet */
+  height: 100%;
   pointer-events: none;
   z-index: -1;                /* boven de gloed-laag (body::before), achter content */
   display: none;
+  /* Bovenaan volledig zichtbaar, onderin uitvloeien: verkoopt de kruip-illusie. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
+}
+/* De golf kruipt continu omlaag, los van de scroll. Periode 100 in y = naadloze loop
+   (translate 100 units = exact één golfperiode, dus de sprong terug naar 0 is
+   onzichtbaar). Een CSS-transform-animatie loopt op de compositor: soepel, zonder JS,
+   dus geen lag of schokken. Tunebaar via de duur (nu 9s; korter = sneller kruipen). */
+.snake-move {
+  will-change: transform;
+  animation: snakeCrawl 9s linear infinite;
+}
+@keyframes snakeCrawl {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100px); }   /* 100 user-units = één periode = vh/2 op scherm */
 }
 .snake-line {
   fill: none;
@@ -1153,6 +1167,7 @@ a:focus-visible,
   .card, .step, .card-icon, .step-icon { transition: none; }
   .nav-toggle span, .mobile-nav { transition: none; }
   .snake-line { animation: none; }
+  .snake-move { animation: none; }
 }
 
 /* ---------- Responsive ---------- */

@@ -193,54 +193,11 @@
     });
   }
 
-  /* ---- 7. Mobiele "slang": doorgetrokken golf die NATIEF met de pagina mee
-     scrollt (position:absolute over de volle documenthoogte), dus exact 1:1 strak
-     en zonder lag. JS verschuift niks tijdens het scrollen; het bouwt alleen bij
-     load/resize/reflow de hoogte + viewBox + pad-data op. Alleen zichtbaar op
-     mobiel (CSS). */
-  const snakeSvg = document.querySelector('.bg-snake');
-  const sLine1 = document.querySelector('.snake-line.s1');
-  const sLine2 = document.querySelector('.snake-line.s2');
-  if (snakeSvg && sLine1 && sLine2) {
-    // De slang scrollt NATIEF met de pagina mee: de laag staat position:absolute
-    // over de volle documenthoogte, dus de browser verschuift 'm zelf, exact 1:1
-    // strak en zonder lag (geen scroll-gedreven transform op de main-thread meer,
-    // dat liep altijd íets achter en voelde "los"). JS doet tijdens scrollen NIKS;
-    // we berekenen alleen bij load/resize de hoogte, de viewBox en de pad-data.
-    //
-    // De golf houdt z'n verticale periode (= halve viewport) en horizontale uitslag
-    // gelijk aan vroeger: viewBox-hoogte = 200*docH/vh, zodat 100 units = vh/2 px.
-    // De pad-helper spiegelt de bezier-handles rond elk anker (control-y ±14), dus
-    // vloeiende raaklijnen zonder harde hoeken. amp = horizontale uitslag (units).
-    const buildWave = (cx, vbh) => {
-      const amp = 40;
-      const cy = 14;
-      let d = `M${cx},-100`;
-      let bulgeRight = true;
-      for (let y = -100; y < vbh + 100; y += 50) {
-        const bx = bulgeRight ? cx + amp : cx - amp;
-        d += ` C${bx},${y + cy} ${bx},${y + 50 - cy} ${cx},${y + 50}`;
-        bulgeRight = !bulgeRight;
-      }
-      return d;
-    };
-    const layout = () => {
-      const vh = window.innerHeight || 1;
-      const docH = document.documentElement.scrollHeight || vh;
-      const vbh = (docH * 200) / vh;
-      snakeSvg.setAttribute('viewBox', `0 0 100 ${vbh}`);
-      snakeSvg.style.height = docH + 'px';
-      sLine1.setAttribute('d', buildWave(50, vbh)); // oranje, midden x=50
-      sLine2.setAttribute('d', buildWave(56, vbh)); // peach, 6 units ernaast
-    };
-    layout();
-    window.addEventListener('resize', layout, { passive: true });
-    window.addEventListener('load', layout);
-    // Hoogte verandert ook bij reflow (lettertype/afbeeldingen laden, content-toggles).
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(layout).observe(document.body);
-    }
-  }
+  /* ---- 7. Mobiele "slang" ----------------------------------
+     Geen JS meer nodig: de golf kruipt continu via een CSS-transform-animatie
+     (@keyframes snakeCrawl op .snake-move), die op de compositor draait. Dat is
+     soepel zonder lag of schokken en werkt los van de scroll. De laag is fixed met
+     een mask die de golven onderin laat uitvloeien (zie style.css). */
 
   /* ---- 8. Postvak-assistent (hero-demo) ---------------------
      Een doorlopende chat-thread: per scenario wordt een vraag getypt, "gedacht"
