@@ -1293,8 +1293,8 @@ a:focus-visible,
   }
   .cards::-webkit-scrollbar { display: none; }   /* scrollbar verbergen (WebKit) */
   .card {
-    scroll-snap-align: start;
-    flex: 0 0 88%;                    /* één kaart per keer, volgende piept ernaast */
+    scroll-snap-align: center;
+    flex: 0 0 100%;                   /* één kaart per keer, gecentreerd in beeld */
     min-width: 0;
   }
   /* Pijltjes + dots eronder, zelfde stijl/lay-out als de hero-demo. */
