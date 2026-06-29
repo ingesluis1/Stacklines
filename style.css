@@ -1064,9 +1064,21 @@ a:focus-visible,
     right: 14px;
   }
   /* Alleen dots in de flow → smalle kolom tegen de rechterrand; de track blijft
-     uitgelijnd met de dots. Labels gaan absoluut, dus ze duwen niks opzij. */
-  .flow-rail .rail-list { align-items: flex-end; }
+     uitgelijnd met de dots. Labels gaan absoluut, dus ze duwen niks opzij. Iets meer
+     ruimte tussen de dots zodat de tapzones elkaar niet overlappen. */
+  .flow-rail .rail-list { align-items: flex-end; gap: 30px; }
   .flow-rail a { gap: 0; }
+  /* Onzichtbare, ruime tapzone rond elk bolletje: makkelijker vast te houden, en je
+     vinger belandt op de link (user-select:none) i.p.v. op selecteerbare paginatekst. */
+  .flow-rail a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 40px;
+  }
   .rail-label {
     position: absolute;
     right: calc(100% + 12px);   /* links van de dot */
