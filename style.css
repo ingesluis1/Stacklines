@@ -339,11 +339,12 @@ a:focus-visible,
    gebruiker mee-kruipt. De slither + deining worden door het scrollen aangestuurd
    (zie script.js), dus 'ie kruipt mee en pauzeert als je stopt. De kleur ademt
    continu zoals op desktop. Alleen op mobiel zichtbaar. */
+/* .bg-snake = vaste clip-laag met de fade-mask; blijft viewport-vast (de golf schuift
+   eronderdoor, de mask niet). overflow:hidden klipt de 200vh-hoge golf tot de viewport. */
 .bg-snake {
-  position: fixed;            /* schermvullende laag; de golf loopt scroll-gestuurd mee */
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
   pointer-events: none;
   z-index: -1;                /* boven de gloed-laag (body::before), achter content */
   display: none;
@@ -351,16 +352,25 @@ a:focus-visible,
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 70%);
 }
-.snake-move { will-change: transform; }
-/* De golf is SCROLL-GESTUURD: hij kruipt alleen terwijl je scrolt en staat stil als je
-   stopt (zoals het origineel), maar soepel. Een scroll-driven CSS-animatie bindt de
-   voortgang aan de scrollpositie en draait op de COMPOSITOR → geen lag of schokken
-   (anders dan een JS-transform die op de main-thread per scroll-event verspringt, dat
-   was de oude schokkerigheid). --snake-iters (door JS gezet o.b.v. paginalengte) bepaalt
-   hoeveel golfperiodes over de hele scroll lopen; op de "vastgeplakt"-ratio (CRAWL=1.0)
-   loopt de golf exact 1:1 met de scroll = strak, niet "los", en de fade onderin geeft het
-   levende kruip-gevoel. Eén iteratie = exact één periode (100 units), dus de sprong terug
-   is onzichtbaar = naadloos. */
+/* De golf (.snake-move = de <svg>, een HTML-element) is SCROLL-GESTUURD: hij schuift alleen
+   terwijl je scrolt en staat stil als je stopt (zoals het origineel), maar soepel. De
+   scroll-driven CSS-animatie bindt de voortgang aan de scrollpositie en draait op de
+   COMPOSITOR → geen lag of schokken (anders dan een JS-transform op de main-thread). Cruciaal
+   voor mobiel: de animatie zit op een HTML-element met een 3D-transform (translate3d/translateZ),
+   dus het krijgt betrouwbaar een EIGEN GPU-LAAG — een SVG-<g> deed dat vaak niet en liep dan op
+   de telefoon op de main-thread = schokkerig. De svg is 200vh hoog zodat er na het omhoog-
+   schuiven geen gat onderin valt; één iteratie schuift exact -50vh = één golfperiode = naadloos.
+   --snake-iters (door JS gezet o.b.v. paginalengte) houdt de golf op de "vastgeplakt"-ratio
+   (CRAWL=1.0) = exact 1:1 met de scroll = strak, niet "los"; de fade onderin geeft het leven. */
+.snake-move {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200vh;
+  will-change: transform;
+  transform: translateZ(0);   /* baseline: forceer een eigen compositor-laag */
+}
 @supports (animation-timeline: scroll()) {
   .snake-move {
     animation-name: snakeCrawl;
@@ -370,8 +380,8 @@ a:focus-visible,
   }
 }
 @keyframes snakeCrawl {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-100px); }  /* één periode omhoog, met de scroll mee */
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50vh, 0); }  /* één periode (vh/2) omhoog, met de scroll mee */
 }
 .snake-line {
   fill: none;

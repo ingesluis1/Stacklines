@@ -231,8 +231,10 @@
         if (reduceMq.matches) return;
         const vh = window.innerHeight || 1;
         const maxScroll = Math.max(document.documentElement.scrollHeight - vh, 1);
-        const u = ((((window.scrollY / maxScroll) * iters * 100) % 100) + 100) % 100;
-        snakeMove.style.transform = `translateY(${-u}px)`;
+        // Fase binnen één periode (0..1), dan omzetten naar px: één periode = vh/2 op scherm.
+        const phase = ((((window.scrollY / maxScroll) * iters) % 1) + 1) % 1;
+        const px = phase * (vh / 2);
+        snakeMove.style.transform = `translate3d(0, ${-px}px, 0)`;
       };
       window.addEventListener('scroll', () => {
         if (ticking) return;
