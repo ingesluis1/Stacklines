@@ -1007,19 +1007,8 @@ a:focus-visible,
   flex: 0 0 auto;
   transition: all .3s ease;
 }
-/* Huisje bovenaan de rail = "terug naar boven". Layout-box 12px breed (= een dot),
-   zodat de track en de dots netjes uitgelijnd blijven; het icoon zelf mag iets
-   overlopen. */
-.rail-home-icon {
-  width: 12px; height: 12px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  color: var(--color-accent);   /* ingekleurd: oranje huisje */
-  transition: transform .2s ease;
-}
-.rail-home-icon svg { width: 16px; height: 16px; overflow: visible; }
-.flow-rail a.rail-home:hover .rail-home-icon { transform: scale(1.12); }
+/* "Naar boven"-item bovenaan de rail (`a.rail-home`, href="#top"): gewoon hetzelfde
+   bolletje (.rail-dot) als de secties; alleen de link scrollt naar boven. */
 .rail-label {
   font-size: .82rem;
   font-weight: 600;
