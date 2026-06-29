@@ -193,11 +193,55 @@
     });
   }
 
-  /* ---- 7. Mobiele "slang" ----------------------------------
-     Geen JS meer nodig: de golf kruipt continu via een CSS-transform-animatie
-     (@keyframes snakeCrawl op .snake-move), die op de compositor draait. Dat is
-     soepel zonder lag of schokken en werkt los van de scroll. De laag is fixed met
-     een mask die de golven onderin laat uitvloeien (zie style.css). */
+  /* ---- 7. Mobiele "slang": scroll-gestuurde golf ---------------
+     De golf loopt STRAK met de scroll mee (geen vertraging, dus niet "los" van de
+     achtergrond) en staat stil als je stopt. Primair via een scroll-driven CSS-animatie
+     die op de compositor draait (zie style.css) → nul lag, geen schokken. JS zet alleen
+     --snake-iters zodat de golf precies 1:1 met de scroll meeloopt, ongeacht hoe lang de
+     pagina is, en biedt een fallback voor browsers zonder scroll-driven animaties. */
+  const snakeMove = document.querySelector('.snake-move');
+  if (snakeMove) {
+    // CRAWL = verhouding golf-beweging : scroll. 1.0 = exact 1:1 (strak meelopen, geen
+    // parallax). >1.0 zou de golf de content laten overtreffen (kruipt zichtbaar vooruit),
+    // maar dat oogt al snel "los"; daarom hier strak op 1.0.
+    const CRAWL = 1.0;
+    const setIters = () => {
+      const vh = window.innerHeight || 1;
+      const docH = document.documentElement.scrollHeight || vh;
+      // Aantal golfperiodes voor 1:1: per periode beweegt de golf vh/2 px op het scherm,
+      // dus over de hele scroll (docH - vh) zijn er 2*(docH-vh)/vh periodes nodig.
+      const glued = (2 * Math.max(docH - vh, vh)) / vh;
+      const iters = Math.max(4, Math.round(glued * CRAWL));
+      document.documentElement.style.setProperty('--snake-iters', String(iters));
+      return iters;
+    };
+    let iters = setIters();
+    window.addEventListener('resize', () => { iters = setIters(); }, { passive: true });
+    window.addEventListener('load', () => { iters = setIters(); });
+
+    // Fallback voor browsers zonder scroll-driven CSS-animaties: zelfde 1:1-koppeling,
+    // maar via JS (kan op die browsers iets minder soepel zijn; modern mobiel ondersteunt
+    // scroll-driven animaties wel en gebruikt dus de CSS-route hierboven).
+    const hasScrollTimeline = window.CSS && CSS.supports && CSS.supports('animation-timeline', 'scroll()');
+    if (!hasScrollTimeline) {
+      const reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let ticking = false;
+      const draw = () => {
+        ticking = false;
+        if (reduceMq.matches) return;
+        const vh = window.innerHeight || 1;
+        const maxScroll = Math.max(document.documentElement.scrollHeight - vh, 1);
+        const u = ((((window.scrollY / maxScroll) * iters * 100) % 100) + 100) % 100;
+        snakeMove.style.transform = `translateY(${-u}px)`;
+      };
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(draw);
+      }, { passive: true });
+      draw();
+    }
+  }
 
   /* ---- 8. Postvak-assistent (hero-demo) ---------------------
      Een doorlopende chat-thread: per scenario wordt een vraag getypt, "gedacht"
