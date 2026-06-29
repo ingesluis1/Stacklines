@@ -1042,6 +1042,48 @@ a:focus-visible,
   .flow-rail a, .rail-dot, .rail-label, .rail-track-fill { transition: none; }
 }
 
+/* ---------- Flow-rail op mobiel/tablet (<1100px): rechts, alleen bolletjes ----------
+   De rail staat hier rechts in beeld met alleen de dots. De labels staan standaard UIT
+   (ook voor de sectie waar je bent) en verschijnen als tooltip links van het bolletje
+   zolang je het ingedrukt houdt (.holding via JS, plus :active als fallback). */
+@media (max-width: 1099px) {
+  .flow-rail {
+    display: block;
+    left: auto;
+    right: 14px;
+  }
+  /* Alleen dots in de flow → smalle kolom tegen de rechterrand; de track blijft
+     uitgelijnd met de dots. Labels gaan absoluut, dus ze duwen niks opzij. */
+  .flow-rail .rail-list { align-items: flex-end; }
+  .flow-rail a { gap: 0; }
+  .rail-label {
+    position: absolute;
+    right: calc(100% + 12px);   /* links van de dot */
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    opacity: 0;
+    color: #fff;
+    background: var(--color-bg-dark);
+    padding: 5px 11px;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(28, 22, 18, 0.25);
+  }
+  /* Standaard verbergen, óók op hover en voor de actieve sectie. */
+  .flow-rail a:hover .rail-label,
+  .flow-rail a.active .rail-label {
+    opacity: 0;
+    transform: translateY(-50%) translateX(6px);
+  }
+  /* Alleen tonen zolang ingedrukt. */
+  .flow-rail a.holding .rail-label,
+  .flow-rail a:active .rail-label {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+  /* Pill heeft eigen achtergrond, dus altijd witte tekst (ook boven donkere sectie). */
+  .flow-rail.on-dark .rail-label { color: #fff; }
+}
+
 /* ---------- Contact ---------- */
 .contact-inner {
   display: grid;

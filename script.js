@@ -151,6 +151,19 @@
     }, { passive: true });
     window.addEventListener('resize', updateRail);
     updateRail();
+
+    // Mobiel: het sectielabel verschijnt alleen zolang je een bolletje ingedrukt
+    // houdt (.holding). Loslaten, wegscrollen of de vinger annuleren = label weg.
+    const clearHold = () => railLinks.forEach((a) => a.classList.remove('holding'));
+    railLinks.forEach((a) => {
+      a.addEventListener('pointerdown', () => {
+        clearHold();
+        a.classList.add('holding');
+      });
+    });
+    window.addEventListener('pointerup', clearHold);
+    window.addEventListener('pointercancel', clearHold);
+    window.addEventListener('scroll', clearHold, { passive: true });
   }
 
   /* ---- 5. Jaartal in footer --------------------------------- */
