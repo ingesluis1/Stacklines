@@ -791,12 +791,17 @@ a:focus-visible,
   gap: 60px;
   align-items: center;
 }
-/* Over mij: foto links, tekst rechts (visueel omgewisseld). De DOM-volgorde blijft
-   tekst-eerst, zodat de leesvolgorde op mobiel klopt (kop eerst, dan foto); op desktop
-   zetten we de kolommen om via order. */
-#over .two-col { grid-template-columns: 1fr 1.1fr; }
-#over .two-col > .reveal:not(.about-visual) { order: 2; }
-#over .about-visual { order: 1; }
+/* Over mij: op desktop foto links / tekst rechts (omgewisseld t.o.v. de DOM-volgorde).
+   Onder de desktop-breedte (<1100px) stapelt de sectie met de FOTO BOVEN de tekst. */
+@media (min-width: 1100px) {
+  #over .two-col { grid-template-columns: 1fr 1.1fr; }
+  #over .two-col > .reveal:not(.about-visual) { order: 2; }  /* tekst rechts */
+  #over .about-visual { order: 1; }                          /* foto links */
+}
+@media (max-width: 1099px) {
+  #over .two-col { grid-template-columns: 1fr; }   /* stapelen */
+  #over .about-visual { order: -1; }               /* foto boven de tekst */
+}
 .check-list {
   list-style: none;
   padding: 0;
@@ -987,6 +992,11 @@ a:focus-visible,
   text-decoration: none;
   color: inherit;
   position: relative;
+  /* Geen iOS long-press link-preview/-menu en geen tekstselectie bij vasthouden,
+     zodat het ingedrukt-houden enkel ons sectielabel toont. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .rail-dot {
   width: 12px; height: 12px;
@@ -1275,8 +1285,6 @@ a:focus-visible,
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  /* Gestapeld op mobiel: tekst (kop) eerst, dan de foto. Heft de desktop-omwissel op. */
-  #over .two-col > * { order: 0; }
   .section { padding: 70px 0; }
 
   /* Nav wordt een hamburger vanaf hier (gelijk aan waar de mobiele layout
