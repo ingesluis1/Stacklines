@@ -58,38 +58,9 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---- 3. Mobiel menu --------------------------------------- */
-  const toggle = document.querySelector('.nav-toggle');
-  const mobileNav = document.getElementById('mobile-nav');
-
-  if (toggle && mobileNav) {
-    const setMenuOpen = (isOpen) => {
-      mobileNav.classList.toggle('open', isOpen);
-      // Class-fallback voor de solide balk in browsers zonder :has()-ondersteuning.
-      if (header) header.classList.toggle('nav-open', isOpen);
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      toggle.setAttribute('aria-label', isOpen ? 'Menu sluiten' : 'Menu openen');
-    };
-    toggle.addEventListener('click', () => {
-      setMenuOpen(!mobileNav.classList.contains('open'));
-    });
-
-    // Sluit menu bij klik op een link
-    mobileNav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => setMenuOpen(false));
-    });
-
-    // Sluit met Escape of bij klik buiten het menu.
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileNav.classList.contains('open')) setMenuOpen(false);
-    });
-    document.addEventListener('click', (e) => {
-      if (mobileNav.classList.contains('open') &&
-          !mobileNav.contains(e.target) && !toggle.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    });
-  }
+  /* ---- 3. (verwijderd) Mobiel hamburger-menu ----------------
+     Op mobiel dient de flow-rail (sectie 4) als navigatie; het hamburger-menu is
+     daarom verwijderd. */
 
   /* ---- 4. Sticky flow-rail (links) -------------------------- */
   // Bepaalt welke sectie nu in beeld is en zet die node "actief".
