@@ -1015,13 +1015,11 @@ a:focus-visible,
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  color: rgba(15, 42, 68, 0.5);
-  transition: color .25s ease;
+  color: var(--color-accent);   /* ingekleurd: oranje huisje */
+  transition: transform .2s ease;
 }
-.rail-home-icon svg { width: 15px; height: 15px; overflow: visible; }
-.flow-rail a.rail-home:hover .rail-home-icon { color: var(--color-accent); }
-.flow-rail.on-dark .rail-home-icon { color: rgba(255, 255, 255, 0.6); }
-.flow-rail.on-dark a.rail-home:hover .rail-home-icon { color: var(--color-accent); }
+.rail-home-icon svg { width: 16px; height: 16px; overflow: visible; }
+.flow-rail a.rail-home:hover .rail-home-icon { transform: scale(1.12); }
 .rail-label {
   font-size: .82rem;
   font-weight: 600;
