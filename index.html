@@ -570,6 +570,8 @@
           </label>
           <!-- Honeypot tegen spam: bots vullen dit in, echte bezoekers zien het niet -->
           <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
+          <!-- hCaptcha (zero-config via Web3Forms) -->
+          <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
           <button type="submit" class="btn btn-primary">Verstuur</button>
           <p class="form-note" role="status" aria-live="polite">
             Je bericht komt direct bij mij binnen.
@@ -588,5 +590,7 @@
   </main>
 
   <script src="script.js" defer></script>
+  <!-- Rendert de hCaptcha-widget op het contactformulier -->
+  <script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>

@@ -242,6 +242,13 @@
         return;
       }
 
+      // hCaptcha moet opgelost zijn (het verborgen veld wordt door de widget gevuld)
+      const captcha = (data.get('h-captcha-response') || '').toString();
+      if (!captcha) {
+        setNote('Bevestig even dat je geen robot bent via de spam-check hierboven.');
+        return;
+      }
+
       // Knop in laad-stand zetten
       const btnLabel = submitBtn ? submitBtn.textContent : '';
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Versturen…'; }
