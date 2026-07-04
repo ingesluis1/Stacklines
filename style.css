@@ -888,8 +888,18 @@ a:focus-visible,
 .steps .step.reveal:nth-child(2) { transition-delay: .10s; }
 .steps .step.reveal:nth-child(3) { transition-delay: .20s; }
 .steps .step.reveal:nth-child(4) { transition-delay: .30s; }
+.steps .step.reveal:nth-child(5) { transition-delay: .40s; }
 .step h3 { margin-bottom: 8px; }
 .step p  { margin: 0; font-size: .95rem; }
+
+/* Vijf stappen: op desktop (scroll-snap-regime) alle stappen op één rij houden,
+   zodat de sectie binnen 100vh blijft en de snap heel blijft. Iets krappere gap
+   en tegel-padding zodat de tekst comfortabel past. Onder 901px (snap uit) pakt
+   het auto-fit-grid het weer natuurlijk op, ≤720px de swipe-carrousel. */
+@media (min-width: 901px) {
+  .steps { grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .steps .step { padding: 24px 22px; }
+}
 
 /* ---------- Sticky flow-rail (links) ---------- */
 /* Verticale rail die meeloopt tijdens scrollen.
