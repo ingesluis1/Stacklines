@@ -568,9 +568,11 @@
             <span>Waar kan ik je mee helpen?</span>
             <textarea name="message" rows="5" required></textarea>
           </label>
+          <!-- Honeypot tegen spam: bots vullen dit in, echte bezoekers zien het niet -->
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" />
           <button type="submit" class="btn btn-primary">Verstuur</button>
-          <p class="form-note">
-            Het formulier opent je mailprogramma met het bericht erin.
+          <p class="form-note" role="status" aria-live="polite">
+            Je bericht komt direct bij mij binnen.
           </p>
         </form>
       </div>

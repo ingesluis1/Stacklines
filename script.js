@@ -219,10 +219,18 @@
     });
   });
 
-  /* ---- 6. Contactformulier → opent mailto: ------------------ */
+  /* ---- 6. Contactformulier → verstuurt via Web3Forms -------- */
   const form = document.getElementById('contact-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    // Gratis access-key via https://web3forms.com (mail komt binnen op info@stacklines.nl).
+    // Vervang de placeholder hieronder door je eigen key.
+    const WEB3FORMS_KEY = '5fb52d0d-4892-43e2-85d7-72af245354d0';
+
+    const note = form.querySelector('.form-note');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const setNote = (text) => { if (note) note.textContent = text; };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = new FormData(form);
       const name = (data.get('name') || '').toString().trim();
@@ -230,17 +238,40 @@
       const message = (data.get('message') || '').toString().trim();
 
       if (!name || !email || !message) {
-        alert('Vul alle velden in.');
+        setNote('Vul alle velden in.');
         return;
       }
 
-      // Pas hier het ontvangst-adres aan
-      const to = 'info@stacklines.nl';
-      const subject = encodeURIComponent(`Bericht via stacklines.nl van ${name}`);
-      const body = encodeURIComponent(
-        `${message}\n\n${name}\n${email}`
-      );
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      // Knop in laad-stand zetten
+      const btnLabel = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Versturen…'; }
+      setNote('Versturen…');
+
+      // Alle velden (incl. honeypot) meesturen, plus Web3Forms-parameters
+      const payload = Object.fromEntries(data.entries());
+      payload.access_key = WEB3FORMS_KEY;
+      payload.subject = `Bericht via stacklines.nl van ${name}`;
+      payload.from_name = 'Stacklines website';
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await res.json().catch(() => ({}));
+
+        if (res.ok && result.success) {
+          form.reset();
+          setNote('Bedankt! Je bericht is verstuurd, ik neem snel contact op.');
+        } else {
+          setNote('Er ging iets mis. Mail me gerust direct op info@stacklines.nl.');
+        }
+      } catch (err) {
+        setNote('Er ging iets mis. Mail me gerust direct op info@stacklines.nl.');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = btnLabel; }
+      }
     });
   }
 
