@@ -235,7 +235,7 @@
       }
 
       // Pas hier het ontvangst-adres aan
-      const to = 'ingevandersluis@stacklines.nl';
+      const to = 'info@stacklines.nl';
       const subject = encodeURIComponent(`Bericht via stacklines.nl van ${name}`);
       const body = encodeURIComponent(
         `${message}\n\n${name}\n${email}`
