@@ -58,8 +58,8 @@
 
     .step-note { color:var(--text-soft); font-size:.9rem; margin:.8rem 0 0; min-height:1.2em; }
 
-    section.block { margin-top:1.8rem; opacity:0; transform:translateY(10px); transition:opacity .5s, transform .5s; }
-    section.block.show { opacity:1; transform:none; }
+    section.block { display:none; margin-top:1.8rem; opacity:0; transform:translateY(10px); transition:opacity .5s, transform .5s; }
+    section.block.show { display:block; opacity:1; transform:none; }
     .block-head { display:flex; align-items:center; gap:.6rem; margin:0 0 .8rem; }
     .block-num { width:1.7rem; height:1.7rem; flex:none; border-radius:50%; background:var(--bg-alt);
       border:1px solid var(--border); color:var(--orange-text); font-weight:700; display:grid; place-items:center; font-size:.85rem; }
