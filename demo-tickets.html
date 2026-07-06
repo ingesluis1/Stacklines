@@ -349,7 +349,7 @@
         renderInbox();
       };
       edit.onclick = () => { txt.focus(); txt.setSelectionRange(txt.value.length, txt.value.length); showResult('info', 'Je bewerkt nu het concept. Klik daarna op Goedkeuren & versturen.'); };
-      reject.onclick = () => { showResult('info', 'Concept afgewezen. Ticket doorgezet naar een medewerker om zelf te beantwoorden.'); };
+      reject.onclick = () => { showResult('info', 'Concept afgewezen. Je feedback is naar de AI verstuurd, zodat volgende voorstellen beter worden.'); };
     }
 
     function showResult(kind, msg) {
