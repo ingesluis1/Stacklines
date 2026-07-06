@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-ticketassistent (demo) | Stacklines</title>
+  <meta name="description" content="Doorklik-demo: een support-ticket komt binnen, de AI analyseert en stelt een antwoord voor, en een medewerker houdt de controle. Van Stacklines." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://stacklines.nl/demo-tickets.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --espresso: #2a1612;
+      --orange: #f97316;
+      --orange-dark: #ea6a0c;
+      --orange-text: #c2592a;
+      --bg: #ffffff;
+      --bg-alt: #fff4e6;
+      --cream: #f5e6d3;
+      --text: #1a1f2c;
+      --text-soft: #5b6472;
+      --text-mute: #8b93a1;
+      --border: #ecdcc9;
+      --line: #eef1f5;
+      --green: #1f9d63;
+      --green-bg: #e7f6ee;
+      --amber: #b7791f;
+      --amber-bg: #fbf1da;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: var(--font); color: var(--text); line-height: 1.55;
+      background:
+        radial-gradient(1100px 600px at 88% -10%, rgba(249,115,22,.09), transparent 60%),
+        radial-gradient(900px 500px at -5% 110%, rgba(253,186,116,.13), transparent 55%),
+        var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
+
+    .top { display: flex; align-items: center; justify-content: space-between; padding: 1rem clamp(1rem, 4vw, 2rem); border-bottom: 1px solid var(--border); background: rgba(255,255,255,.85); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5; }
+    .brand { font-weight: 800; letter-spacing: -.02em; font-size: 1.15rem; color: var(--espresso); text-decoration: none; }
+    .brand span { color: var(--orange); }
+    .back { text-decoration: none; color: var(--text-soft); font-weight: 600; font-size: .9rem; }
+    .back:hover { color: var(--orange-text); }
+
+    .intro { padding: clamp(1.8rem, 5vw, 3rem) 0 1.2rem; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--orange-text); background: var(--bg-alt); border: 1px solid var(--border); padding: .32rem .65rem; border-radius: 2rem; }
+    .live-dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--orange); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(249,115,22,.45);} 70%{box-shadow:0 0 0 8px rgba(249,115,22,0);} 100%{box-shadow:0 0 0 0 rgba(249,115,22,0);} }
+    h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.08; letter-spacing: -.02em; margin: .9rem 0 .5rem; color: var(--espresso); text-wrap: balance; }
+    .intro p { color: var(--text-soft); max-width: 44rem; margin: 0; font-size: clamp(1rem, 2vw, 1.12rem); }
+
+    /* app window */
+    .app { border: 1px solid var(--border); border-radius: var(--radius); background: #fff; box-shadow: 0 18px 50px rgba(42,22,18,.12); overflow: hidden; margin-bottom: 1.4rem; }
+    .app__bar { display: flex; align-items: center; gap: .5rem; padding: .7rem 1rem; background: var(--espresso); color: var(--cream); }
+    .app__bar .dots { display: flex; gap: .4rem; margin-right: .5rem; }
+    .app__bar .dots i { width: .7rem; height: .7rem; border-radius: 50%; background: rgba(245,230,211,.35); }
+    .app__bar .name { font-weight: 600; font-size: .9rem; }
+    .app__bar .env { margin-left: auto; font-size: .72rem; opacity: .7; letter-spacing: .05em; }
+
+    .app__body { display: grid; grid-template-columns: 300px 1fr; min-height: 540px; }
+    @media (max-width: 820px) { .app__body { grid-template-columns: 1fr; } .inbox { border-right: 0; border-bottom: 1px solid var(--line); max-height: 240px; } }
+
+    /* inbox */
+    .inbox { border-right: 1px solid var(--line); overflow-y: auto; }
+    .inbox__head { padding: .8rem 1rem; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-mute); font-weight: 700; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
+    .ticket { display: block; width: 100%; text-align: left; border: 0; background: none; border-bottom: 1px solid var(--line); padding: .85rem 1rem; cursor: pointer; font: inherit; transition: background .15s; }
+    .ticket:hover { background: #fff9f2; }
+    .ticket.active { background: var(--bg-alt); box-shadow: inset 3px 0 0 var(--orange); }
+    .ticket__row { display: flex; align-items: center; gap: .5rem; }
+    .ticket__from { font-weight: 600; font-size: .9rem; }
+    .ticket__time { margin-left: auto; font-size: .72rem; color: var(--text-mute); }
+    .ticket__subj { font-size: .88rem; color: var(--text); margin-top: .15rem; }
+    .ticket__snip { font-size: .8rem; color: var(--text-mute); margin-top: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pill { display: inline-flex; align-items: center; gap: .3rem; font-size: .68rem; font-weight: 700; padding: .12rem .5rem; border-radius: 2rem; }
+    .pill--new { background: var(--orange); color: #fff; }
+    .pill--done { background: var(--green-bg); color: var(--green); }
+
+    /* detail */
+    .detail { padding: 1.3rem clamp(1rem, 3vw, 1.6rem); overflow-y: auto; }
+    .empty { height: 100%; display: grid; place-items: center; color: var(--text-mute); text-align: center; padding: 2rem; }
+    .empty svg { opacity: .5; margin-bottom: .6rem; }
+
+    .msg { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .9rem 1rem; }
+    .msg__meta { font-size: .8rem; color: var(--text-soft); margin-bottom: .35rem; }
+    .msg__meta b { color: var(--text); }
+    .msg__body { font-size: .95rem; }
+
+    .assist { margin-top: 1.1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+    .assist__head { display: flex; align-items: center; gap: .6rem; padding: .7rem .9rem; background: #fff7ef; border-bottom: 1px solid var(--border); }
+    .assist__head .spark { width: 1.5rem; height: 1.5rem; border-radius: 6px; background: var(--orange); color: #fff; display: grid; place-items: center; font-size: .9rem; font-weight: 800; }
+    .assist__head .t { font-weight: 700; font-size: .9rem; }
+    .assist__head .conf { margin-left: auto; }
+    .conf-pill { font-size: .7rem; font-weight: 700; padding: .15rem .55rem; border-radius: 2rem; }
+    .conf-high { background: var(--green-bg); color: var(--green); }
+    .conf-mid { background: var(--amber-bg); color: var(--amber); }
+    .assist__body { padding: .9rem; }
+
+    .steps { list-style: none; margin: 0 0 .2rem; padding: 0; display: flex; flex-direction: column; gap: .55rem; }
+    .steps li { display: flex; align-items: center; gap: .6rem; font-size: .88rem; color: var(--text-soft); opacity: 0; transform: translateY(4px); transition: opacity .3s, transform .3s; }
+    .steps li.show { opacity: 1; transform: none; }
+    .st { flex: none; width: 1.15rem; height: 1.15rem; border-radius: 50%; display: grid; place-items: center; }
+    .st.load { border: 2px solid #e7d6c2; border-top-color: var(--orange); animation: spin .7s linear infinite; }
+    .st.done { background: var(--green); color: #fff; font-size: .7rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .st.load { animation: none; } .steps li { transition: none; } }
+
+    .draft { margin-top: .9rem; opacity: 0; transform: translateY(6px); transition: opacity .35s, transform .35s; }
+    .draft.show { opacity: 1; transform: none; }
+    .draft__label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-mute); font-weight: 700; margin-bottom: .35rem; display: flex; align-items: center; gap: .5rem; }
+    .draft textarea { width: 100%; min-height: 128px; resize: vertical; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .75rem .85rem; font: inherit; font-size: .92rem; color: var(--text); background: #fffdfb; line-height: 1.5; }
+    .draft textarea:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
+    .sources { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+    .src { font-size: .72rem; color: var(--text-soft); background: #f4f6f9; border: 1px solid var(--line); border-radius: 2rem; padding: .18rem .55rem; }
+    .src b { color: var(--orange-text); font-weight: 700; }
+
+    .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; align-items: center; }
+    .btn { border: 0; font: inherit; font-weight: 700; font-size: .9rem; padding: .6rem 1.1rem; border-radius: 2rem; cursor: pointer; transition: transform .15s, background .15s, box-shadow .15s; }
+    .btn--primary { background: var(--orange); color: #fff; }
+    .btn--primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .btn--ghost { background: #fff; color: var(--text); border: 1px solid var(--border); }
+    .btn--ghost:hover { border-color: var(--orange); color: var(--orange-text); }
+    .btn--sub { background: none; color: var(--text-mute); padding: .6rem .6rem; }
+    .btn--sub:hover { color: var(--text); }
+    .hint { font-size: .78rem; color: var(--text-mute); margin-left: auto; }
+
+    .result { margin-top: .9rem; border-radius: var(--radius-sm); padding: .8rem 1rem; font-size: .9rem; display: none; align-items: center; gap: .55rem; }
+    .result.show { display: flex; }
+    .result--ok { background: var(--green-bg); color: var(--green); }
+    .result--info { background: var(--amber-bg); color: var(--amber); }
+    .result b { font-weight: 700; }
+
+    .foot { text-align: center; color: var(--text-soft); font-size: .85rem; padding: .5rem 0 2.2rem; }
+    .foot a { color: var(--orange-text); text-decoration: none; font-weight: 600; }
+    .cta { text-align:center; padding-bottom: 3rem; }
+    .cta .btn--primary { padding: .8rem 1.5rem; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html">Stack<span>lines</span></a>
+    <a class="back" href="index.html">← Terug naar de site</a>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <span class="eyebrow"><span class="live-dot"></span> Demo · mens in de loop</span>
+      <h1>Een ticket binnen? De AI stelt een antwoord voor, jij houdt de regie</h1>
+      <p>Klik hieronder op een binnengekomen ticket. Je ziet hoe de assistent het ticket analyseert en een concept-antwoord opstelt, met de bronnen erbij. Niets gaat automatisch de deur uit: een medewerker keurt goed, past aan, of wijst af.</p>
+    </section>
+
+    <section class="app">
+      <div class="app__bar">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="name">GroenGeluk · Support</span>
+        <span class="env">demo-omgeving</span>
+      </div>
+      <div class="app__body">
+        <div class="inbox" id="inbox">
+          <div class="inbox__head"><span>Postvak IN</span><span id="open-count"></span></div>
+        </div>
+        <div class="detail" id="detail">
+          <div class="empty" id="empty">
+            <div>
+              <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <div>Kies een ticket uit het postvak om te beginnen.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta">
+      <a class="btn btn--primary" href="index.html#contact">Zoiets voor jouw team? Neem contact op →</a>
+    </div>
+
+    <p class="foot">Een demo van <a href="index.html">Stacklines</a> · in het echt gekoppeld aan je eigen mailbox, kennisbank en systemen.</p>
+  </main>
+
+  <script>
+    const TICKETS = [
+      {
+        id: "T-4821", from: "Mark Jansen", email: "mark.jansen@example.nl", time: "09:12", categorie: "Bezorging",
+        subject: "Waar blijft mijn bestelling?",
+        body: "Hoi, ik heb een paar dagen geleden besteld (GG-1002) maar er is nog niks bezorgd. Kunnen jullie zeggen wanneer het komt?",
+        confidence: "high",
+        steps: [
+          "Categorie bepaald: Bezorging",
+          "Bestelnummer GG-1002 herkend in het bericht",
+          "Klant- en ordergegevens opgehaald: status Verzonden",
+          "2 kennisbank-artikelen gebruikt (bezorgtermijn, track & trace)",
+          "Concept-antwoord opgesteld"
+        ],
+        sources: ["Order <b>GG-1002</b> · status Verzonden", "FAQ · Bezorgtermijn", "FAQ · Track &amp; trace"],
+        draft: "Hoi Mark,\n\nBedankt voor je bericht. Je bestelling GG-1002 (Sanseveria + sierpot) is inmiddels verzonden en wordt normaal binnen 2 tot 3 werkdagen bezorgd. Je hebt bij verzending een e-mail met een track & trace-link ontvangen, daarmee kun je het pakket live volgen.\n\nMocht het onverhoopt langer duren, laat het gerust weten, dan zoeken we het voor je uit.\n\nMet vriendelijke groet,\nKlantenservice GroenGeluk"
+      },
+      {
+        id: "T-4822", from: "Fatima El Amrani", email: "fatima.elamrani@example.nl", time: "09:47", categorie: "Klacht / retour",
+        subject: "Plant beschadigd aangekomen",
+        body: "Mijn Calathea kwam vandaag aan, maar een paar bladeren zijn gebroken. Vervelend, want het is een cadeau. Wat kunnen jullie doen?",
+        confidence: "mid",
+        steps: [
+          "Categorie bepaald: Klacht / retour",
+          "Sentiment: ontevreden — markeren voor menselijke controle",
+          "1 kennisbank-artikel gebruikt (beschadigd geleverd)",
+          "Concept-antwoord opgesteld"
+        ],
+        sources: ["FAQ · Beschadigd geleverd", "Beleid · Coulance bij cadeau"],
+        draft: "Hoi Fatima,\n\nWat vervelend dat je Calathea met gebroken bladeren is aangekomen, en juist nu het een cadeau is. Dat lossen we natuurlijk voor je op.\n\nWil je binnen 48 uur een fotootje van de beschadiging sturen naar support@groengeluk.nl? Dan sturen we je kosteloos een nieuwe plant, of je krijgt je geld terug, wat jij fijner vindt.\n\nOnze excuses voor het ongemak.\n\nMet vriendelijke groet,\nKlantenservice GroenGeluk"
+      },
+      {
+        id: "T-4823", from: "Lisa Smit", email: "lisa.smit@example.nl", time: "10:05", categorie: "Plantverzorging",
+        subject: "Gele blaadjes bij mijn Monstera",
+        body: "Ik heb vorige maand een Monstera bij jullie gekocht en nu krijgt hij gele blaadjes. Doe ik iets verkeerd?",
+        confidence: "high",
+        steps: [
+          "Categorie bepaald: Plantverzorging",
+          "Klant en aankoop herkend: Monstera Deliciosa",
+          "2 kennisbank-artikelen gebruikt (water geven, verzorgingskaart)",
+          "Concept-antwoord opgesteld"
+        ],
+        sources: ["FAQ · Water geven kamerplant", "Verzorgingskaart · Monstera"],
+        draft: "Hoi Lisa,\n\nLeuk dat je een Monstera bij ons hebt gehaald. Gele blaadjes komen bij de Monstera meestal door te veel water. Geef hem ongeveer één keer per week water en laat de grond er tussendoor licht opdrogen; zet hem op een lichte plek, maar niet in de volle middagzon.\n\nHaal de gele bladeren gerust weg, dan steekt de plant zijn energie in nieuwe groei. Het advies op de meegeleverde verzorgingskaart helpt je hier verder mee.\n\nMet vriendelijke groet,\nKlantenservice GroenGeluk"
+      }
+    ];
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const inbox = document.getElementById('inbox');
+    const detail = document.getElementById('detail');
+    const state = {}; // id -> 'open' | 'done'
+    TICKETS.forEach(t => state[t.id] = 'open');
+    let activeTimers = [];
+
+    function clearTimers() { activeTimers.forEach(clearTimeout); activeTimers = []; }
+    function updateCount() {
+      const open = TICKETS.filter(t => state[t.id] === 'open').length;
+      document.getElementById('open-count').textContent = open + ' open';
+    }
+
+    function renderInbox() {
+      inbox.querySelectorAll('.ticket').forEach(n => n.remove());
+      TICKETS.forEach(t => {
+        const b = document.createElement('button');
+        b.className = 'ticket' + (t.id === current ? ' active' : '');
+        b.onclick = () => openTicket(t.id);
+        const badge = state[t.id] === 'done'
+          ? '<span class="pill pill--done">✓ Beantwoord</span>'
+          : '<span class="pill pill--new">Nieuw</span>';
+        b.innerHTML =
+          '<div class="ticket__row"><span class="ticket__from">' + t.from + '</span><span class="ticket__time">' + t.time + '</span></div>' +
+          '<div class="ticket__subj">' + t.subject + '</div>' +
+          '<div class="ticket__row" style="margin-top:.35rem"><span class="ticket__snip">' + t.snip() + '</span></div>' +
+          '<div style="margin-top:.45rem">' + badge + '</div>';
+        inbox.appendChild(b);
+      });
+      updateCount();
+    }
+    TICKETS.forEach(t => t.snip = function () { return this.categorie; });
+
+    let current = null;
+
+    function openTicket(id) {
+      clearTimers();
+      current = id;
+      const t = TICKETS.find(x => x.id === id);
+      renderInbox();
+      const done = state[id] === 'done';
+
+      detail.innerHTML =
+        '<div class="msg">' +
+          '<div class="msg__meta">Van <b>' + t.from + '</b> &lt;' + t.email + '&gt; · ticket ' + t.id + ' · ' + t.time + '</div>' +
+          '<div class="msg__body">' + t.body + '</div>' +
+        '</div>' +
+        '<div class="assist">' +
+          '<div class="assist__head"><span class="spark">✦</span><span class="t">AI-assistent</span>' +
+            '<span class="conf"><span class="conf-pill ' + (t.confidence === 'high' ? 'conf-high">Zekerheid: hoog' : 'conf-mid">Zekerheid: gemiddeld') + '</span></span>' +
+          '</div>' +
+          '<div class="assist__body">' +
+            '<ul class="steps" id="steps"></ul>' +
+            '<div class="draft" id="draft">' +
+              '<div class="draft__label">Voorgesteld antwoord <span style="font-weight:500;text-transform:none;letter-spacing:0;color:var(--text-mute)">· jij bepaalt wat ermee gebeurt</span></div>' +
+              '<textarea id="draft-text" spellcheck="false">' + t.draft + '</textarea>' +
+              '<div class="sources"><span class="src" style="border-color:var(--border);background:var(--bg-alt)">Gebaseerd op:</span>' + t.sources.map(s => '<span class="src">' + s + '</span>').join('') + '</div>' +
+              '<div class="actions">' +
+                '<button class="btn btn--primary" id="approve">Goedkeuren &amp; versturen</button>' +
+                '<button class="btn btn--ghost" id="edit">Bewerken</button>' +
+                '<button class="btn btn--sub" id="reject">Afwijzen</button>' +
+                '<span class="hint">Niets wordt automatisch verzonden</span>' +
+              '</div>' +
+              '<div class="result" id="result"></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      const stepsEl = document.getElementById('steps');
+      const draftEl = document.getElementById('draft');
+      t.steps.forEach((s, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = '<span class="st load"></span><span>' + s + '</span>';
+        stepsEl.appendChild(li);
+      });
+
+      const lis = [...stepsEl.children];
+      if (done) {
+        lis.forEach(li => { li.classList.add('show'); li.querySelector('.st').className = 'st done'; li.querySelector('.st').textContent = '✓'; });
+        draftEl.classList.add('show');
+        wireActions(t);
+        showResult('ok', 'Dit ticket is in deze sessie al beantwoord.');
+      } else {
+        // gestileerde analyse-animatie
+        let delay = reduce ? 0 : 260;
+        lis.forEach((li, i) => {
+          activeTimers.push(setTimeout(() => {
+            li.classList.add('show');
+            // vorige stap afvinken
+            if (i > 0) { const p = lis[i - 1].querySelector('.st'); p.className = 'st done'; p.textContent = '✓'; }
+            // laatste stap: even laten "denken", dan afvinken + concept tonen
+            if (i === lis.length - 1) {
+              activeTimers.push(setTimeout(() => {
+                const s = li.querySelector('.st'); s.className = 'st done'; s.textContent = '✓';
+                draftEl.classList.add('show');
+                wireActions(t);
+              }, reduce ? 0 : 520));
+            }
+          }, reduce ? 0 : delay * (i + 1)));
+        });
+      }
+    }
+
+    function wireActions(t) {
+      const approve = document.getElementById('approve');
+      const edit = document.getElementById('edit');
+      const reject = document.getElementById('reject');
+      const txt = document.getElementById('draft-text');
+      if (!approve) return;
+      approve.onclick = () => {
+        state[t.id] = 'done';
+        approve.disabled = true; approve.style.opacity = .6;
+        showResult('ok', 'Antwoord verzonden naar ' + t.from + '. Ticket gesloten.');
+        renderInbox();
+      };
+      edit.onclick = () => { txt.focus(); txt.setSelectionRange(txt.value.length, txt.value.length); showResult('info', 'Je bewerkt nu het concept. Klik daarna op Goedkeuren & versturen.'); };
+      reject.onclick = () => { showResult('info', 'Concept afgewezen. Ticket doorgezet naar een medewerker om zelf te beantwoorden.'); };
+    }
+
+    function showResult(kind, msg) {
+      const r = document.getElementById('result');
+      if (!r) return;
+      r.className = 'result show ' + (kind === 'ok' ? 'result--ok' : 'result--info');
+      r.innerHTML = (kind === 'ok' ? '✓ ' : 'ℹ ') + '<span>' + msg + '</span>';
+    }
+
+    renderInbox();
+  </script>
+</body>
+</html>

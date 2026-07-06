@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GroenGeluk teamassistent</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" />
+  <style>
+    :root {
+      --chat--color-primary: #f97316;
+      --chat--color-primary-shade-50: #ea6a0c;
+      --chat--color-primary-shade-100: #d95f08;
+      --chat--color-secondary: #2a1612;
+      --chat--color-secondary-shade-50: #1a0d0a;
+      --chat--border-radius: 12px;
+      --chat--font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --chat--header--background: #2a1612;
+      --chat--header--color: #f5e6d3;
+      --chat--heading--font-size: 1.1rem;
+      --chat--subtitle--font-size: .85rem;
+      --chat--message--font-size: .95rem;
+      --chat--message--user--background: #f97316;
+      --chat--message--user--color: #ffffff;
+      --chat--message--bot--background: #fff4e6;
+      --chat--message--bot--color: #1a1f2c;
+      --chat--color-typing: #c2592a;
+      --chat--textarea--height: 52px;
+    }
+    html, body { height: 100%; margin: 0; background: #fff; }
+    #n8n-chat { height: 100%; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="n8n-chat"></div>
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    createChat({
+      webhookUrl: 'https://n8n.stacklines.nl/webhook/2338aaba-1b43-458a-8aeb-5ece0782ef56/chat',
+      mode: 'fullscreen',
+      target: '#n8n-chat',
+      showWelcomeScreen: false,
+      initialMessages: [
+        'Hoi! Ik ben de interne teamassistent van GroenGeluk.',
+        'Stel gerust een vraag over werkwijzen, HR of beleid, bijvoorbeeld: "Hoe handel ik een retourverzoek af?" of "Hoeveel verlofdagen heb ik nog?" (voor deze demo ben je ingelogd als Sanne de Vries).'
+      ],
+      i18n: {
+        en: {
+          title: 'GroenGeluk teamassistent',
+          subtitle: 'Voor medewerkers — werkwijzen, HR en beleid',
+          footer: '',
+          getStarted: 'Nieuw gesprek',
+          inputPlaceholder: 'Stel je vraag...',
+          closeButtonTooltip: 'Sluiten'
+        }
+      }
+    });
+  </script>
+</body>
+</html>
