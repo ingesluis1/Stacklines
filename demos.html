@@ -190,6 +190,16 @@
         </span>
         <p class="di-desc">Je team stelt vragen over werkwijzen, HR en beleid en krijgt direct een onderbouwd antwoord.</p>
       </button>
+
+      <button class="demo-item" type="button" data-src="demo-flow.html" aria-pressed="false">
+        <span class="di-top">
+          <span class="di-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h6M4 12h6M4 18h6"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2"/></svg>
+          </span>
+          <span class="di-title">Data samenvoegen &amp; versturen</span>
+        </span>
+        <p class="di-desc">Gegevens uit meerdere systemen worden gebundeld tot één bestand en automatisch verstuurd.</p>
+      </button>
     </nav>
 
     <section class="demo-view loading" aria-label="Demo">
@@ -205,8 +215,8 @@
       var frame = document.querySelector('.demo-frame');
 
       // Diepe link via hash: #klantenservice / #tickets / #intern
-      var hashMap = { klantenservice: 'demo.html', tickets: 'demo-tickets.html', intern: 'demo-intern.html' };
-      var srcToHash = { 'demo.html': 'klantenservice', 'demo-tickets.html': 'tickets', 'demo-intern.html': 'intern' };
+      var hashMap = { klantenservice: 'demo.html', tickets: 'demo-tickets.html', intern: 'demo-intern.html', flow: 'demo-flow.html' };
+      var srcToHash = { 'demo.html': 'klantenservice', 'demo-tickets.html': 'tickets', 'demo-intern.html': 'intern', 'demo-flow.html': 'flow' };
 
       function select(src, push) {
         items.forEach(function (b) {
