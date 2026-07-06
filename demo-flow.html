@@ -111,6 +111,11 @@
       .io-grid, .chart-row { grid-template-columns:1fr; }
       .kpis { grid-template-columns:repeat(2,1fr); }
       .bar { grid-template-columns:100px 1fr auto; }
+      /* Workflow-strook verticaal (pijlen naar beneden) i.p.v. rommelig wrappen */
+      .pipe { flex-direction:column; align-items:stretch; gap:.45rem; flex-wrap:nowrap; }
+      .pipe .src { gap:.45rem; }
+      .pipe .chip, .pipe .hub { width:100%; justify-content:center; text-align:center; }
+      .pipe .arrow { align-self:center; transform:rotate(90deg); line-height:1; }
     }
   </style>
 </head>
