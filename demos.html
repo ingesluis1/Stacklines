@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Live demo's | Stacklines</title>
-  <meta name="description" content="Probeer live wat Stacklines bouwt: een AI-klantenservice, een ticketassistent en een interne teamassistent. Zelf uitproberen, direct in je browser." />
+  <meta name="description" content="Probeer live wat Stacklines bouwt: AI-ondersteuning in de klantenservice, een ticketassistent en een interne teamassistent. Zelf uitproberen, direct in je browser." />
   <meta name="author" content="Stacklines" />
   <meta name="theme-color" content="#2a1612" />
   <link rel="canonical" href="https://stacklines.nl/demos.html" />
@@ -161,6 +161,7 @@
     .intro-link[hidden] { display: none; }
 
     .demo-detail { display: none; }
+    .nav-hint { display: none; }
 
     /* CTA-blok (verhuisd uit de demo-kaart naar de hub) */
     .hub-cta { background: var(--color-primary); color: #fff; border-radius: var(--radius); padding: 1.1rem 1.2rem; }
@@ -195,11 +196,9 @@
       .demo-item.active { background: var(--color-bg-alt); border-color: transparent; box-shadow: none; }
       .demo-item .di-title, .demo-item .di-desc { display: none; }
       .demo-item .di-top { justify-content: center; gap: 0; }
-      .demo-detail { display: block; background: var(--color-bg); border: 1px solid var(--color-border);
-        border-radius: var(--radius); padding: 12px 14px; margin-top: 10px; box-shadow: var(--shadow-sm); }
-      .demo-detail[hidden] { display: none; }
-      .demo-detail .dd-title { font-weight: 700; color: var(--color-text); }
-      .demo-detail .dd-desc { color: var(--color-text-soft); font-size: 14px; margin-top: 3px; }
+      .demo-detail { display: none; }
+      .demo-intro .intro-hint { display: none; }
+      .nav-hint:not([hidden]) { display: block; margin: 10px 2px 2px; font-weight: 600; font-size: 14px; color: var(--color-accent-text); }
       .demo-view { height: auto; min-height: 0; box-shadow: none; }
       .demo-intro { position: static; padding: 22px 16px; }
       .hub-cta--desktop { display: none; }
@@ -245,7 +244,7 @@
           <span class="di-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </span>
-          <span class="di-title">AI-klantenservice</span>
+          <span class="di-title">AI-ondersteuning in klantenservice</span>
         </span>
         <p class="di-desc">Een chat die klantvragen begrijpt, in een kennisbank zoekt én de juiste klantgegevens erbij pakt.</p>
       </button>
@@ -280,6 +279,7 @@
         <p class="di-desc">Gegevens uit meerdere systemen worden gebundeld tot één bestand en automatisch verstuurd.</p>
       </button>
       </div>
+      <p class="nav-hint" id="navHint">&uarr; Kies hierboven een demo om te beginnen.</p>
       <div class="demo-detail" id="demoDetail" hidden></div>
 
       <div class="hub-cta hub-cta--desktop">
@@ -320,6 +320,7 @@
       var overview = document.getElementById('toOverview');
       var detail = document.getElementById('demoDetail');
       var hubFlip = document.getElementById('hubFlip');
+      var navHint = document.getElementById('navHint');
       var activeSrc = null;
       var isMobile = function () { return window.matchMedia('(max-width: 900px)').matches; };
       var isChat = function (s) { return s === 'demo.html' || s === 'demo-intern.html'; };
@@ -356,6 +357,7 @@
         overview.hidden = false;
         frame.src = src + '?embed=1';
         activeSrc = src;
+        if (navHint) navHint.hidden = true;
         showHubFlip(isMobile() && isChat(src));
         if (push && srcToHash[src]) history.replaceState(null, '', '#' + srcToHash[src]);
       }
@@ -368,6 +370,7 @@
         if (detail) detail.hidden = true;
         frame.src = 'about:blank';
         activeSrc = null; showHubFlip(false); frame.style.height = '';
+        if (navHint) navHint.hidden = false;
         if (push) history.replaceState(null, '', location.pathname);
       }
 
