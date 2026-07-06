@@ -148,6 +148,7 @@
       margin-top: 20px; font-weight: 600; color: var(--color-accent-text);
       display: inline-flex; align-items: center; gap: .4rem;
     }
+    .hint-mobile { display: none; }
 
     /* Terug-naar-overzicht knopje in de lijst */
     .intro-link {
@@ -172,6 +173,8 @@
       }
       .demo-nav { overflow: visible; }
       .demo-nav .sub { display: none; }
+      .hint-desktop { display: none; }
+      .hint-mobile { display: inline; }
       /* Icoonrij: alleen de iconen naast elkaar; klik klapt de uitleg eronder uit. */
       .demo-items { display: flex; gap: 4px; background: #fff; border: 1px solid var(--color-border);
         border-radius: var(--radius); padding: 6px; box-shadow: var(--shadow-sm); }
@@ -267,7 +270,7 @@
           <h2>De demo's draaien rond &ldquo;De Groene Stuiver&rdquo;</h2>
           <p>Om te laten zien wat ik bouw zónder dat er echte bedrijfsgegevens in het spel zijn, draaien alle demo's rond een verzonnen bedrijf: <strong>De Groene Stuiver</strong>, een fictieve plantenwinkel. Alle namen, bestellingen en gegevens zijn dus fictief, maar de techniek eronder werkt echt.</p>
           <p>De AI-demo's zoeken in een <strong>echte kennisbank</strong> en gebruiken de bijbehorende voorbeelddata. Antwoorden verschijnen doorgaans binnen enkele seconden.</p>
-          <p class="intro-hint">&larr; Kies links een demo om te beginnen.</p>
+          <p class="intro-hint"><span class="hint-desktop">&larr; Kies links een demo om te beginnen.</span><span class="hint-mobile">&uarr; Kies hierboven een demo om te beginnen.</span></p>
         </div>
       </div>
       <div class="demo-loader">Demo laden&hellip;</div>
