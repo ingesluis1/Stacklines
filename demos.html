@@ -330,7 +330,7 @@
           var d = frame.contentDocument; if (!d || !d.body) return;
           // Meet de inhoud via de body (onafhankelijk van de huidige iframe-hoogte),
           // dus geen reset-naar-0 nodig -> geen gespring. Alleen zetten als het echt verandert.
-          var h = Math.max(d.body.scrollHeight, d.body.offsetHeight);
+          var h = Math.max(d.body.scrollHeight, d.body.offsetHeight, d.documentElement.scrollHeight) + 6;
           if (h && Math.abs(h - frame.offsetHeight) > 2) frame.style.height = h + 'px';
         } catch (e) {}
       }
