@@ -159,19 +159,30 @@
     .intro-link:hover { text-decoration: underline; }
     .intro-link[hidden] { display: none; }
 
+    .demo-detail { display: none; }
+
     /* Mobiel: sidebar boven, demo eronder. Pagina mag dan wél scrollen. */
     @media (max-width: 900px) {
       body { overflow: auto; }
       .demo-stage {
         grid-template-columns: 1fr;
         height: auto;
-        gap: 16px;
-        padding: 16px;
+        gap: 14px;
+        padding: 14px;
       }
       .demo-nav { overflow: visible; }
-      /* Op smal scherm de items als horizontale swipe-rij zou kunnen, maar
-         gestapeld is hier prima leesbaar. */
-      .demo-view { height: 78vh; min-height: 520px; }
+      .demo-nav .sub { display: none; }
+      /* Icoonrij: alleen de iconen naast elkaar; klik klapt de uitleg eronder uit. */
+      .demo-items { display: flex; gap: 8px; }
+      .demo-item { flex: 1 1 0; padding: 12px 6px; margin-bottom: 0; }
+      .demo-item .di-title, .demo-item .di-desc { display: none; }
+      .demo-item .di-top { justify-content: center; gap: 0; }
+      .demo-detail { display: block; background: var(--color-bg); border: 1px solid var(--color-border);
+        border-radius: var(--radius); padding: 12px 14px; margin-top: 10px; box-shadow: var(--shadow-sm); }
+      .demo-detail[hidden] { display: none; }
+      .demo-detail .dd-title { font-weight: 700; color: var(--color-text); }
+      .demo-detail .dd-desc { color: var(--color-text-soft); font-size: 14px; margin-top: 3px; }
+      .demo-view { height: 72vh; min-height: 500px; }
     }
   </style>
 </head>
@@ -201,6 +212,7 @@
 
       <button class="intro-link" type="button" id="toOverview" hidden>&lsaquo; Terug naar het overzicht</button>
 
+      <div class="demo-items">
       <button class="demo-item" type="button" data-src="demo.html" aria-pressed="false">
         <span class="di-top">
           <span class="di-icon" aria-hidden="true">
@@ -240,6 +252,8 @@
         </span>
         <p class="di-desc">Gegevens uit meerdere systemen worden gebundeld tot één bestand en automatisch verstuurd.</p>
       </button>
+      </div>
+      <div class="demo-detail" id="demoDetail" hidden></div>
     </nav>
 
     <section class="demo-view is-intro" aria-label="Demo">
@@ -263,6 +277,7 @@
       var view  = document.querySelector('.demo-view');
       var frame = document.querySelector('.demo-frame');
       var overview = document.getElementById('toOverview');
+      var detail = document.getElementById('demoDetail');
 
       // Diepe link via hash: #klantenservice / #tickets / #intern / #flow
       var hashMap = { klantenservice: 'demo.html', tickets: 'demo-tickets.html', intern: 'demo-intern.html', flow: 'demo-flow.html' };
@@ -274,6 +289,12 @@
           b.classList.toggle('active', on);
           b.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
+        var act = items.filter(function (b) { return b.getAttribute('data-src') === src; })[0];
+        if (act && detail) {
+          detail.innerHTML = '<div class="dd-title">' + act.querySelector('.di-title').textContent +
+            '</div><div class="dd-desc">' + act.querySelector('.di-desc').textContent + '</div>';
+          detail.hidden = false;
+        }
         view.classList.remove('is-intro');
         view.classList.add('loading');
         overview.hidden = false;
@@ -286,6 +307,7 @@
         view.classList.remove('loading');
         view.classList.add('is-intro');
         overview.hidden = true;
+        if (detail) detail.hidden = true;
         frame.src = 'about:blank';
         if (push) history.replaceState(null, '', location.pathname);
       }

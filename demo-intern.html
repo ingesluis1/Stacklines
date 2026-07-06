@@ -65,6 +65,8 @@
       background:var(--orange); color:#fff; border:none; cursor:pointer; font-family:inherit; font-weight:700; font-size:1rem;
       padding:.8rem 1.4rem; border-radius:2rem; transition:transform .15s,background .15s; }
     .flip-btn:hover { background:var(--orange-dark); transform:translateY(-2px); }
+    .flip-btn.ghost { background:#fff; color:var(--orange-text); border:1px solid var(--border); }
+    .flip-btn.ghost:hover { background:var(--bg-alt); border-color:var(--orange); }
 
     .chatbar { display:flex; align-items:center; gap:.6rem; padding:.6rem .9rem; border-bottom:1px solid var(--border); background:var(--bg-alt); flex:none; }
     .chatbar .t { font-weight:700; color:var(--espresso); font-size:.9rem; }
@@ -80,6 +82,10 @@
       .face { position:relative; inset:auto; transform:none !important; backface-visibility:visible; -webkit-backface-visibility:visible; }
       .face.back { order:-1; }
       .face-foot, .chatbar { display:none; }
+    }
+    @media (max-width:720px) {
+      .stage { padding:.7rem; align-items:stretch; }
+      .flip, .flip-inner { height:100%; }
     }
   </style>
 </head>
@@ -125,11 +131,8 @@
         </section>
 
         <section class="face back">
-          <div class="chatbar">
-            <button class="back-btn" id="toInfo">&lsaquo; Uitleg</button>
-            <span class="t">De Groene Stuiver · teamassistent</span>
-          </div>
           <iframe class="chat-frame" title="De Groene Stuiver teamassistent — interne demo" data-src="demo-intern-chat.html"></iframe>
+          <div class="face-foot"><button class="flip-btn ghost" id="toInfo">&lsaquo; Terug naar de uitleg</button></div>
         </section>
 
       </div>
