@@ -119,7 +119,7 @@
       .chat-card { display: none; }
       .grid.show-chat .rail { display: none; }
       .grid.show-chat .chat-card { display: flex; flex-direction: column; height: auto; border: none; box-shadow: none; }
-      .chat-frame { height: 68vh; min-height: 440px; }
+      .chat-frame { height: 560px; }
       /* 'Probeer de chat' vast onderaan het scherm (uitleg-stand) */
       .fliptab--chat { display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
         position: fixed; left: .8rem; right: .8rem; bottom: .8rem; z-index: 30;
@@ -130,6 +130,7 @@
         margin-bottom: .5rem; background: none; border: none; color: var(--orange-text);
         font-family: inherit; font-weight: 700; font-size: .95rem; padding: .2rem 0; cursor: pointer; }
       html.is-embed .fliptab--chat { display: none; }
+      html.is-embed .rail { padding-bottom: 1.2rem; }
     }
   </style>
 </head>

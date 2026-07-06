@@ -209,6 +209,7 @@
         background: var(--color-accent); color: #fff; border: none; border-radius: 2rem;
         font-family: inherit; font-weight: 700; font-size: 1rem; padding: .9rem; cursor: pointer;
         box-shadow: 0 10px 26px rgba(42,22,18,.28); }
+      body.has-hubflip .demo-stage { padding-bottom: 5rem; }
     }
   </style>
 </head>
@@ -324,8 +325,13 @@
       var isChat = function (s) { return s === 'demo.html' || s === 'demo-intern.html'; };
       function fitFrame() {
         if (!isMobile()) { frame.style.height = ''; return; }
-        try { var d = frame.contentDocument; if (d && d.documentElement) frame.style.height = d.documentElement.scrollHeight + 'px'; } catch (e) {}
+        try {
+          var d = frame.contentDocument; if (!d || !d.documentElement) return;
+          frame.style.height = '0px';            // reset zodat de meting de echte inhoud pakt
+          frame.style.height = d.documentElement.scrollHeight + 'px';
+        } catch (e) {}
       }
+      function showHubFlip(v) { hubFlip.hidden = !v; document.body.classList.toggle('has-hubflip', v); }
 
       // Diepe link via hash: #klantenservice / #tickets / #intern / #flow
       var hashMap = { klantenservice: 'demo.html', tickets: 'demo-tickets.html', intern: 'demo-intern.html', flow: 'demo-flow.html' };
@@ -348,7 +354,7 @@
         overview.hidden = false;
         frame.src = src + '?embed=1';
         activeSrc = src;
-        hubFlip.hidden = !(isMobile() && isChat(src));
+        showHubFlip(isMobile() && isChat(src));
         if (push && srcToHash[src]) history.replaceState(null, '', '#' + srcToHash[src]);
       }
 
@@ -359,7 +365,7 @@
         overview.hidden = true;
         if (detail) detail.hidden = true;
         frame.src = 'about:blank';
-        activeSrc = null; hubFlip.hidden = true; frame.style.height = '';
+        activeSrc = null; showHubFlip(false); frame.style.height = '';
         if (push) history.replaceState(null, '', location.pathname);
       }
 
@@ -372,7 +378,7 @@
       window.addEventListener('message', function (e) {
         if (!e.data) return;
         if (e.data.sl === 'state') {
-          if (isChat(activeSrc) && isMobile()) hubFlip.hidden = !!e.data.chat;
+          if (isChat(activeSrc) && isMobile()) showHubFlip(!e.data.chat);
           setTimeout(fitFrame, 60);
         }
       });

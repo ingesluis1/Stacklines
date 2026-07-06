@@ -111,6 +111,10 @@
       .io-grid, .chart-row { grid-template-columns:1fr; }
       .kpis { grid-template-columns:repeat(2,1fr); }
       .bar { grid-template-columns:100px 1fr auto; }
+      /* Tabellen laten meeschalen i.p.v. overlopen */
+      table.data { table-layout:fixed; }
+      table.data td { white-space:normal; word-break:break-word; }
+      .tbl-scroll { overflow-x:hidden; }
       /* Workflow-strook verticaal (pijlen naar beneden) i.p.v. rommelig wrappen */
       .pipe { flex-direction:column; align-items:stretch; gap:.45rem; flex-wrap:nowrap; }
       .pipe .src { gap:.45rem; }
