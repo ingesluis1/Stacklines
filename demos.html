@@ -121,6 +121,44 @@
     }
     .demo-view.loading .demo-loader { opacity: 1; }
 
+    /* Intro-scherm (getoond vóór je een demo kiest) */
+    .demo-view.is-intro .demo-frame,
+    .demo-view.is-intro .demo-loader { display: none; }
+    .demo-view:not(.is-intro) .demo-intro { display: none; }
+    .demo-intro {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      padding: clamp(24px, 5vw, 56px);
+      background:
+        radial-gradient(600px 400px at 20% 15%, rgba(249,115,22,.08), transparent 60%),
+        var(--color-bg);
+      overflow-y: auto;
+    }
+    .demo-intro .intro-inner { max-width: 560px; }
+    .demo-intro .intro-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--color-bg-alt); border: 1px solid var(--color-border);
+      color: var(--color-accent-text); font-weight: 600; font-size: 13px;
+      padding: 6px 14px; border-radius: 999px; margin-bottom: 16px;
+    }
+    .demo-intro h2 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.12; color: var(--color-primary); margin: 0 0 14px; }
+    .demo-intro p { color: var(--color-text-soft); margin: 0 0 12px; }
+    .demo-intro strong { color: var(--color-text); }
+    .demo-intro .intro-hint {
+      margin-top: 20px; font-weight: 600; color: var(--color-accent-text);
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+
+    /* Terug-naar-overzicht knopje in de lijst */
+    .intro-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: none; border: none; cursor: pointer;
+      color: var(--color-accent-text); font-weight: 600; font-size: 14px;
+      font-family: inherit; padding: 0; margin: -6px 0 14px;
+    }
+    .intro-link:hover { text-decoration: underline; }
+    .intro-link[hidden] { display: none; }
+
     /* Mobiel: sidebar boven, demo eronder. Pagina mag dan wél scrollen. */
     @media (max-width: 900px) {
       body { overflow: auto; }
@@ -161,7 +199,9 @@
       <h1>Probeer het zelf</h1>
       <p class="sub">Kies een demo, dan verschijnt 'ie hiernaast. Alles draait op een eigen server, dus een AI-antwoord kan 10 tot 20 seconden duren.</p>
 
-      <button class="demo-item active" type="button" data-src="demo.html" aria-pressed="true">
+      <button class="intro-link" type="button" id="toOverview" hidden>&lsaquo; Terug naar het overzicht</button>
+
+      <button class="demo-item" type="button" data-src="demo.html" aria-pressed="false">
         <span class="di-top">
           <span class="di-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -202,9 +242,18 @@
       </button>
     </nav>
 
-    <section class="demo-view loading" aria-label="Demo">
+    <section class="demo-view is-intro" aria-label="Demo">
+      <div class="demo-intro">
+        <div class="intro-inner">
+          <span class="intro-badge">🌱 Fictief voorbeeldbedrijf</span>
+          <h2>De demo's draaien rond &ldquo;GroenGeluk&rdquo;</h2>
+          <p>Om te laten zien wat ik bouw zónder dat er echte bedrijfsgegevens in het spel zijn, draaien alle demo's rond een verzonnen bedrijf: <strong>GroenGeluk</strong>, een fictieve plantenwinkel. Alle namen, bestellingen en gegevens zijn dus fictief, maar de techniek eronder werkt echt.</p>
+          <p>De AI-demo's draaien volledig op een <strong>eigen server</strong> (self-hosted). Daardoor kan een antwoord 10 tot 20 seconden duren en is het model wat lichter dan de grote commerciële modellen. In de praktijk koppel ik desgewenst een krachtiger of sneller model.</p>
+          <p class="intro-hint">&larr; Kies links een demo om te beginnen.</p>
+        </div>
+      </div>
       <div class="demo-loader">Demo laden&hellip;</div>
-      <iframe class="demo-frame" title="Live demo" src="demo.html?embed=1"></iframe>
+      <iframe class="demo-frame" title="Live demo" src="about:blank"></iframe>
     </section>
   </main>
 
@@ -213,8 +262,9 @@
       var items = Array.prototype.slice.call(document.querySelectorAll('.demo-item'));
       var view  = document.querySelector('.demo-view');
       var frame = document.querySelector('.demo-frame');
+      var overview = document.getElementById('toOverview');
 
-      // Diepe link via hash: #klantenservice / #tickets / #intern
+      // Diepe link via hash: #klantenservice / #tickets / #intern / #flow
       var hashMap = { klantenservice: 'demo.html', tickets: 'demo-tickets.html', intern: 'demo-intern.html', flow: 'demo-flow.html' };
       var srcToHash = { 'demo.html': 'klantenservice', 'demo-tickets.html': 'tickets', 'demo-intern.html': 'intern', 'demo-flow.html': 'flow' };
 
@@ -224,18 +274,30 @@
           b.classList.toggle('active', on);
           b.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
+        view.classList.remove('is-intro');
         view.classList.add('loading');
+        overview.hidden = false;
         frame.src = src + '?embed=1';
         if (push && srcToHash[src]) history.replaceState(null, '', '#' + srcToHash[src]);
+      }
+
+      function showIntro(push) {
+        items.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+        view.classList.remove('loading');
+        view.classList.add('is-intro');
+        overview.hidden = true;
+        frame.src = 'about:blank';
+        if (push) history.replaceState(null, '', location.pathname);
       }
 
       items.forEach(function (b) {
         b.addEventListener('click', function () { select(b.getAttribute('data-src'), true); });
       });
+      overview.addEventListener('click', function () { showIntro(true); });
 
       frame.addEventListener('load', function () { view.classList.remove('loading'); });
 
-      // Begin bij de demo uit de hash, anders de eerste.
+      // Diepe link opent direct die demo; anders het intro-overzicht.
       var start = hashMap[(location.hash || '').replace('#', '')];
       if (start) select(start, false);
     })();
