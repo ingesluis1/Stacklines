@@ -173,8 +173,12 @@
       .demo-nav { overflow: visible; }
       .demo-nav .sub { display: none; }
       /* Icoonrij: alleen de iconen naast elkaar; klik klapt de uitleg eronder uit. */
-      .demo-items { display: flex; gap: 8px; }
-      .demo-item { flex: 1 1 0; padding: 12px 6px; margin-bottom: 0; }
+      .demo-items { display: flex; gap: 4px; background: #fff; border: 1px solid var(--color-border);
+        border-radius: var(--radius); padding: 6px; box-shadow: var(--shadow-sm); }
+      .demo-item { flex: 1 1 0; padding: 12px 4px; margin-bottom: 0; border: 1px solid transparent;
+        background: none; box-shadow: none; border-radius: var(--radius-sm); }
+      .demo-item:hover { transform: none; box-shadow: none; }
+      .demo-item.active { background: var(--color-bg-alt); border-color: transparent; box-shadow: none; }
       .demo-item .di-title, .demo-item .di-desc { display: none; }
       .demo-item .di-top { justify-content: center; gap: 0; }
       .demo-detail { display: block; background: var(--color-bg); border: 1px solid var(--color-border);
