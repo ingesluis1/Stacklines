@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Live demo's | Stacklines</title>
+  <meta name="description" content="Probeer live wat Stacklines bouwt: een AI-klantenservice, een ticketassistent en een interne teamassistent. Zelf uitproberen, direct in je browser." />
+  <meta name="author" content="Stacklines" />
+  <meta name="theme-color" content="#2a1612" />
+  <link rel="canonical" href="https://stacklines.nl/demos.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Deze pagina is app-achtig: geen scroll-snap, vaste viewport-hoogte. */
+    html { scroll-snap-type: none; }
+    body { overflow: hidden; }
+
+    /* Header altijd frosted (er is geen page-scroll om 'm te triggeren). */
+    .site-header {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid rgba(28, 28, 46, 0.06);
+    }
+    .header-back {
+      font-weight: 600;
+      color: var(--color-accent-text);
+      text-decoration: none;
+      font-size: 15px;
+    }
+    .header-back:hover { text-decoration: underline; }
+
+    /* Layout: sidebar links, demo rechts, samen de resterende viewport. */
+    .demo-stage {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      height: calc(100vh - var(--header-h));
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .demo-nav { overflow-y: auto; padding-right: 4px; }
+    .demo-nav .eyebrow {
+      color: var(--color-accent-text);
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin: 4px 0 4px;
+    }
+    .demo-nav h1 {
+      font-size: 1.5rem;
+      line-height: 1.15;
+      margin: 0 0 6px;
+      color: var(--color-primary);
+    }
+    .demo-nav .sub {
+      color: var(--color-text-soft);
+      font-size: 14px;
+      margin: 0 0 18px;
+    }
+
+    .demo-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s, transform .2s, background .2s;
+      font-family: inherit;
+    }
+    .demo-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .demo-item.active {
+      border-color: var(--color-accent);
+      background: var(--color-bg-alt);
+      box-shadow: var(--shadow-sm);
+    }
+    .demo-item .di-top { display: flex; align-items: center; gap: 10px; }
+    .demo-item .di-icon {
+      flex: none;
+      width: 34px; height: 34px;
+      display: grid; place-items: center;
+      border-radius: 9px;
+      background: var(--color-primary);
+      color: #fff;
+    }
+    .demo-item.active .di-icon { background: var(--color-accent); }
+    .demo-item .di-icon svg { width: 18px; height: 18px; }
+    .demo-item .di-title { font-weight: 700; color: var(--color-text); font-size: 15px; }
+    .demo-item .di-desc { color: var(--color-text-soft); font-size: 13px; margin: 8px 0 0; line-height: 1.5; }
+
+    /* Demo-venster rechts */
+    .demo-view {
+      position: relative;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--color-bg);
+      box-shadow: var(--shadow-md);
+    }
+    .demo-frame { width: 100%; height: 100%; border: 0; display: block; }
+    .demo-loader {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      color: var(--color-text-soft);
+      font-size: 14px;
+      background: var(--color-bg-alt);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .demo-view.loading .demo-loader { opacity: 1; }
+
+    /* Mobiel: sidebar boven, demo eronder. Pagina mag dan wél scrollen. */
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .demo-stage {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 16px;
+        padding: 16px;
+      }
+      .demo-nav { overflow: visible; }
+      /* Op smal scherm de items als horizontale swipe-rij zou kunnen, maar
+         gestapeld is hier prima leesbaar. */
+      .demo-view { height: 78vh; min-height: 520px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="Stacklines homepage">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <line x1="5" y1="12" x2="15" y2="12"/>
+            <line x1="5" y1="17" x2="17" y2="17"/>
+          </svg>
+        </span>
+        <span class="logo-text">Stacklines</span>
+      </a>
+      <a href="index.html" class="header-back">&larr; Terug naar de site</a>
+    </div>
+  </header>
+
+  <main class="demo-stage">
+    <nav class="demo-nav" aria-label="Kies een demo">
+      <p class="eyebrow">Live demo's</p>
+      <h1>Probeer het zelf</h1>
+      <p class="sub">Kies een demo, dan verschijnt 'ie hiernaast. Alles draait op een eigen server, dus een AI-antwoord kan 10 tot 20 seconden duren.</p>
+
+      <button class="demo-item active" type="button" data-src="demo.html" aria-pressed="true">
+        <span class="di-top">
+          <span class="di-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </span>
+          <span class="di-title">AI-klantenservice</span>
+        </span>
+        <p class="di-desc">Een chat die klantvragen begrijpt, in een kennisbank zoekt én de juiste klantgegevens erbij pakt.</p>
+      </button>
+
+      <button class="demo-item" type="button" data-src="demo-tickets.html" aria-pressed="false">
+        <span class="di-top">
+          <span class="di-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v6a2 2 0 0 0 0 4v6H4v-6a2 2 0 0 0 0-4z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+          </span>
+          <span class="di-title">Ticketassistent</span>
+        </span>
+        <p class="di-desc">Een support-ticket komt binnen, de AI stelt een antwoord voor en de medewerker houdt de controle.</p>
+      </button>
+
+      <button class="demo-item" type="button" data-src="demo-intern.html" aria-pressed="false">
+        <span class="di-top">
+          <span class="di-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <span class="di-title">Interne teamassistent</span>
+        </span>
+        <p class="di-desc">Je team stelt vragen over werkwijzen, HR en beleid en krijgt direct een onderbouwd antwoord.</p>
+      </button>
+    </nav>
+
+    <section class="demo-view loading" aria-label="Demo">
+      <div class="demo-loader">Demo laden&hellip;</div>
+      <iframe class="demo-frame" title="Live demo" src="demo.html?embed=1"></iframe>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var items = Array.prototype.slice.call(document.querySelectorAll('.demo-item'));
+      var view  = document.querySelector('.demo-view');
+      var frame = document.querySelector('.demo-frame');
+
+      // Diepe link via hash: #klantenservice / #tickets / #intern
+      var hashMap = { klantenservice: 'demo.html', tickets: 'demo-tickets.html', intern: 'demo-intern.html' };
+      var srcToHash = { 'demo.html': 'klantenservice', 'demo-tickets.html': 'tickets', 'demo-intern.html': 'intern' };
+
+      function select(src, push) {
+        items.forEach(function (b) {
+          var on = b.getAttribute('data-src') === src;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        view.classList.add('loading');
+        frame.src = src + '?embed=1';
+        if (push && srcToHash[src]) history.replaceState(null, '', '#' + srcToHash[src]);
+      }
+
+      items.forEach(function (b) {
+        b.addEventListener('click', function () { select(b.getAttribute('data-src'), true); });
+      });
+
+      frame.addEventListener('load', function () { view.classList.remove('loading'); });
+
+      // Begin bij de demo uit de hash, anders de eerste.
+      var start = hashMap[(location.hash || '').replace('#', '')];
+      if (start) select(start, false);
+    })();
+  </script>
+</body>
+</html>
