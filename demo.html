@@ -104,22 +104,32 @@
 
     /* Flip-knoppen: alleen op mobiel zichtbaar. */
     .fliptab { display: none; }
+    /* CTA verhuist naar de hub-inhoudsopgave; in de hub-kaart verbergen. */
+    html.is-embed .cta { display: none; }
 
-    /* Mobiel: flip-kaart (uitleg voor, chat achter). Desktop blijft naast elkaar. */
+    /* Mobiel: uitleg en chat wisselen (geen 3D-flip); uitleg staat gewoon op de pagina
+       (geen intern scrollvak), knop staat vast onderaan het scherm. Desktop blijft naast elkaar. */
     @media (max-width: 720px) {
-      .stage { perspective: 1800px; padding: .6rem; }
-      .grid { position: relative; display: block; height: 100%; max-width: 640px; margin: 0 auto; padding: 0;
-        transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
-      .grid.flipped { transform: rotateY(180deg); }
-      .chat-card, .rail { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-      .rail { background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
-        box-shadow: 0 12px 44px rgba(42,22,18,.12); padding: 1.1rem; padding-right: 1.1rem; gap: 1rem; }
-      .chat-card { transform: rotateY(180deg); display: flex; flex-direction: column; }
-      .chat-frame { flex: 1 1 auto; height: auto; }
-      .fliptab { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; width: 100%;
-        font-family: inherit; font-weight: 700; font-size: 1rem; padding: .85rem; cursor: pointer; border: none; }
-      .fliptab--chat { position: sticky; bottom: 0; background: var(--orange); color: #fff; border-radius: 2rem; margin-top: .4rem; }
-      .fliptab--info { flex: none; background: #fff; color: var(--orange-text); border-top: 1px solid var(--border); }
+      html, body { height: auto; }
+      body { overflow: visible; display: block; }
+      .stage { display: block; padding: .7rem; min-height: 0; }
+      .grid { display: block; height: auto; max-width: 640px; margin: 0 auto; padding: 0; }
+      .chat-card, .rail { position: static; }
+      .rail { display: flex; overflow: visible; height: auto; padding: 0 0 5.5rem; }
+      .chat-card { display: none; }
+      .grid.show-chat .rail { display: none; }
+      .grid.show-chat .chat-card { display: flex; flex-direction: column; height: auto; border: none; box-shadow: none; }
+      .chat-frame { height: 68vh; min-height: 440px; }
+      /* 'Probeer de chat' vast onderaan het scherm (uitleg-stand) */
+      .fliptab--chat { display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+        position: fixed; left: .8rem; right: .8rem; bottom: .8rem; z-index: 30;
+        font-family: inherit; font-weight: 700; font-size: 1rem; padding: .9rem; border-radius: 2rem; cursor: pointer; border: none;
+        background: var(--orange); color: #fff; box-shadow: 0 10px 26px rgba(42,22,18,.25); }
+      /* '‹ Uitleg' als terugknop bovenaan de chat (dekt het invoerveld niet af) */
+      .fliptab--info { display: inline-flex; align-items: center; gap: .3rem; order: -1; align-self: flex-start;
+        margin-bottom: .5rem; background: none; border: none; color: var(--orange-text);
+        font-family: inherit; font-weight: 700; font-size: .95rem; padding: .2rem 0; cursor: pointer; }
+      html.is-embed .fliptab--chat { display: none; }
     }
   </style>
 </head>
@@ -182,9 +192,14 @@
   <script>
     (function () {
       var grid = document.querySelector('.grid');
+      function post() { try { parent.postMessage({ sl: 'state', chat: grid.classList.contains('show-chat') }, '*'); } catch (e) {} }
+      function toChat() { grid.classList.add('show-chat'); window.scrollTo(0, 0); post(); }
+      function toInfo() { grid.classList.remove('show-chat'); window.scrollTo(0, 0); post(); }
+      function toggle() { grid.classList.contains('show-chat') ? toInfo() : toChat(); }
       var c = document.getElementById('toChat'), i = document.getElementById('toInfo');
-      if (c) c.addEventListener('click', function () { grid.classList.add('flipped'); });
-      if (i) i.addEventListener('click', function () { grid.classList.remove('flipped'); });
+      if (c) c.addEventListener('click', toChat);
+      if (i) i.addEventListener('click', toInfo);
+      window.addEventListener('message', function (e) { if (e.data && e.data.sl === 'flip') toggle(); });
     })();
   </script>
 </body>
