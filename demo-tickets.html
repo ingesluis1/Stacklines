@@ -82,6 +82,9 @@
       .inbox .ticket__catrow { display: none; }
       .inbox .ticket__preview { display: block; font-size: .8rem; color: var(--text-mute); margin-top: .1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .inbox .ticket .pill--new { display: none; }
+      /* Analyse-stappen: op mobiel één tegelijk tonen (bespaart verticale ruimte) */
+      .assist__body .steps li { display: none; }
+      .assist__body .steps li.show:not(:has(~ li.show)) { display: flex; }
     }
 
     /* inbox */
