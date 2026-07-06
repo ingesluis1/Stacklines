@@ -12,143 +12,127 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --espresso:#2a1612; --orange:#f97316; --orange-dark:#ea6a0c; --orange-text:#c2592a;
-      --bg:#ffffff; --bg-alt:#fff4e6; --cream:#f5e6d3; --text:#1a1f2c; --text-soft:#4b5563;
-      --border:#ecdcc9; --radius:16px; --radius-sm:10px;
-      --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+      --espresso: #2a1612; --orange: #f97316; --orange-dark: #ea6a0c; --orange-text: #c2592a;
+      --bg: #ffffff; --bg-alt: #fff4e6; --cream: #f5e6d3; --text: #1a1f2c; --text-soft: #4b5563;
+      --border: #ecdcc9; --radius: 16px; --radius-sm: 10px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-    * { box-sizing:border-box; }
-    html,body { height:100%; margin:0; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
     body {
-      font-family:var(--font); color:var(--text); line-height:1.6;
-      background:radial-gradient(900px 650px at 8% 6%,rgba(249,115,22,.10),transparent 60%),
-                 radial-gradient(850px 650px at 96% 16%,rgba(253,186,116,.14),transparent 60%),#fff;
-      display:flex; flex-direction:column; overflow:hidden;
+      font-family: var(--font); color: var(--text); line-height: 1.6;
+      background:
+        radial-gradient(1100px 600px at 88% -10%, rgba(249,115,22,.10), transparent 60%),
+        radial-gradient(900px 500px at -5% 110%, rgba(253,186,116,.14), transparent 55%),
+        var(--bg);
+      -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; overflow: hidden;
     }
-    .top { display:flex; align-items:center; justify-content:space-between;
-      padding:.9rem clamp(1rem,4vw,2rem); border-bottom:1px solid var(--border);
-      background:rgba(255,255,255,.7); backdrop-filter:blur(10px); flex:none; }
-    .brand { font-weight:800; font-size:1.15rem; color:var(--espresso); text-decoration:none; letter-spacing:-.02em; }
-    .brand span { color:var(--orange); }
-    .back { color:var(--orange-text); text-decoration:none; font-weight:600; font-size:.95rem; }
-    .back:hover { text-decoration:underline; }
-
-    .stage { flex:1 1 auto; min-height:0; display:grid; place-items:center; padding:clamp(1rem,3vw,1.8rem); }
-
-    .flip { width:100%; max-width:680px; perspective:1800px; }
-    .flip-inner { position:relative; height:min(72vh,600px); transition:transform .65s cubic-bezier(.2,.7,.2,1);
-      transform-style:preserve-3d; will-change:transform; }
-    .flip.flipped .flip-inner { transform:rotateY(180deg); }
-    .face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
-      border-radius:var(--radius); overflow:hidden; background:#fff; border:1px solid var(--border);
-      box-shadow:0 16px 50px rgba(42,22,18,.14); display:flex; flex-direction:column; }
-    .face.back { transform:rotateY(180deg); }
-
-    .uitleg { padding:clamp(1.1rem,3vw,1.5rem); overflow-y:auto; display:flex; flex-direction:column; gap:1rem; }
-    .eyebrow { display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--orange-text); }
-    .live-dot { width:.5rem; height:.5rem; border-radius:50%; background:var(--orange); animation:pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.5);opacity:.5;} }
-    h1 { font-size:clamp(1.4rem,3.4vw,1.9rem); line-height:1.1; letter-spacing:-.02em; margin:.15rem 0 .3rem; color:var(--espresso); }
-    .intro { color:var(--text-soft); margin:0; }
-    .panel { background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-sm); padding:.9rem 1rem; }
-    .panel h2 { font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--orange-text); margin:0 0 .6rem; }
-    .try { display:flex; flex-wrap:wrap; gap:.4rem; }
-    .q { background:#fff; border:1px solid var(--border); border-radius:999px; padding:.35rem .7rem; font-size:.82rem; color:var(--espresso); }
-    .steps { display:flex; flex-direction:column; gap:.6rem; }
-    .step { display:grid; grid-template-columns:1.7rem 1fr; gap:.6rem; align-items:start; }
-    .step .n { width:1.7rem; height:1.7rem; border-radius:50%; background:#fff; border:1px solid var(--border); color:var(--orange-text); font-weight:700; display:grid; place-items:center; font-size:.82rem; }
-    .step .t { font-weight:600; font-size:.9rem; }
-    .step .d { color:var(--text-soft); font-size:.84rem; }
-    .note { background:#fff; border:1px dashed var(--border); border-radius:var(--radius-sm); padding:.75rem .9rem; font-size:.82rem; color:var(--text-soft); }
-    .face-foot { flex:none; padding:.8rem 1.1rem 1rem; border-top:1px solid var(--border); background:#fff; }
-    .flip-btn { width:100%; display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
-      background:var(--orange); color:#fff; border:none; cursor:pointer; font-family:inherit; font-weight:700; font-size:1rem;
-      padding:.8rem 1.4rem; border-radius:2rem; transition:transform .15s,background .15s; }
-    .flip-btn:hover { background:var(--orange-dark); transform:translateY(-2px); }
-    .flip-btn.ghost { background:#fff; color:var(--orange-text); border:1px solid var(--border); }
-    .flip-btn.ghost:hover { background:var(--bg-alt); border-color:var(--orange); }
-
-    .chatbar { display:flex; align-items:center; gap:.6rem; padding:.6rem .9rem; border-bottom:1px solid var(--border); background:var(--bg-alt); flex:none; }
-    .chatbar .t { font-weight:700; color:var(--espresso); font-size:.9rem; }
-    .back-btn { display:inline-flex; align-items:center; gap:.3rem; background:#fff; border:1px solid var(--border); border-radius:999px;
-      padding:.35rem .8rem; font-family:inherit; font-weight:600; font-size:.82rem; color:var(--orange-text); cursor:pointer; }
-    .back-btn:hover { border-color:var(--orange); }
-    .chat-frame { width:100%; flex:1 1 auto; border:0; display:block; }
-
-    /* Desktop: geen flip, chat + uitleg naast elkaar. */
-    @media (min-width:721px) {
-      .flip { max-width:980px; perspective:none; }
-      .flip-inner { transform:none !important; transform-style:flat; display:grid; grid-template-columns:1.4fr 1fr; gap:1.2rem; }
-      .face { position:relative; inset:auto; transform:none !important; backface-visibility:visible; -webkit-backface-visibility:visible; }
-      .face.back { order:-1; }
-      .face-foot, .chatbar { display:none; }
-    }
-    @media (max-width:720px) {
-      .stage { padding:.7rem; align-items:stretch; }
-      .flip, .flip-inner { height:100%; }
+    a { color: inherit; }
+    .top { flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: .9rem clamp(1rem, 4vw, 2rem); border-bottom: 1px solid var(--border); background: rgba(255,255,255,.85); backdrop-filter: blur(10px); }
+    .brand { font-weight: 800; letter-spacing: -.02em; font-size: 1.15rem; color: var(--espresso); text-decoration: none; }
+    .brand span { color: var(--orange); }
+    .back { text-decoration: none; color: var(--text-soft); font-weight: 600; font-size: .9rem; }
+    .back:hover { color: var(--orange-text); }
+    .stage { flex: 1 1 auto; min-height: 0; }
+    .grid { height: 100%; max-width: 1160px; margin: 0 auto; padding: clamp(1rem, 2.5vw, 1.6rem) clamp(1rem, 4vw, 2rem); display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.4rem; align-items: stretch; }
+    .chat-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 12px 44px rgba(42,22,18,.12); overflow: hidden; min-height: 0; }
+    .chat-frame { width: 100%; height: 100%; border: 0; display: block; }
+    .rail { min-height: 0; overflow-y: auto; padding-right: .3rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .rail::-webkit-scrollbar { width: 8px; }
+    .rail::-webkit-scrollbar-thumb { background: #e7d6c2; border-radius: 8px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--orange-text); background: var(--bg-alt); border: 1px solid var(--border); padding: .32rem .65rem; border-radius: 2rem; }
+    .live-dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--orange); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(249,115,22,.45);} 70%{box-shadow:0 0 0 8px rgba(249,115,22,0);} 100%{box-shadow:0 0 0 0 rgba(249,115,22,0);} }
+    h1 { font-size: clamp(1.5rem, 3.2vw, 2.1rem); line-height: 1.08; letter-spacing: -.02em; margin: .1rem 0 .4rem; color: var(--espresso); text-wrap: balance; }
+    .intro { color: var(--text-soft); margin: 0; font-size: .98rem; }
+    .panel { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.2rem; box-shadow: 0 4px 18px rgba(42,22,18,.05); }
+    .panel h2 { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--orange-text); margin: 0 0 .7rem; }
+    .try { display: flex; flex-direction: column; gap: .5rem; }
+    .try .q { display: flex; gap: .55rem; align-items: flex-start; font-size: .93rem; }
+    .try .q::before { content: "›"; color: var(--orange); font-weight: 800; }
+    .steps { display: flex; flex-direction: column; gap: .8rem; }
+    .step { display: grid; grid-template-columns: 1.8rem 1fr; gap: .65rem; align-items: start; }
+    .step .n { width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--bg-alt); color: var(--orange-text); font-weight: 700; display: grid; place-items: center; font-size: .85rem; }
+    .step .t { font-weight: 600; font-size: .95rem; }
+    .step .d { color: var(--text-soft); font-size: .88rem; }
+    .note { font-size: .84rem; color: var(--text-soft); background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .65rem .8rem; }
+    .note b { color: var(--espresso); }
+    .cta { background: var(--espresso); color: var(--cream); border-radius: var(--radius); padding: 1.2rem 1.3rem; }
+    .cta h2 { color: #fff; font-size: 1.15rem; margin: 0 0 .3rem; letter-spacing: -.01em; text-transform: none; }
+    .cta p { color: var(--cream); opacity: .85; margin: 0 0 .9rem; font-size: .9rem; }
+    .btn { display: inline-block; background: var(--orange); color: #fff; text-decoration: none; font-weight: 700; padding: .7rem 1.3rem; border-radius: 2rem; transition: transform .2s, background .2s; }
+    .btn:hover { background: var(--orange-dark); transform: translateY(-2px); }
+    .fliptab { display: none; }
+    @media (max-width: 720px) {
+      .stage { perspective: 1800px; padding: .6rem; }
+      .grid { position: relative; display: block; height: 100%; max-width: 640px; margin: 0 auto; padding: 0;
+        transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+      .grid.flipped { transform: rotateY(180deg); }
+      .chat-card, .rail { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+      .rail { background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+        box-shadow: 0 12px 44px rgba(42,22,18,.12); padding: 1.1rem; padding-right: 1.1rem; gap: 1rem; }
+      .chat-card { transform: rotateY(180deg); display: flex; flex-direction: column; }
+      .chat-frame { flex: 1 1 auto; height: auto; }
+      .fliptab { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; width: 100%;
+        font-family: inherit; font-weight: 700; font-size: 1rem; padding: .85rem; cursor: pointer; border: none; }
+      .fliptab--chat { position: sticky; bottom: 0; background: var(--orange); color: #fff; border-radius: 2rem; margin-top: .4rem; }
+      .fliptab--info { flex: none; background: #fff; color: var(--orange-text); border-top: 1px solid var(--border); }
     }
   </style>
 </head>
 <body>
   <script>if(location.search.indexOf('embed')>-1)document.documentElement.classList.add('is-embed');</script>
   <style>html.is-embed .top{display:none!important}</style>
-
   <header class="top">
     <a class="brand" href="index.html">Stack<span>lines</span></a>
     <a class="back" href="index.html">← Terug naar de site</a>
   </header>
-
   <div class="stage">
-    <div class="flip" id="flip">
-      <div class="flip-inner">
-
-        <section class="face front">
-          <div class="uitleg">
-            <span class="eyebrow"><span class="live-dot"></span> Live demo · intern</span>
-            <div>
-              <h1>Een AI-assistent voor je eigen team</h1>
-              <p class="intro">Bij <strong>De Groene Stuiver</strong> kunnen medewerkers hier terecht met vragen over werkwijzen, HR en beleid, zonder eerst een collega te storen. De assistent kent het interne handboek én persoonlijke gegevens zoals je verlofsaldo. Zoiets scheelt je team veel zoekwerk.</p>
-            </div>
-            <div class="panel">
-              <h2>Probeer straks bijvoorbeeld</h2>
-              <div class="try">
-                <span class="q">Hoe handel ik een retourverzoek af?</span>
-                <span class="q">Hoeveel verlofdagen heb ik nog?</span>
-                <span class="q">Hoe meld ik me ziek?</span>
-              </div>
-            </div>
-            <div class="panel">
-              <h2>Hoe werkt dit</h2>
-              <div class="steps">
-                <div class="step"><div class="n">1</div><div><div class="t">Begrijpt de vraag</div><div class="d">Zoekt op betekenis in het interne handboek.</div></div></div>
-                <div class="step"><div class="n">2</div><div><div class="t">Kent de medewerker</div><div class="d">Haalt persoonlijke gegevens erbij, zoals het verlofsaldo.</div></div></div>
-                <div class="step"><div class="n">3</div><div><div class="t">Geeft een helder antwoord</div><div class="d">Kort en correct, of verwijst naar HR of teamleider.</div></div></div>
-              </div>
-            </div>
-            <div class="note"><b>Let op:</b> demo op fictieve voorbeelddata (De Groene Stuiver). Je bent voor de demo "ingelogd" als Sanne de Vries. Een antwoord verschijnt meestal binnen enkele seconden.</div>
+    <div class="grid">
+      <div class="chat-card">
+        <iframe class="chat-frame" src="demo-intern-chat.html" title="De Groene Stuiver teamassistent — interne demo"></iframe>
+        <button class="fliptab fliptab--info" type="button" id="toInfo">&lsaquo; Terug naar de uitleg</button>
+      </div>
+      <div class="rail">
+        <span class="eyebrow"><span class="live-dot"></span> Live demo · intern</span>
+        <div>
+          <h1>Een AI-assistent voor je eigen team</h1>
+          <p class="intro">Bij <strong>De Groene Stuiver</strong> kunnen medewerkers hier terecht met vragen over werkwijzen, HR en beleid, zonder eerst een collega te storen. De assistent kent het interne handboek én persoonlijke gegevens zoals je verlofsaldo. Zoiets scheelt je team veel zoekwerk.</p>
+        </div>
+        <div class="panel">
+          <h2>Probeer bijvoorbeeld</h2>
+          <div class="try">
+            <div class="q">Hoe handel ik een retourverzoek af?</div>
+            <div class="q">Hoeveel verlofdagen heb ik nog?</div>
+            <div class="q">Hoe meld ik me ziek?</div>
+            <div class="q">Hoe declareer ik onkosten?</div>
           </div>
-          <div class="face-foot"><button class="flip-btn" id="toChat">Probeer de assistent &rarr;</button></div>
-        </section>
-
-        <section class="face back">
-          <iframe class="chat-frame" title="De Groene Stuiver teamassistent — interne demo" data-src="demo-intern-chat.html"></iframe>
-          <div class="face-foot"><button class="flip-btn ghost" id="toInfo">&lsaquo; Terug naar de uitleg</button></div>
-        </section>
-
+        </div>
+        <div class="panel">
+          <h2>Hoe werkt dit</h2>
+          <div class="steps">
+            <div class="step"><div class="n">1</div><div><div class="t">Begrijpt de vraag</div><div class="d">Zoekt op betekenis in het interne handboek.</div></div></div>
+            <div class="step"><div class="n">2</div><div><div class="t">Kent de medewerker</div><div class="d">Haalt persoonlijke gegevens erbij, zoals het verlofsaldo.</div></div></div>
+            <div class="step"><div class="n">3</div><div><div class="t">Geeft een helder antwoord</div><div class="d">Kort en correct, of verwijst naar HR/teamleider.</div></div></div>
+          </div>
+        </div>
+        <div class="note"><b>Let op:</b> dit is een demo op fictieve voorbeelddata (De Groene Stuiver). De assistent zoekt in een interne kennisbank en gebruikt de bijbehorende medewerkergegevens. Een antwoord verschijnt meestal binnen enkele seconden.</div>
+        <div class="cta">
+          <h2>Wil je dit voor jouw team?</h2>
+          <p>Ik zet je interne kennis en systemen om in een assistent die je collega's tijd bespaart.</p>
+          <a class="btn" href="index.html#contact">Neem contact op →</a>
+        </div>
+        <button class="fliptab fliptab--chat" type="button" id="toChat">Probeer de assistent &rarr;</button>
       </div>
     </div>
   </div>
-
   <script>
-    var flip = document.getElementById('flip');
-    var frame = flip.querySelector('.chat-frame');
-    function loadChat(){ if(!frame.src){ frame.src = frame.getAttribute('data-src'); } }
-    function toChat(){ loadChat(); flip.classList.add('flipped'); }
-    function toInfo(){ flip.classList.remove('flipped'); }
-    document.getElementById('toChat').addEventListener('click', toChat);
-    document.getElementById('toInfo').addEventListener('click', toInfo);
-    loadChat();
-    if (location.search.indexOf('flip') > -1) toChat();
+    (function () {
+      var grid = document.querySelector('.grid');
+      var c = document.getElementById('toChat'), i = document.getElementById('toInfo');
+      if (c) c.addEventListener('click', function () { grid.classList.add('flipped'); });
+      if (i) i.addEventListener('click', function () { grid.classList.remove('flipped'); });
+    })();
   </script>
 </body>
 </html>

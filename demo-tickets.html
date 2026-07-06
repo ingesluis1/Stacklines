@@ -71,30 +71,37 @@
       .inbox { border-right: 0; border-bottom: 0; overflow-y: visible; }
       .app.viewing .inbox { display: none; }
       .app:not(.viewing) .detail { display: none; }
-      .app.viewing .to-inbox { display: inline-flex; }
+      .app.viewing .to-inbox { display: inline-flex; align-items: center; gap: .3rem; background: none; border: 0; color: var(--orange-text); font-weight: 700; font-size: .9rem; font-family: inherit; padding: 0 0 .8rem; cursor: pointer; }
+      /* mail-achtige rijen (zoals een telefoon-mailbox) */
+      .inbox .ticket { display: flex; gap: .6rem; align-items: flex-start; }
+      .inbox .ticket__dot { display: block; flex: none; width: .5rem; height: .5rem; border-radius: 50%; background: var(--orange); margin-top: .55rem; }
+      .inbox .ticket.read .ticket__dot { background: transparent; }
+      .inbox .ticket__ava { display: grid; place-items: center; flex: none; width: 2.1rem; height: 2.1rem; border-radius: 50%; background: var(--bg-alt); border: 1px solid var(--border); color: var(--orange-text); font-weight: 700; font-size: .78rem; }
+      .inbox .ticket__main { flex: 1; min-width: 0; }
+      .inbox .ticket.read .ticket__from { color: var(--text-soft); }
+      .inbox .ticket__catrow { display: none; }
+      .inbox .ticket__preview { display: block; font-size: .8rem; color: var(--text-mute); margin-top: .1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .inbox .ticket .pill--new { display: none; }
     }
 
     /* inbox */
     .inbox { border-right: 1px solid var(--line); overflow-y: auto; }
     .inbox__head { padding: .8rem 1rem; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-mute); font-weight: 700; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
-    .ticket { display: flex; gap: .6rem; align-items: flex-start; width: 100%; text-align: left; border: 0; background: none; border-bottom: 1px solid var(--line); padding: .8rem 1rem; cursor: pointer; font: inherit; transition: background .15s; }
+    .ticket { display: block; width: 100%; text-align: left; border: 0; background: none; border-bottom: 1px solid var(--line); padding: .85rem 1rem; cursor: pointer; font: inherit; transition: background .15s; }
     .ticket:hover { background: #fff9f2; }
     .ticket.active { background: var(--bg-alt); box-shadow: inset 3px 0 0 var(--orange); }
-    .ticket__dot { flex: none; width: .5rem; height: .5rem; border-radius: 50%; background: var(--orange); margin-top: .55rem; }
-    .ticket.read .ticket__dot { background: transparent; }
-    .ticket__ava { flex: none; width: 2.1rem; height: 2.1rem; border-radius: 50%; background: var(--bg-alt); border: 1px solid var(--border); color: var(--orange-text); font-weight: 700; font-size: .78rem; display: grid; place-items: center; }
-    .ticket__main { flex: 1; min-width: 0; }
     .ticket__row { display: flex; align-items: center; gap: .5rem; }
-    .ticket__from { font-weight: 700; font-size: .9rem; }
-    .ticket.read .ticket__from { font-weight: 600; color: var(--text-soft); }
-    .ticket__time { margin-left: auto; font-size: .72rem; color: var(--text-mute); white-space: nowrap; }
-    .ticket__subj { font-size: .86rem; color: var(--text); margin-top: .12rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .ticket__snip { display: block; font-size: .8rem; color: var(--text-mute); margin-top: .05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .ticket__main .pill { margin-top: .4rem; }
-    .to-inbox { display: none; align-items: center; gap: .3rem; background: none; border: 0; color: var(--orange-text); font-weight: 700; font-size: .9rem; font-family: inherit; padding: 0 0 .8rem; cursor: pointer; }
+    .ticket__from { font-weight: 600; font-size: .9rem; }
+    .ticket__time { margin-left: auto; font-size: .72rem; color: var(--text-mute); }
+    .ticket__subj { font-size: .88rem; color: var(--text); margin-top: .15rem; }
+    .ticket__snip { font-size: .8rem; color: var(--text-mute); margin-top: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .pill { display: inline-flex; align-items: center; gap: .3rem; font-size: .68rem; font-weight: 700; padding: .12rem .5rem; border-radius: 2rem; }
     .pill--new { background: var(--orange); color: #fff; }
     .pill--done { background: var(--green-bg); color: var(--green); }
+    /* Extra's voor de mobiele mailbox — op desktop verborgen */
+    .ticket__dot, .ticket__ava, .ticket__preview { display: none; }
+    .ticket__main { display: block; }
+    .to-inbox { display: none; }
 
     /* detail */
     .detail { padding: 1.3rem clamp(1rem, 3vw, 1.6rem); overflow-y: auto; }
@@ -267,21 +274,25 @@
         b.className = 'ticket' + (t.id === current ? ' active' : '') + (unread ? '' : ' read');
         b.onclick = () => openTicket(t.id);
         const initials = t.from.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-        const badge = state[t.id] === 'done' ? '<span class="pill pill--done">✓ Beantwoord</span>' : '';
+        const preview = t.body.length > 64 ? t.body.slice(0, 64) + '…' : t.body;
+        const badge = state[t.id] === 'done'
+          ? '<span class="pill pill--done">✓ Beantwoord</span>'
+          : '<span class="pill pill--new">Nieuw</span>';
         b.innerHTML =
           '<span class="ticket__dot"></span>' +
           '<span class="ticket__ava">' + initials + '</span>' +
           '<span class="ticket__main">' +
-            '<span class="ticket__row"><span class="ticket__from">' + t.from + '</span><span class="ticket__time">' + t.time + '</span></span>' +
-            '<span class="ticket__subj">' + t.subject + '</span>' +
-            '<span class="ticket__snip">' + t.snip() + '</span>' +
-            badge +
+            '<div class="ticket__row"><span class="ticket__from">' + t.from + '</span><span class="ticket__time">' + t.time + '</span></div>' +
+            '<div class="ticket__subj">' + t.subject + '</div>' +
+            '<div class="ticket__row ticket__catrow" style="margin-top:.35rem"><span class="ticket__snip">' + t.snip() + '</span></div>' +
+            '<span class="ticket__preview">' + preview + '</span>' +
+            '<div style="margin-top:.45rem">' + badge + '</div>' +
           '</span>';
         inbox.appendChild(b);
       });
       updateCount();
     }
-    TICKETS.forEach(t => t.snip = function () { return this.body.length > 66 ? this.body.slice(0, 66) + '…' : this.body; });
+    TICKETS.forEach(t => t.snip = function () { return this.categorie; });
 
     let current = null;
 
@@ -382,7 +393,6 @@
     }
 
     renderInbox();
-    if (location.search.indexOf('open') > -1) openTicket(TICKETS[0].id);
   </script>
 </body>
 </html>
