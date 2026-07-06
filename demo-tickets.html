@@ -140,7 +140,7 @@
     .draft { margin-top: .9rem; opacity: 0; transform: translateY(6px); transition: opacity .35s, transform .35s; }
     .draft.show { opacity: 1; transform: none; }
     .draft__label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text-mute); font-weight: 700; margin-bottom: .35rem; display: flex; align-items: center; gap: .5rem; }
-    .draft textarea { width: 100%; min-height: 128px; resize: vertical; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .75rem .85rem; font: inherit; font-size: .92rem; color: var(--text); background: #fffdfb; line-height: 1.5; }
+    .draft textarea { width: 100%; min-height: 128px; resize: none; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .75rem .85rem; font: inherit; font-size: .92rem; color: var(--text); background: #fffdfb; line-height: 1.5; }
     .draft textarea:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
     .sources { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
     .src { font-size: .72rem; color: var(--text-soft); background: #f4f6f9; border: 1px solid var(--line); border-radius: 2rem; padding: .18rem .55rem; }
@@ -265,6 +265,7 @@
     TICKETS.forEach(t => state[t.id] = 'open');
     let activeTimers = [];
 
+    function notify() { try { parent.postMessage({ sl: 'state', chat: false }, '*'); } catch (e) {} }
     function clearTimers() { activeTimers.forEach(clearTimeout); activeTimers = []; }
     function updateCount() {
       const open = TICKETS.filter(t => state[t.id] === 'open').length;
@@ -337,10 +338,14 @@
         '</div>';
 
       const ti = document.getElementById('toInbox');
-      if (ti) ti.onclick = () => { current = null; document.querySelector('.app').classList.remove('viewing'); renderInbox(); };
+      if (ti) ti.onclick = () => { current = null; document.querySelector('.app').classList.remove('viewing'); renderInbox(); notify(); };
 
       const stepsEl = document.getElementById('steps');
       const draftEl = document.getElementById('draft');
+      const ta = document.getElementById('draft-text');
+      function autosize() { if (!ta) return; ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
+      if (ta) { autosize(); ta.addEventListener('input', function(){ autosize(); notify(); }); requestAnimationFrame(function(){ autosize(); notify(); }); }
+      notify();
       t.steps.forEach((s, i) => {
         const li = document.createElement('li');
         li.innerHTML = '<span class="st load"></span><span>' + s + '</span>';
@@ -353,6 +358,7 @@
         draftEl.classList.add('show');
         wireActions(t);
         showResult('ok', 'Dit ticket is in deze sessie al beantwoord.');
+        autosize(); notify(); requestAnimationFrame(notify);
       } else {
         // gestileerde analyse-animatie
         let delay = reduce ? 0 : 260;
@@ -367,6 +373,7 @@
                 const s = li.querySelector('.st'); s.className = 'st done'; s.textContent = '✓';
                 draftEl.classList.add('show');
                 wireActions(t);
+                autosize(); notify(); requestAnimationFrame(notify);
               }, reduce ? 0 : 520));
             }
           }, reduce ? 0 : delay * (i + 1)));
@@ -395,6 +402,7 @@
       if (!r) return;
       r.className = 'result show ' + (kind === 'ok' ? 'result--ok' : 'result--info');
       r.innerHTML = (kind === 'ok' ? '✓ ' : 'ℹ ') + '<span>' + msg + '</span>';
+      notify(); requestAnimationFrame(notify);
     }
 
     renderInbox();
