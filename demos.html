@@ -324,14 +324,15 @@
       var activeSrc = null;
       var isMobile = function () { return window.matchMedia('(max-width: 900px)').matches; };
       var isChat = function (s) { return s === 'demo.html' || s === 'demo-intern.html'; };
+      var lastH = -1;
       function fitFrame() {
-        if (!isMobile()) { frame.style.height = ''; return; }
+        if (!isMobile()) { frame.style.height = ''; lastH = -1; return; }
         try {
           var d = frame.contentDocument; if (!d || !d.body) return;
-          // Meet de inhoud via de body (onafhankelijk van de huidige iframe-hoogte),
-          // dus geen reset-naar-0 nodig -> geen gespring. Alleen zetten als het echt verandert.
-          var h = Math.max(d.body.scrollHeight, d.body.offsetHeight) + 6;   // body is stabiel; documentElement = de door ons gezette hoogte -> lus
-          if (h && Math.abs(h - frame.offsetHeight) > 3) frame.style.height = h + 'px';
+          // Meet de INHOUD-hoogte en vergelijk met de vorige inhoud-meting (niet met de
+          // iframe-hoogte die we zelf zetten) -> nooit een groei-lus.
+          var h = Math.max(d.body.scrollHeight, d.body.offsetHeight);
+          if (Math.abs(h - lastH) > 3) { lastH = h; frame.style.height = (h + 6) + 'px'; }
         } catch (e) {}
       }
       function showHubFlip(v) { hubFlip.hidden = !v; document.body.classList.toggle('has-hubflip', v); }
