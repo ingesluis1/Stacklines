@@ -2,3 +2,6 @@
 # Persoonlijke / niet-web bestanden
 Microsoft365.txt
 *.eml
+
+# Interne docs/notities niet publiek serveren (Cloudflare serveert alles in de repo)
+*.md
