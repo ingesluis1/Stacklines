@@ -298,6 +298,15 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Header frosted-blur state bij scrollen (zelfde gedrag als de homepage). */
+    var header = document.querySelector('.site-header');
+    var onScroll = function () {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   </script>
 </body>
 </html>
