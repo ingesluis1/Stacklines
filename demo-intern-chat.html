@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>De Groene Stuiver teamassistent</title>
+  <title>Teamassistent (demo) | Stacklines</title>
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,9 +32,24 @@
     }
     html, body { height: 100%; margin: 0; background: #fff; }
     #n8n-chat { height: 100%; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .sl-demo-banner { display: none; gap: .25rem .6rem; align-items: center; justify-content: center; flex-wrap: wrap; text-align: center; background: #2a1612; color: #f5e6d3; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: .82rem; line-height: 1.35; padding: .6rem 1rem; }
+    .sl-demo-banner strong { color: #fff; }
+    .sl-demo-banner a { color: #fdba74; font-weight: 600; text-decoration: none; }
+    .sl-demo-banner a:hover { text-decoration: underline; }
+    body.has-banner { display: flex; flex-direction: column; }
+    body.has-banner .sl-demo-banner { display: flex; }
+    body.has-banner #n8n-chat { flex: 1 1 auto; height: auto; min-height: 0; }
   </style>
 </head>
 <body>
+  <div class="sl-demo-banner">
+    <span>Demo van <strong>Stacklines</strong>. &ldquo;De Groene Stuiver&rdquo; is een fictief voorbeeldbedrijf.</span>
+    <a href="https://stacklines.nl/">stacklines.nl</a>
+  </div>
+  <script>
+    /* Toon de demo-balk alleen als de pagina direct wordt geopend (niet in de iframe van de hub/demo). */
+    if (window.self === window.top) document.body.classList.add('has-banner');
+  </script>
   <div id="n8n-chat"></div>
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
