@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+  <!-- Google tag (gtag.js), alleen laden bij direct openen, niet in een iframe van de hub/demo -->
+  <script>
+    if (window.self === window.top) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', 'G-DMELH2BQQL');
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-DMELH2BQQL';
+      document.head.appendChild(s);
+    }
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klantenservice-assistent (demo) | Stacklines</title>
