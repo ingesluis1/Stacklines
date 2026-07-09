@@ -382,7 +382,39 @@ a:focus-visible,
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
-  margin: 28px 0 24px;
+  margin: 28px 0 14px;
+}
+
+/* Opvallende demo-knop: accent-oranje met gloed + pulserend live-bolletje. */
+.hero-demo-cta {
+  margin: 0 0 22px;
+}
+.btn-demo {
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1.05rem;
+  padding: 15px 30px;
+  box-shadow: 0 10px 26px rgba(249, 115, 22, .38);
+}
+.btn-demo:hover {
+  background: #ea6a0c;
+  color: #fff;
+}
+.btn-demo .live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  flex: none;
+  animation: liveping 1.8s ease-out infinite;
+}
+@keyframes liveping {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, .7); }
+  70%  { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-demo .live-dot { animation: none; }
 }
 .hero-points {
   list-style: none;
@@ -1296,6 +1328,7 @@ a:focus-visible,
   .hero { padding: 76px 0 32px; }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; }
+  .hero-demo-cta { width: 100%; }
 
   .section { padding: 40px 0; }
   .section-head { margin-bottom: 26px; }
