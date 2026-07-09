@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Veelgestelde vragen over automatisering | Stacklines</title>
+  <meta name="description" content="Antwoorden op veelgestelde vragen over werkprocessen automatiseren voor MKB en ZZP: wat het kost, hoe lang het duurt, welke tools (Make, Zapier, n8n) en hoe het zit met de veiligheid van je data." />
+  <meta name="author" content="Stacklines" />
+  <meta name="theme-color" content="#2a1612" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://stacklines.nl/faq.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://stacklines.nl/faq.html" />
+  <meta property="og:title" content="Veelgestelde vragen over automatisering | Stacklines" />
+  <meta property="og:description" content="Wat kost automatiseren, hoe lang duurt het, welke tools en hoe zit het met veiligheid? De meestgestelde vragen, kort en helder beantwoord." />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:site_name" content="Stacklines" />
+  <meta property="og:image" content="https://stacklines.nl/og-image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* FAQ-pagina: rustige documentopmaak binnen de huisstijl.
+       Scroll-snap uit (die is voor de one-pager bedoeld). */
+    html { scroll-snap-type: none; }
+
+    .faq-hero { padding: calc(var(--header-h) + 48px) 0 24px; }
+    .faq-hero .eyebrow {
+      color: var(--color-accent-text);
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin: 0 0 10px;
+    }
+    .faq-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+      margin: 0 0 14px;
+      color: var(--color-primary);
+    }
+    .faq-hero .lead {
+      color: var(--color-text-soft);
+      max-width: 640px;
+      margin: 0;
+    }
+
+    .faq-list { max-width: 780px; padding-bottom: 24px; }
+    .faq-group { margin: 40px 0 0; }
+    .faq-group > h2 {
+      font-size: 1.35rem;
+      color: var(--color-primary);
+      margin: 0 0 12px;
+    }
+
+    details.faq-item {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      background: var(--color-bg);
+      margin: 10px 0;
+    }
+    details.faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 16px 20px;
+      font-weight: 600;
+      color: var(--color-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+    details.faq-item summary::-webkit-details-marker { display: none; }
+    details.faq-item summary::after {
+      content: "+";
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--color-accent);
+      flex: none;
+      transition: transform .2s ease;
+    }
+    details.faq-item[open] summary::after { content: "\2212"; }
+    details.faq-item summary:hover { color: var(--color-accent-text); }
+    .faq-answer { padding: 0 20px 18px; color: var(--color-text); }
+    .faq-answer p { margin: 0 0 10px; }
+    .faq-answer p:last-child { margin-bottom: 0; }
+
+    .faq-cta {
+      max-width: 780px;
+      margin: 48px 0 8px;
+      padding: 28px 28px;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+    }
+    .faq-cta h2 { margin: 0 0 8px; color: var(--color-primary); font-size: 1.4rem; }
+    .faq-cta p { margin: 0 0 16px; color: var(--color-text-soft); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 24px 0 8px;
+      font-weight: 600;
+      color: var(--color-accent-text);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .faq-footer {
+      background: var(--color-bg-dark);
+      color: #ffffff;
+      padding: 28px 0;
+      text-align: center;
+    }
+    .faq-footer a { color: var(--color-accent-light); }
+    .faq-footer p { margin: 4px 0; font-size: 15px; }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wat kost het om een proces te automatiseren?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ik werk op uurbasis, geen vaste pakketprijs. De meeste trajecten beginnen klein: een afgebakende taak die ik in een paar uur tot enkele dagen opzet. Zo zie je snel resultaat en blijft de investering behapbaar. Na een kort gesprek geef ik een realistische inschatting van de uren."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoe lang duurt een automatiseringsproject?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dat hangt af van hoeveel systemen erbij komen kijken. Een eenvoudige koppeling of workflow staat vaak binnen een paar dagen. Grotere trajecten pak ik aan in korte sprints met tussentijdse check-ins, zodat je de oplossing ziet groeien en kunt bijsturen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Moet ik alles in een keer automatiseren?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nee, en dat raad ik ook af. We beginnen met een proces dat duidelijk tijd of ergernis kost. Werkt dat goed, dan bouwen we rustig uit. Klein beginnen betekent snel resultaat en weinig risico."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ik weet niet welk proces ik moet automatiseren. Kun je meedenken?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Zeker. Vaak zie ik in een kort gesprek al waar de meeste tijd weglekt: overtypen, kopieren, handmatig mailen of gegevens uit het ene systeem in het andere zetten. Dat zijn de eerste kandidaten. Je hoeft dus niet zelf de oplossing te bedenken."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Werk je samen met de software die ik al gebruik?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Meestal wel. Ik koppel aan de tools die je al gebruikt, zoals je CRM, boekhouding, mailbox of webshop, in plaats van je te laten overstappen. Kan een systeem niet direct koppelen, dan is er vaak een oplossing via een API of een tussenstap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat is het verschil tussen Make, Zapier en n8n?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Het zijn alle drie tools om systemen te laten samenwerken. Zapier is laagdrempelig en snel voor standaardkoppelingen. Make kan complexere flows visueel aan. n8n kun je zelf hosten, handig als je gevoelige data in eigen beheer wilt houden. Ik kies per situatie wat past, je zit nergens aan vast."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Gebruik je AI, en is dat betrouwbaar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ik zet AI in waar het echt helpt, bijvoorbeeld voor het samenvatten van e-mails of het voorstellen van antwoorden. Belangrijk is dat een mens de controle houdt: de AI doet een voorzet, jij of je medewerker keurt het goed. Zo profiteer je van de snelheid zonder blind te vertrouwen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is automatisering veilig met mijn bedrijfsgegevens?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Daar let ik scherp op. Waar het kan werk ik in een eigen, afgeschermde en self-hosted omgeving, zodat je data niet onnodig langs allerlei externe diensten gaat. Toegang beperk ik tot wat nodig is, en na afloop draag ik de oplossing netjes over naar jouw eigen omgeving."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Werk je alleen in Apeldoorn?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ik zit in Apeldoorn, maar het meeste werk doe ik op afstand. Daardoor help ik ondernemers door heel Nederland. Een kennismaking kan prima online."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hoe begin ik?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stuur een bericht of mail naar info@stacklines.nl en beschrijf kort waar je tegenaan loopt. Een eerste gesprek kost niets en levert sowieso nieuwe inzichten op."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="Stacklines homepage">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <line x1="5" y1="12" x2="15" y2="12"/>
+            <line x1="5" y1="17" x2="17" y2="17"/>
+          </svg>
+        </span>
+        <span class="logo-text">Stacklines</span>
+      </a>
+
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <ul>
+          <li><a href="index.html#diensten">Wat ik doe</a></li>
+          <li><a href="index.html#proces">Aanpak</a></li>
+          <li><a href="index.html#over">Over mij</a></li>
+          <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="faq-hero">
+      <div class="container">
+        <p class="eyebrow">Veelgestelde vragen</p>
+        <h1>Vragen over automatisering</h1>
+        <p class="lead">De vragen die ondernemers me het vaakst stellen, kort en eerlijk beantwoord. Staat je vraag er niet bij? Stuur gerust een bericht.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="faq-list">
+
+        <div class="faq-group">
+          <h2>Kosten en doorlooptijd</h2>
+
+          <details class="faq-item">
+            <summary>Wat kost het om een proces te automatiseren?</summary>
+            <div class="faq-answer">
+              <p>Ik werk op uurbasis, geen vaste pakketprijs. De meeste trajecten beginnen klein: een afgebakende taak die ik in een paar uur tot enkele dagen opzet. Zo zie je snel resultaat en blijft de investering behapbaar. Na een kort gesprek geef ik een realistische inschatting van de uren.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Hoe lang duurt een automatiseringsproject?</summary>
+            <div class="faq-answer">
+              <p>Dat hangt af van hoeveel systemen erbij komen kijken. Een eenvoudige koppeling of workflow staat vaak binnen een paar dagen. Grotere trajecten pak ik aan in korte sprints met tussentijdse check-ins, zodat je de oplossing ziet groeien en kunt bijsturen.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group">
+          <h2>Werkwijze</h2>
+
+          <details class="faq-item">
+            <summary>Moet ik alles in een keer automatiseren?</summary>
+            <div class="faq-answer">
+              <p>Nee, en dat raad ik ook af. We beginnen met een proces dat duidelijk tijd of ergernis kost. Werkt dat goed, dan bouwen we rustig uit. Klein beginnen betekent snel resultaat en weinig risico.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Ik weet niet welk proces ik moet automatiseren. Kun je meedenken?</summary>
+            <div class="faq-answer">
+              <p>Zeker. Vaak zie ik in een kort gesprek al waar de meeste tijd weglekt: overtypen, kopieren, handmatig mailen of gegevens uit het ene systeem in het andere zetten. Dat zijn de eerste kandidaten. Je hoeft dus niet zelf de oplossing te bedenken.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Werk je samen met de software die ik al gebruik?</summary>
+            <div class="faq-answer">
+              <p>Meestal wel. Ik koppel aan de tools die je al gebruikt, zoals je CRM, boekhouding, mailbox of webshop, in plaats van je te laten overstappen. Kan een systeem niet direct koppelen, dan is er vaak een oplossing via een API of een tussenstap.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group">
+          <h2>Techniek en veiligheid</h2>
+
+          <details class="faq-item">
+            <summary>Wat is het verschil tussen Make, Zapier en n8n?</summary>
+            <div class="faq-answer">
+              <p>Het zijn alle drie tools om systemen te laten samenwerken. Zapier is laagdrempelig en snel voor standaardkoppelingen. Make kan complexere flows visueel aan. n8n kun je zelf hosten, handig als je gevoelige data in eigen beheer wilt houden. Ik kies per situatie wat past, je zit nergens aan vast.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Gebruik je AI, en is dat betrouwbaar?</summary>
+            <div class="faq-answer">
+              <p>Ik zet AI in waar het echt helpt, bijvoorbeeld voor het samenvatten van e-mails of het voorstellen van antwoorden. Belangrijk is dat een mens de controle houdt: de AI doet een voorzet, jij of je medewerker keurt het goed. Zo profiteer je van de snelheid zonder blind te vertrouwen.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Is automatisering veilig met mijn bedrijfsgegevens?</summary>
+            <div class="faq-answer">
+              <p>Daar let ik scherp op. Waar het kan werk ik in een eigen, afgeschermde en self-hosted omgeving, zodat je data niet onnodig langs allerlei externe diensten gaat. Toegang beperk ik tot wat nodig is, en na afloop draag ik de oplossing netjes over naar jouw eigen omgeving.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-group">
+          <h2>Aan de slag</h2>
+
+          <details class="faq-item">
+            <summary>Werk je alleen in Apeldoorn?</summary>
+            <div class="faq-answer">
+              <p>Ik zit in Apeldoorn, maar het meeste werk doe ik op afstand. Daardoor help ik ondernemers door heel Nederland. Een kennismaking kan prima online.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Hoe begin ik?</summary>
+            <div class="faq-answer">
+              <p>Stuur een bericht of mail naar <a href="mailto:info@stacklines.nl">info@stacklines.nl</a> en beschrijf kort waar je tegenaan loopt. Een eerste gesprek kost niets en levert sowieso nieuwe inzichten op.</p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+
+      <div class="faq-cta">
+        <h2>Staat je vraag er niet bij?</h2>
+        <p>Stel hem gerust. Ik denk vrijblijvend met je mee over wat er in jouw bedrijf te automatiseren valt.</p>
+        <a href="index.html#contact" class="btn btn-primary">Neem contact op &rarr;</a>
+      </div>
+
+      <a href="index.html" class="back-link">&larr; Terug naar de homepage</a>
+    </div>
+  </main>
+
+  <footer class="faq-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Stacklines &middot; Apeldoorn &middot; KvK 42106654</p>
+      <p><a href="index.html">stacklines.nl</a> &middot; <a href="mailto:info@stacklines.nl">info@stacklines.nl</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Header frosted-blur state bij scrollen (zelfde gedrag als de homepage). */
+    var header = document.querySelector('.site-header');
+    var onScroll = function () {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
