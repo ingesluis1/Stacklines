@@ -1,0 +1,12 @@
+# Bestanden die Cloudflare NIET als publieke asset mag uitserveren.
+# Werkt als .gitignore, maar dan voor de deploy in plaats van voor git.
+#
+# Aanleiding (09-08-2026): /.git/config, /.git/index, /.git/logs/HEAD en de
+# objects waren allemaal met een gewone browser op te halen. Daarmee kan iemand
+# met standaardgereedschap de repo uitpakken. Er stonden geen secrets in, maar
+# het lekte wel de private repo-URL en de volledige bestandslijst, en het is een
+# van de eerste dingen waar scanbots op zoeken.
+
+.git
+.gitignore
+.assetsignore
