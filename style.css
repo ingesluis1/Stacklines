@@ -1766,3 +1766,41 @@ a:focus-visible,
 @media (min-width: 901px) {
   .more-reading { display: none; }
 }
+
+/* Vergelijkingstabel op /make-zapier-n8n. Scrollt horizontaal binnen z'n
+   eigen container, zodat de pagina zelf nooit horizontaal gaat schuiven. */
+.svc-table-wrap {
+  overflow-x: auto;
+  margin: 20px 0 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  -webkit-overflow-scrolling: touch;
+}
+.svc-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-size: .92rem;
+}
+.svc-table th,
+.svc-table td {
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+.svc-table thead th {
+  background: var(--color-bg-alt);
+  color: var(--color-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.svc-table tbody th {
+  color: var(--color-primary);
+  font-weight: 600;
+  background: var(--color-bg-alt);
+  white-space: nowrap;
+}
+.svc-table td { color: var(--color-text); }
+.svc-table tbody tr:last-child th,
+.svc-table tbody tr:last-child td { border-bottom: 0; }
