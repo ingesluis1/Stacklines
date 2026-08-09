@@ -1793,3 +1793,22 @@ a:focus-visible,
 .svc-table td { color: var(--color-text); }
 .svc-table tbody tr:last-child th,
 .svc-table tbody tr:last-child td { border-bottom: 0; }
+
+/* Laatste regel in het uitklapmenu: maakt duidelijk dat de vier pagina's
+   voorbeelden zijn en niet het volledige aanbod. */
+.nav .nav-sub .nav-sub__more {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border);
+}
+.nav .nav-sub .nav-sub__more a {
+  color: var(--color-text-soft);
+  font-size: .85rem;
+}
+
+/* Zelfde boodschap onderaan de call-to-action op de dienstpagina's. */
+.svc-cta__note {
+  margin: 16px 0 0;
+  font-size: .88rem;
+  color: var(--color-text-soft);
+}
