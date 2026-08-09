@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMELH2BQQL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DMELH2BQQL');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Factuurverwerking automatiseren voor MKB en ZZP | Stacklines</title>
+  <meta name="description" content="Facturen automatisch laten uitlezen, controleren en doorzetten naar je boekhouding. Hoe het werkt, wat het oplevert en wanneer het juist niet loont." />
+  <meta name="author" content="Stacklines" />
+  <meta name="theme-color" content="#2a1612" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://stacklines.nl/factuurverwerking-automatiseren" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://stacklines.nl/" },
+      { "@type": "ListItem", "position": 2, "name": "Factuurverwerking automatiseren", "item": "https://stacklines.nl/factuurverwerking-automatiseren" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Factuurverwerking automatiseren",
+    "serviceType": "Automatisering van inkomende factuurstromen",
+    "description": "Inkomende facturen automatisch laten uitlezen, controleren op dubbelingen en afwijkingen, en doorzetten naar de boekhouding, met een mens in de loop bij twijfel.",
+    "url": "https://stacklines.nl/factuurverwerking-automatiseren",
+    "areaServed": { "@type": "Country", "name": "Nederland" },
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "Stacklines",
+      "url": "https://stacklines.nl/",
+      "email": "info@stacklines.nl",
+      "telephone": "+31634712843",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Apeldoorn",
+        "addressCountry": "NL"
+      }
+    }
+  }
+  </script>
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://stacklines.nl/factuurverwerking-automatiseren" />
+  <meta property="og:title" content="Factuurverwerking automatiseren | Stacklines" />
+  <meta property="og:description" content="Facturen automatisch laten uitlezen, controleren en doorzetten naar je boekhouding. Hoe het werkt, en wanneer het juist niet loont." />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:site_name" content="Stacklines" />
+  <meta property="og:image" content="https://stacklines.nl/og-image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Dienstpagina: leesbare documentopmaak binnen de huisstijl, opgezet als
+       faq.html (zelfde hero/footer/CTA-blok) zodat de subpagina's onderling
+       consistent blijven. Scroll-snap uit, die is voor de one-pager. */
+    html { scroll-snap-type: none; }
+
+    .svc-hero { padding: calc(var(--header-h) + 48px) 0 24px; }
+    .svc-hero .eyebrow {
+      color: var(--color-accent-text);
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin: 0 0 10px;
+    }
+    .svc-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+      margin: 0 0 14px;
+      color: var(--color-primary);
+    }
+    .svc-hero .lead {
+      color: var(--color-text-soft);
+      max-width: 640px;
+      margin: 0;
+    }
+
+    .svc { max-width: 780px; padding-bottom: 24px; }
+    .svc h2 {
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      margin: 44px 0 12px;
+    }
+    .svc h3 {
+      font-size: 1.08rem;
+      color: var(--color-primary);
+      margin: 26px 0 6px;
+    }
+    .svc p { color: var(--color-text); margin: 0 0 14px; }
+    .svc ul { padding-left: 22px; margin: 0 0 16px; }
+    .svc li { margin: 7px 0; color: var(--color-text); }
+    .svc a { color: var(--color-accent-text); }
+
+    /* Genummerde processtappen */
+    .svc-steps { list-style: none; padding: 0; margin: 20px 0 24px; counter-reset: stap; }
+    .svc-steps li {
+      counter-increment: stap;
+      position: relative;
+      padding: 0 0 0 46px;
+      margin: 0 0 18px;
+    }
+    .svc-steps li::before {
+      content: counter(stap);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      color: var(--color-accent-text);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .svc-steps strong { color: var(--color-primary); }
+
+    /* Eerlijk-blok: waar het juist niet loont */
+    .svc-note {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-accent);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin: 24px 0;
+    }
+    .svc-note p:last-child { margin-bottom: 0; }
+
+    .svc-cta {
+      max-width: 780px;
+      margin: 48px 0 8px;
+      padding: 28px;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+    }
+    .svc-cta h2 { margin: 0 0 8px; color: var(--color-primary); font-size: 1.4rem; }
+    .svc-cta p { margin: 0 0 16px; color: var(--color-text-soft); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 24px 0 8px;
+      font-weight: 600;
+      color: var(--color-accent-text);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .svc-footer {
+      background: var(--color-bg-dark);
+      color: #ffffff;
+      padding: 28px 0;
+      text-align: center;
+    }
+    .svc-footer a { color: var(--color-accent-light); }
+    .svc-footer p { margin: 4px 0; font-size: 15px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="Stacklines homepage">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <line x1="5" y1="12" x2="15" y2="12"/>
+            <line x1="5" y1="17" x2="17" y2="17"/>
+          </svg>
+        </span>
+        <span class="logo-text">Stacklines</span>
+      </a>
+
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <ul>
+          <li><a href="/#diensten">Wat ik doe</a></li>
+          <li><a href="/#proces">Aanpak</a></li>
+          <li><a href="/#over">Over mij</a></li>
+          <li><a href="/#contact" class="nav-cta">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="svc-hero">
+      <div class="container">
+        <p class="eyebrow">Wat ik doe</p>
+        <h1>Factuurverwerking automatiseren</h1>
+        <p class="lead">
+          Inkomende facturen laten uitlezen, controleren en doorzetten naar je
+          boekhouding, zonder dat iemand ze nog overtypt. Hieronder lees je hoe
+          dat werkt, wat het oplevert en wanneer ik het je juist afraad.
+        </p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="svc">
+
+        <h2>Waar het meestal vastloopt</h2>
+        <p>
+          Facturen komen binnen via de mail, soms via een portaal en af en toe
+          nog op papier. Iemand opent ze, leest het bedrag en het factuurnummer
+          over, controleert of het klopt met wat er is afgesproken, boekt het in
+          de boekhouding en zet het klaar voor betaling. Per factuur is dat een
+          paar minuten. Bij dertig facturen per week loopt dat op tot een dag
+          werk per maand.
+        </p>
+        <p>
+          Vervelender dan de tijd is wat er misgaat als het druk is. Een factuur
+          blijft liggen en de betaaltermijn verloopt. Dezelfde factuur wordt per
+          ongeluk twee keer betaald omdat de leverancier hem opnieuw stuurde. Of
+          een bedrag wijkt af van de afspraak en niemand merkt het, omdat er
+          niets is dat er systematisch naar kijkt.
+        </p>
+
+        <h2>Hoe een geautomatiseerde factuurstroom eruitziet</h2>
+        <p>
+          De opzet verschilt per bedrijf, maar de stappen zijn vrijwel altijd
+          dezelfde:
+        </p>
+        <ol class="svc-steps">
+          <li>
+            <strong>Alles komt op één plek binnen.</strong> Facturen uit je
+            mailbox, een gedeelde map of een leveranciersportaal worden
+            automatisch opgehaald, zodat je niet meer op drie plekken hoeft te
+            kijken.
+          </li>
+          <li>
+            <strong>De gegevens worden eruit gelezen.</strong> Leverancier,
+            factuurnummer, datum, bedrag, btw en een eventuele referentie. Dit
+            werkt op pdf's en op scans, ook als elke leverancier een andere
+            lay-out gebruikt.
+          </li>
+          <li>
+            <strong>Er wordt gecontroleerd.</strong> Is deze factuur al eens
+            langsgekomen? Klopt het bedrag met de afspraak of de bestelling?
+            Staat de leverancier bekend? Telt het btw-bedrag op? Juist deze stap
+            haalt de fouten eruit die anders pas bij de accountant opvallen.
+          </li>
+          <li>
+            <strong>Bij twijfel gaat het naar jou.</strong> Klopt er iets niet,
+            dan komt de factuur op een lijstje met de reden erbij en alles wat
+            nodig is om te beslissen. Je hoeft niet te zoeken, alleen te
+            oordelen.
+          </li>
+          <li>
+            <strong>De rest gaat door.</strong> Wat in orde is, wordt geboekt in
+            je boekhouding, klaargezet voor betaling en gearchiveerd op een
+            vaste plek, met een logboek van wat er is gebeurd.
+          </li>
+        </ol>
+        <p>
+          Op de <a href="/demos">demopagina</a> staat een werkend voorbeeld van
+          die vierde stap: je ziet wat het systeem heeft gevonden, wat het
+          voorstelt, en je houdt zelf de knop.
+        </p>
+
+        <h2>Wat het oplevert</h2>
+        <ul>
+          <li>Geen overtypwerk meer, en daarmee geen typefouten in bedragen of factuurnummers.</li>
+          <li>Dubbele facturen worden eruit gehaald voordat ze betaald zijn.</li>
+          <li>Betaaltermijnen worden gehaald, dus geen aanmaningen en geen misgelopen kortingen.</li>
+          <li>Je kunt op elk moment terugvinden wat er met een factuur is gebeurd en wie wat heeft goedgekeurd.</li>
+          <li>Als het druk is loopt het gewoon door, ook als degene die het normaal doet er even niet is.</li>
+        </ul>
+        <p>
+          Wat het in uren scheelt hangt af van je aantallen. Ik reken dat liever
+          vooraf samen met jou uit op je eigen cijfers dan dat ik hier een
+          percentage neerzet dat toch niet op jouw situatie slaat.
+        </p>
+
+        <h2>Wanneer ik het je afraad</h2>
+        <div class="svc-note">
+          <p>
+            <strong>Bij een handvol facturen per maand.</strong> Onder de tien à
+            vijftien facturen per maand verdien je de opzet niet terug. Dan ben
+            je met een goede map-indeling en een vaste vrijdagmiddag beter af.
+          </p>
+          <p>
+            <strong>Bij facturen zonder enige structuur.</strong> Handgeschreven
+            bonnetjes of scheve foto's blijven lastig. Dat kan wel, maar de
+            controle die je er dan bovenop moet zetten kost bijna net zoveel als
+            het zelf doen.
+          </p>
+          <p>
+            <strong>Automatisch betalen zonder controle.</strong> Technisch kan
+            het, maar ik doe het niet. Een fout in een bedrag is dan meteen een
+            fout in je banksaldo. De betaalstap houd je in eigen hand.
+          </p>
+        </div>
+
+        <h2>Hoe ik het aanpak</h2>
+        <p>
+          Ik begin met kijken hoe het nu gaat. Welke leveranciers, hoeveel
+          facturen, waar gaat het mis, en wat doe je met een factuur die niet
+          klopt. Daar komt een voorstel uit met een ureninschatting.
+        </p>
+        <p>
+          Daarna bouwen we klein. Eerst één stroom, bijvoorbeeld alleen je vaste
+          leveranciers, en die laten we een paar weken meelopen naast je huidige
+          manier van werken. Werkt het, dan breiden we uit. Werkt het niet, dan
+          heb je niet je hele administratie omgegooid voor iets dat tegenviel.
+        </p>
+        <p>
+          Het draait in je eigen omgeving, op jouw systemen of op een server die
+          van jou is. Je zit niet vast aan mij en je gegevens gaan niet naar een
+          dienst waar je verder niets over te zeggen hebt.
+        </p>
+
+        <h3>Wat het kost</h3>
+        <p>
+          Ik werk op uurbasis, geen vast pakket. Een eerste afgebakende stroom
+          is meestal een kwestie van dagen, niet weken. Na een gesprek van een
+          half uur kan ik je een realistische inschatting geven. Meer daarover
+          staat bij de <a href="/faq">veelgestelde vragen</a>.
+        </p>
+
+      </div>
+
+      <div class="svc-cta">
+        <h2>Benieuwd wat het in jouw geval zou schelen?</h2>
+        <p>
+          Stuur me kort hoeveel facturen je per maand verwerkt en hoe het nu
+          gaat. Dan zeg ik eerlijk of het de moeite waard is. Een eerste gesprek
+          kost niets.
+        </p>
+        <a href="/#contact" class="btn btn-primary">Neem contact op &rarr;</a>
+      </div>
+
+      <a href="/" class="back-link">&larr; Terug naar de homepage</a>
+    </div>
+  </main>
+
+  <footer class="svc-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Stacklines &middot; Apeldoorn &middot; KvK 42106654</p>
+      <p><a href="/">stacklines.nl</a> &middot; <a href="mailto:info@stacklines.nl">info@stacklines.nl</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
