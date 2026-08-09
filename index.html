@@ -655,8 +655,18 @@
 
         <div class="about-visual reveal">
           <a href="#contact" class="about-photo-link" aria-label="Ga naar contact">
-            <img class="about-photo" src="inge.jpg"
-                 alt="Inge, oprichter van Stacklines" />
+            <!-- 720x960 = 2x de weergavebreedte (max 360px), genoeg voor retina.
+                 Verhouding is die van het origineel; de CSS croppt zelf naar 4/5
+                 met object-fit + object-position, dus niet vooraf bijsnijden.
+                 width/height + lazy: reserveert ruimte en laadt pas als de
+                 "Over mij"-sectie in beeld komt. -->
+            <picture>
+              <source srcset="inge.webp" type="image/webp" />
+              <img class="about-photo" src="inge.jpg"
+                   width="720" height="960"
+                   loading="lazy" decoding="async"
+                   alt="Inge, oprichter van Stacklines" />
+            </picture>
           </a>
         </div>
       </div>

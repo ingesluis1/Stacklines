@@ -851,6 +851,10 @@ a:focus-visible,
 .about-photo {
   width: 100%;
   max-width: 360px;
+  /* Nodig sinds de img width/height-attributen heeft: zonder height:auto pakt
+     de browser de hoogte uit het attribuut (960) en wordt de aspect-ratio
+     hieronder genegeerd, waardoor de foto veel te hoog wordt. */
+  height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: center 20%;   /* gezicht zit hoog in de foto → kader iets naar boven */
