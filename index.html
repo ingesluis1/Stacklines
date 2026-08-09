@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMELH2BQQL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-DMELH2BQQL');
-  </script>
-
+  <!-- Cookietoestemming + statistieken. Google Analytics wordt hier NIET
+       geladen; consent.js doet dat pas na akkoord (zie voorwaarden.html #privacy). -->
+  <script src="consent.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -41,10 +35,8 @@
   <meta name="twitter:description" content="Werkprocessen automatiseren, systemen koppelen en AI inzetten. Voor ondernemers die willen groeien zonder extra personeel." />
   <meta name="twitter:image" content="https://stacklines.nl/og-image.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+  <!-- Inter lokaal gehost, zie fonts.css (geen doorgifte naar Google Fonts) -->
+  <link rel="stylesheet" href="fonts.css" />
   <link rel="stylesheet" href="style.css" />
 
   <script type="application/ld+json">
@@ -713,7 +705,7 @@
       <footer class="site-footer">
         <div class="container footer-inner">
           <p>© <span id="year"></span> Stacklines · Apeldoorn · KvK 42106654</p>
-          <p><a href="/faq">Veelgestelde vragen</a> · <a href="/voorwaarden">Algemene voorwaarden &amp; privacy</a></p>
+          <p><a href="/faq">Veelgestelde vragen</a> · <a href="/voorwaarden">Algemene voorwaarden &amp; privacy</a> · <a href="#" data-cookie-prefs>Cookievoorkeuren</a></p>
           <p><a href="#top">Terug naar boven ↑</a></p>
         </div>
       </footer>
@@ -723,6 +715,40 @@
 
   <script src="script.js" defer></script>
   <!-- Rendert de hCaptcha-widget op het contactformulier -->
-  <script src="https://web3forms.com/client/script.js" async defer></script>
+  <!-- Web3Forms rendert de hCaptcha-widget op het contactformulier. Bewust pas
+       laden zodra de contactsectie in beeld komt of iemand het formulier
+       aanraakt, in plaats van bij elke paginaweergave: dan gaan er alleen
+       gegevens naar hCaptcha van mensen die het formulier daadwerkelijk
+       gebruiken. De marge van 400px zorgt dat de widget ruim op tijd staat. -->
+  <script>
+    (function () {
+      var loaded = false;
+      function load() {
+        if (loaded) return;
+        loaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://web3forms.com/client/script.js';
+        s.async = true;
+        s.defer = true;
+        document.body.appendChild(s);
+      }
+
+      var form = document.getElementById('contact-form');
+      if (form) form.addEventListener('focusin', load, { once: true });
+
+      var section = document.getElementById('contact');
+      if (section && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          if (entries.some(function (e) { return e.isIntersecting; })) {
+            load();
+            io.disconnect();
+          }
+        }, { rootMargin: '400px' });
+        io.observe(section);
+      } else {
+        load();   // geen observer-ondersteuning: dan maar gewoon meteen
+      }
+    })();
+  </script>
 </body>
 </html>

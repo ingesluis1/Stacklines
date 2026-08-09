@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMELH2BQQL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-DMELH2BQQL');
-  </script>
-
+  <!-- Cookietoestemming + statistieken. Google Analytics wordt hier NIET
+       geladen; consent.js doet dat pas na akkoord (zie voorwaarden.html #privacy). -->
+  <script src="consent.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -67,10 +61,8 @@
   <meta property="og:site_name" content="Stacklines" />
   <meta property="og:image" content="https://stacklines.nl/og-image.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+  <!-- Inter lokaal gehost, zie fonts.css (geen doorgifte naar Google Fonts) -->
+  <link rel="stylesheet" href="fonts.css" />
   <link rel="stylesheet" href="style.css" />
 
   <style>
@@ -365,7 +357,7 @@
   <footer class="svc-footer">
     <div class="container">
       <p>&copy; <span id="year"></span> Stacklines &middot; Apeldoorn &middot; KvK 42106654</p>
-      <p><a href="/">stacklines.nl</a> &middot; <a href="mailto:info@stacklines.nl">info@stacklines.nl</a></p>
+      <p><a href="/">stacklines.nl</a> &middot; <a href="mailto:info@stacklines.nl">info@stacklines.nl</a> &middot; <a href="#" data-cookie-prefs>Cookievoorkeuren</a></p>
     </div>
   </footer>
 
