@@ -103,10 +103,10 @@
     bar.innerHTML =
       '<div class="cookiebar__inner">' +
         '<p class="cookiebar__text">' +
-          'Ik gebruik alleen cookies die nodig zijn om de site te laten werken. ' +
-          'Daarnaast wil ik graag bijhouden hoe de site gebruikt wordt, zodat ik ' +
-          'hem kan verbeteren. Dat gebeurt alleen als je daarmee instemt. ' +
-          'Meer hierover staat in de <a href="/voorwaarden#privacy">privacyverklaring</a>.' +
+          'Stacklines plaatst alleen cookies die nodig zijn om de site te laten ' +
+          'werken. Voor statistieken over het sitegebruik vraag ik vooraf je ' +
+          'toestemming. Zie de <a href="/voorwaarden#privacy">privacyverklaring</a> ' +
+          'voor meer informatie.' +
         '</p>' +
         '<div class="cookiebar__actions">' +
           '<button type="button" class="cookiebar__btn" data-consent="nee">Alleen noodzakelijke</button>' +
