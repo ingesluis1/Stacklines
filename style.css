@@ -108,6 +108,13 @@ ul { padding-left: 1.2em; }
 }
 .eyebrow.light { color: var(--color-accent-light); }
 
+/* De hero-eyebrow zit BINNEN de <h1> (zo bevat de enige h1 van de pagina ook het
+   onderwerp, voor zoekmachines). Visueel blijft 'ie een losse regel erboven. */
+h1 > .eyebrow {
+  display: block;
+  line-height: 1.5;
+}
+
 /* Zichtbare focus-ring voor toetsenbordnavigatie (alle interactieve elementen). */
 a:focus-visible,
 .btn:focus-visible,
