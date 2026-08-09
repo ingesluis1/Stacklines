@@ -1,4 +1,16 @@
+# Content Signals (contentsignals.org): wat AI-systemen met deze content mogen.
+#   search   = opnemen in een zoekindex en tonen in zoekresultaten
+#   ai-input = de content gebruiken als bron voor AI-antwoorden, bijvoorbeeld in
+#              ChatGPT, Perplexity of Google's AI-overzichten
+#   ai-train = de content gebruiken om AI-modellen te trainen
+#
+# Gevonden worden is hier het doel, dus search en ai-input staan op yes.
+# ai-train staat op no: als bron van antwoorden graag, als trainingsmateriaal niet.
+# Let op: Cloudflare's eigen voorbeeld zet ai-input op no. Dat sluit juist de
+# AI-antwoorden uit waar we in willen voorkomen, dus dat is hier bewust anders.
+
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
 Sitemap: https://stacklines.nl/sitemap.xml
