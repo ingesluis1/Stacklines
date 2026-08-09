@@ -1615,3 +1615,61 @@ a:focus-visible,
   }
   .svc-footer a { color: var(--color-accent-light); }
   .svc-footer p { margin: 4px 0; font-size: 15px; }
+
+/* ==========================================================================
+   "Meer lezen"-uitklapper onder de diensten (index.html)
+   Marker met + en − zoals de FAQ-items, zodat het herkenbaar hetzelfde
+   patroon is. Bewust compact: deze sectie valt onder scroll-snap, dus
+   uitgeklapt moet de inhoud binnen het scherm blijven passen.
+   ========================================================================== */
+.more-reading {
+  margin: 12px auto 0;
+  max-width: 420px;
+  text-align: left;
+}
+.more-reading > summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+  padding: 6px 4px;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--color-accent-text);
+  width: 100%;
+  justify-content: center;
+}
+.more-reading > summary::-webkit-details-marker { display: none; }
+.more-reading > summary::after {
+  content: "+";
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--color-accent);
+}
+.more-reading[open] > summary::after { content: "\2212"; }
+.more-reading > summary:hover { text-decoration: underline; }
+.more-reading > summary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.more-reading ul {
+  list-style: none;
+  padding: 2px 0 0;
+  margin: 0;
+  text-align: center;
+}
+.more-reading li { margin: 4px 0; }
+.more-reading li a {
+  font-size: .95rem;
+  color: var(--color-text-soft);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.more-reading li a:hover {
+  color: var(--color-accent-text);
+  border-bottom-color: currentColor;
+}

@@ -449,10 +449,16 @@
 
         <div class="diensten-cta reveal" style="text-align:center; margin-top:36px;">
           <a href="/demos" class="btn btn-primary">Probeer de live demo's &rarr;</a>
-          <p style="margin-top:18px; font-size:.95rem;">
-            Meer lezen: <a href="/factuurverwerking-automatiseren">factuurverwerking automatiseren</a>
-            of <a href="/systemen-koppelen">systemen koppelen</a>
-          </p>
+          <!-- Uitklapper i.p.v. een rij losse links: schaalt mee als er meer
+               dienstpagina's bijkomen, en houdt de sectie binnen 100vh zolang
+               'ie dicht is (deze sectie valt onder scroll-snap). -->
+          <details class="more-reading">
+            <summary>Meer lezen over een dienst</summary>
+            <ul>
+              <li><a href="/factuurverwerking-automatiseren">Factuurverwerking automatiseren</a></li>
+              <li><a href="/systemen-koppelen">Systemen koppelen</a></li>
+            </ul>
+          </details>
         </div>
       </div>
     </section>
