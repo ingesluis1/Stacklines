@@ -1511,11 +1511,6 @@ a:focus-visible,
    Let op: `html { scroll-snap-type: none }` blijft per pagina inline staan,
    die geldt alleen daar (de snap is voor de one-pager bedoeld).
    ========================================================================== */
-/* Dienstpagina: leesbare documentopmaak binnen de huisstijl, opgezet als
-     faq.html (zelfde hero/footer/CTA-blok) zodat de subpagina's onderling
-     consistent blijven. Scroll-snap uit, die is voor de one-pager. */
-  html { scroll-snap-type: none; }
-
   .svc-hero { padding: calc(var(--header-h) + 48px) 0 24px; }
   .svc-hero .eyebrow {
     color: var(--color-accent-text);
