@@ -1,3 +1,0 @@
-# www naar het kale domein, zodat er maar een versie van de site bestaat
-https://www.stacklines.nl/* https://stacklines.nl/:splat 301
-http://www.stacklines.nl/* https://stacklines.nl/:splat 301
