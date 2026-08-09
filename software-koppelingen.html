@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <!-- Cookietoestemming + statistieken. Google Analytics wordt hier NIET
+       geladen; consent.js doet dat pas na akkoord (zie voorwaarden.html #privacy). -->
+  <script src="consent.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Welke software ik koppel, en wat ertussen loopt | Stacklines</title>
+  <meta name="description" content="Boekhouding, CRM, mailbox, webshop en planning aan elkaar knopen. Welke pakketten ik tegenkom, wat er tussen die systemen loopt en wat bepaalt of koppelen kan." />
+  <meta name="author" content="Stacklines" />
+  <meta name="theme-color" content="#2a1612" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://stacklines.nl/software-koppelingen" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://stacklines.nl/" },
+      { "@type": "ListItem", "position": 2, "name": "Welke software ik koppel", "item": "https://stacklines.nl/software-koppelingen" }
+    ]
+  }
+  </script>
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://stacklines.nl/software-koppelingen" />
+  <meta property="og:title" content="Welke software ik koppel, en wat ertussen loopt | Stacklines" />
+  <meta property="og:description" content="Boekhouding, CRM, mailbox, webshop en planning aan elkaar knopen. Wat er tussen die systemen loopt en wat bepaalt of het kan." />
+  <meta property="og:locale" content="nl_NL" />
+  <meta property="og:site_name" content="Stacklines" />
+  <meta property="og:image" content="https://stacklines.nl/og-image.png" />
+
+  <!-- Inter lokaal gehost, zie fonts.css (geen doorgifte naar Google Fonts) -->
+  <link rel="stylesheet" href="fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Scroll-snap is voor de one-pager, niet voor een leespagina.
+       De rest van de opmaak staat in style.css (.svc-*). */
+    html { scroll-snap-type: none; }
+
+    /* Softwarelijst: compacte kolommen, breekt netjes af op mobiel. */
+    .svc-stack { margin: 4px 0 26px; }
+    .svc-stack h3 { margin: 22px 0 6px; }
+    .svc-stack ul {
+      columns: 2;
+      column-gap: 28px;
+      padding-left: 20px;
+      margin: 0;
+    }
+    .svc-stack li { break-inside: avoid; margin: 3px 0; }
+    @media (max-width: 560px) {
+      .svc-stack ul { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="Stacklines homepage">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <line x1="5" y1="12" x2="15" y2="12"/>
+            <line x1="5" y1="17" x2="17" y2="17"/>
+          </svg>
+        </span>
+        <span class="logo-text">Stacklines</span>
+      </a>
+
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <ul>
+          <li class="has-sub">
+            <a href="/#diensten">Wat ik doe</a>
+            <ul class="nav-sub">
+              <li><a href="/factuurverwerking-automatiseren">Factuurverwerking automatiseren</a></li>
+              <li><a href="/systemen-koppelen">Systemen koppelen</a></li>
+              <li><a href="/ai-klantenservice">AI in de klantenservice</a></li>
+              <li><a href="/make-zapier-n8n">Make, Zapier of n8n</a></li>
+              <li><a href="/software-koppelingen">Welke software ik koppel</a></li>
+              <li><a href="/wat-kost-automatiseren">Wat het kost</a></li>
+              <li class="nav-sub__more"><a href="/#contact">Iets anders? Vraag het gerust</a></li>
+            </ul>
+          </li>
+          <li><a href="/#proces">Aanpak</a></li>
+          <li><a href="/#over">Over mij</a></li>
+          <li><a href="/#contact" class="nav-cta">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="svc-hero">
+      <div class="container">
+        <p class="eyebrow">Uitgelegd</p>
+        <h1>Welke software ik koppel, en wat ertussen loopt</h1>
+        <p class="lead">
+          De meeste bedrijven gebruiken vier of vijf programma's die prima
+          werken maar niets van elkaar weten. Hieronder welke systemen ik
+          tegenkom, wat er tussen zulke systemen loopt, en waar het op aankomt
+          of koppelen kan.
+        </p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="svc">
+
+        <h2>Het gaat om het patroon, niet om het pakket</h2>
+        <p>
+          Boekhoudpakketten lijken onderling meer op elkaar dan hun websites
+          doen vermoeden, en dat geldt net zo goed voor CRM-systemen. Overal zit
+          een klant, een factuur, een order, een contactmoment. De namen
+          verschillen en de knoppen staan ergens anders, maar wat je eruit wilt
+          halen en erin wilt zetten is telkens hetzelfde.
+        </p>
+        <p>
+          Daarom is de vraag zelden "ken je dit pakket". De vraag is of het een
+          fatsoenlijke manier heeft om gegevens uit te wisselen. Is dat zo, dan
+          is de rest werk dat te overzien is, ook als ik het pakket zelf nog niet
+          eerder bij de hand had.
+        </p>
+
+        <h2>Wat er meestal tussen systemen loopt</h2>
+        <p>
+          De combinaties die ik het vaakst tegenkom, en wat er dan heen en weer
+          gaat:
+        </p>
+        <ul>
+          <li><strong>Webshop naar boekhouding:</strong> orders, facturen en betaalstatus, zodat je niet handmatig overtypt wat er verkocht is.</li>
+          <li><strong>Mailbox naar boekhouding:</strong> binnenkomende facturen die worden uitgelezen, gecontroleerd en klaargezet, zie <a href="/factuurverwerking-automatiseren">factuurverwerking automatiseren</a>.</li>
+          <li><strong>CRM naar boekhouding:</strong> klantgegevens en offertes die uitmonden in een factuur, zonder dat je de klant twee keer aanmaakt.</li>
+          <li><strong>Formulier naar CRM:</strong> aanvragen van je site die meteen als contact of deal binnenkomen, met de juiste eigenaar erop.</li>
+          <li><strong>CRM naar mailbox en agenda:</strong> contactgegevens en afspraken die gelijk lopen, zodat je niet in twee agenda's kijkt.</li>
+          <li><strong>Urenregistratie naar facturatie:</strong> geschreven uren die aan het eind van de maand een factuurregel worden.</li>
+          <li><strong>Alles naar een overzicht:</strong> cijfers uit meerdere systemen die samenkomen in één maandrapport, zoals in de <a href="/demos">demo</a>.</li>
+        </ul>
+
+        <h2>Systemen die ik het vaakst tegenkom</h2>
+        <div class="svc-stack">
+          <h3>Mail, agenda en documenten</h3>
+          <ul>
+            <li>Microsoft 365: Outlook, Teams, SharePoint, Excel</li>
+            <li>Google Workspace: Gmail, Drive, Sheets, Agenda</li>
+            <li>OneDrive, Google Drive, Dropbox</li>
+          </ul>
+
+          <h3>CRM en sales</h3>
+          <ul>
+            <li>HubSpot</li>
+            <li>Pipedrive</li>
+            <li>Teamleader</li>
+            <li>Salesforce</li>
+            <li>Zoho</li>
+            <li>Microsoft Dynamics</li>
+            <li>Perfectview</li>
+          </ul>
+
+          <h3>Boekhouding en facturatie</h3>
+          <ul>
+            <li>Moneybird</li>
+            <li>MoneyMonk</li>
+            <li>e-Boekhouden.nl</li>
+            <li>Exact Online</li>
+            <li>Snelstart</li>
+            <li>Yuki</li>
+            <li>Jortt</li>
+            <li>Twinfield</li>
+            <li>AFAS</li>
+          </ul>
+
+          <h3>Projecten, taken en tickets</h3>
+          <ul>
+            <li>Jira</li>
+            <li>Trello</li>
+            <li>Asana</li>
+            <li>Monday</li>
+            <li>Notion</li>
+            <li>ClickUp</li>
+            <li>Zendesk</li>
+            <li>Freshdesk</li>
+          </ul>
+
+          <h3>Webshop en betalingen</h3>
+          <ul>
+            <li>WooCommerce</li>
+            <li>Shopify</li>
+            <li>Lightspeed</li>
+            <li>Mollie</li>
+            <li>Stripe</li>
+          </ul>
+
+          <h3>Uren, planning en personeel</h3>
+          <ul>
+            <li>Simplicate</li>
+            <li>Gripp</li>
+            <li>Nmbrs</li>
+            <li>Employes</li>
+            <li>Clockify</li>
+          </ul>
+
+          <h3>Data, formulieren en communicatie</h3>
+          <ul>
+            <li>Airtable</li>
+            <li>Excel en Google Sheets</li>
+            <li>Typeform en Google Formulieren</li>
+            <li>Slack</li>
+            <li>WhatsApp Business</li>
+            <li>Mailchimp, Laposta</li>
+          </ul>
+        </div>
+
+        <h2>Staat jouw pakket er niet bij?</h2>
+        <p>
+          Dan is dat geen probleem. Deze lijst is wat ik het vaakst tegenkom, niet
+          wat er mogelijk is. Noem gewoon wat je gebruikt, dan zoek ik uit of er
+          een koppeling in zit. Dat kost me een half uurtje en dan weet je waar
+          je aan toe bent.
+        </p>
+        <p>
+          <strong>Uren waarin ik me in nieuwe software verdiep, factureer ik niet
+          door.</strong> Dat inwerken is een investering in mezelf: bij de
+          volgende klant met hetzelfde pakket ben ik er sneller mee klaar, en het
+          zou raar zijn als jij dan betaalt voor iets waar een ander later profijt
+          van heeft. Wat ik wel factureer, is het werk aan jouw koppeling.
+        </p>
+
+        <h2>Waar het op aankomt of koppelen kan</h2>
+        <p>
+          Niet de bekendheid van het pakket bepaalt of het lukt, maar wat het
+          toelaat:
+        </p>
+        <ul>
+          <li><strong>Een API.</strong> De prettigste route: de systemen praten rechtstreeks met elkaar, direct als er iets verandert.</li>
+          <li><strong>Webhooks.</strong> Het pakket geeft zelf een seintje bij een nieuwe order of factuur, in plaats van dat wij elke vijf minuten gaan kijken.</li>
+          <li><strong>Een geplande export.</strong> Minder elegant, maar prima werkbaar als het niet elke seconde actueel hoeft.</li>
+          <li><strong>Niets van dit alles.</strong> Dan wordt het knutselen met schermpjes, en dat breekt bij de eerstvolgende update. In dat geval is andere software zoeken vaak verstandiger dan een koppeling forceren.</li>
+        </ul>
+        <p>
+          Zwaardere zakelijke pakketten zoals AFAS, Twinfield en Exact Online
+          hebben doorgaans meer mogelijkheden dan de lichtere, maar de weg
+          erheen is ook formeler: denk aan rechten, koppelvergunningen en soms
+          kosten aan de kant van de leverancier. Dat is te doen, maar het is
+          goed om te weten dat het meer voeten in de aarde heeft dan een
+          koppeling met bijvoorbeeld Moneybird.
+        </p>
+
+        <h2>Hoe we beginnen</h2>
+        <p>
+          Stuur me het rijtje programma's dat je gebruikt en wat je nu dubbel
+          invoert. Dan kijk ik welke koppelingen er mogelijk zijn en wat de
+          meeste tijd zou schelen. Hoe zo'n traject verder loopt staat bij
+          <a href="/systemen-koppelen">systemen koppelen</a>, en wat het
+          ongeveer vraagt bij
+          <a href="/wat-kost-automatiseren">wat automatiseren kost</a>.
+        </p>
+
+      </div>
+
+      <div class="svc-cta">
+        <h2>Welke programma's gebruik jij?</h2>
+        <p>
+          Stuur ze me gerust, ook als ze niet in het rijtje hierboven staan. Ik
+          zoek uit of een koppeling erin zit en zeg eerlijk of het de moeite
+          waard is.
+        </p>
+        <a href="/#contact" class="btn btn-primary">Neem contact op &rarr;</a>
+        <p class="svc-cta__note">
+          Dit is een van de dingen die ik vaak doe, niet het hele verhaal. Loop
+          je tegen iets heel anders aan, vraag het gerust: het meeste werk is
+          toch maatwerk.
+        </p>
+      </div>
+
+      <a href="/" class="back-link">&larr; Terug naar de homepage</a>
+    </div>
+  </main>
+
+  <footer class="svc-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Stacklines &middot; Apeldoorn &middot; KvK 42106654</p>
+      <p><a href="/">stacklines.nl</a> &middot; <a href="mailto:info@stacklines.nl">info@stacklines.nl</a> &middot; <a href="#" data-cookie-prefs>Cookievoorkeuren</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Header frosted-blur state bij scrollen (zelfde gedrag als de homepage en
+       de andere subpagina's). Zonder dit blijft .site-header transparant en
+       loopt de tekst er zichtbaar onderdoor. */
+    var header = document.querySelector('.site-header');
+    var onScroll = function () {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
