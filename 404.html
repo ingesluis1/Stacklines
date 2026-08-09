@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <script src="/consent.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Pagina niet gevonden | Stacklines</title>
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#2a1612" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="/fonts.css" />
+  <link rel="stylesheet" href="/style.css" />
+
+  <style>
+    html { scroll-snap-type: none; }
+    .nf {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: calc(var(--header-h) + 40px) 0 60px;
+    }
+    .nf__inner { max-width: 620px; }
+    .nf h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--color-primary); margin: 0 0 14px; }
+    .nf p { color: var(--color-text-soft); margin: 0 0 10px; }
+    .nf ul {
+      list-style: none;
+      padding: 0;
+      margin: 26px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      justify-content: center;
+    }
+    .nf ul a { color: var(--color-accent-text); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="Stacklines homepage">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <line x1="5" y1="12" x2="15" y2="12"/>
+            <line x1="5" y1="17" x2="17" y2="17"/>
+          </svg>
+        </span>
+        <span class="logo-text">Stacklines</span>
+      </a>
+
+      <nav class="nav" aria-label="Hoofdnavigatie">
+        <ul>
+          <li><a href="/#diensten">Wat ik doe</a></li>
+          <li><a href="/#proces">Aanpak</a></li>
+          <li><a href="/#over">Over mij</a></li>
+          <li><a href="/#contact" class="nav-cta">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="nf">
+      <div class="container nf__inner">
+        <h1>Deze pagina bestaat niet</h1>
+        <p>
+          Je klikte op een link die nergens heen gaat, of er staat een typefout
+          in het adres. Vervelend, maar zo gepiept.
+        </p>
+        <p>Misschien zoek je een van deze:</p>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/factuurverwerking-automatiseren">Factuurverwerking automatiseren</a></li>
+          <li><a href="/systemen-koppelen">Systemen koppelen</a></li>
+          <li><a href="/ai-klantenservice">AI in de klantenservice</a></li>
+          <li><a href="/software-koppelingen">Welke software ik koppel</a></li>
+          <li><a href="/wat-kost-automatiseren">Wat het kost</a></li>
+          <li><a href="/demos">Live demo's</a></li>
+          <li><a href="/faq">Veelgestelde vragen</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="svc-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Stacklines &middot; Apeldoorn &middot; KvK 42106654</p>
+      <p><a href="/">stacklines.nl</a> &middot; <a href="mailto:info@stacklines.nl">info@stacklines.nl</a> &middot; <a href="#" data-cookie-prefs>Cookievoorkeuren</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    var header = document.querySelector('.site-header');
+    var onScroll = function () {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>

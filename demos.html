@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
   <title>Live demo's | Stacklines</title>
-  <meta name="description" content="Probeer live wat Stacklines bouwt: AI-ondersteuning in de klantenservice, een ticketassistent en een interne teamassistent. Zelf uitproberen, direct in je browser." />
+  <meta name="description" content="Probeer live wat ik bouw: een klantenservice-assistent, een ticketassistent en een interne teamassistent. Direct in je browser, zonder installeren." />
   <meta name="author" content="Stacklines" />
   <meta name="theme-color" content="#2a1612" />
   <link rel="canonical" href="https://stacklines.nl/demos" />
@@ -186,6 +186,15 @@
     .hub-cta--desktop { margin-top: 18px; }
     .hub-cta--mobile { display: none; }
 
+    /* Tekstlinks naar de losse demopagina's (crawlbaar, zie de opmerking in de body) */
+    .demo-directlinks {
+      margin: 14px 0 0;
+      font-size: .82rem;
+      color: var(--color-text-soft);
+      line-height: 1.7;
+    }
+    .demo-directlinks a { color: var(--color-accent-text); }
+
     /* Vaste 'Probeer de chat'-knop van de hub (mobiel, alleen bij chat-demo's) */
     .hub-flip { display: none; }
 
@@ -317,6 +326,19 @@
       <div class="demo-loader">Demo laden&hellip;</div>
       <iframe class="demo-frame" title="Live demo" src="about:blank"></iframe>
     </section>
+
+    <!-- Echte links naar de losse demopagina's. De keuzeknoppen hierboven laden
+         ze in een iframe via data-src, dus zonder deze regel zijn het voor een
+         zoekmachine weespagina's: ze staan wel in de sitemap maar er wijst
+         nergens een link naartoe. Handig voor bezoekers ook: zo kun je een
+         demo los openen of delen. -->
+    <p class="demo-directlinks">
+      Demo's los openen:
+      <a href="/demo">klantenservice-assistent</a> ·
+      <a href="/demo-tickets">ticketassistent</a> ·
+      <a href="/demo-intern">interne teamassistent</a> ·
+      <a href="/demo-flow">maandrapport-generator</a>
+    </p>
 
     <div class="hub-cta hub-cta--mobile">
       <h3>Wil je dit voor jouw bedrijf?</h3>
