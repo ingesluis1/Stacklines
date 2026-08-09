@@ -1673,3 +1673,96 @@ a:focus-visible,
   color: var(--color-accent-text);
   border-bottom-color: currentColor;
 }
+
+/* ==========================================================================
+   Uitklapmenu in de header, onder "Wat ik doe"
+   Alleen desktop: op <=900px is .nav sowieso display:none en navigeer je via
+   de flow-rail, daar staan de dienstpagina's in de "Meer lezen"-uitklapper
+   onderaan de diensten-sectie (zie .more-reading).
+   Opent op hover en op focus-within, zodat het ook met de tab-toets werkt.
+   ========================================================================== */
+.nav li.has-sub { position: relative; }
+
+.nav .nav-sub {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  min-width: 250px;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  display: block;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease, transform .18s ease;
+}
+
+/* Onzichtbare brug over de tussenruimte: zonder dit valt de hover weg zodra
+   je muis van de nav-link naar het menu beweegt en klapt het weer dicht. */
+.nav .nav-sub::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12px;
+  height: 12px;
+}
+
+.nav li.has-sub:hover > .nav-sub,
+.nav li.has-sub:focus-within > .nav-sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav .nav-sub li { margin: 0; }
+.nav .nav-sub a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+}
+.nav .nav-sub a:hover,
+.nav .nav-sub a:focus-visible {
+  background: var(--color-bg-alt);
+  color: var(--color-accent-text);
+}
+
+/* Klein pijltje achter "Wat ik doe", zodat zichtbaar is dat er meer onder zit */
+.nav li.has-sub > a::after {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 6px;
+  vertical-align: 2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  opacity: .55;
+  transition: transform .18s ease;
+}
+.nav li.has-sub:hover > a::after,
+.nav li.has-sub:focus-within > a::after {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav .nav-sub,
+  .nav li.has-sub > a::after { transition: none; }
+}
+
+/* De "Meer lezen"-uitklapper onder de diensten is er voor mobiel, waar de
+   header-nav verborgen is. Op desktop staat hetzelfde in het headermenu. */
+@media (min-width: 901px) {
+  .more-reading { display: none; }
+}
